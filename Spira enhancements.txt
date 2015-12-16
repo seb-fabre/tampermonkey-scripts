@@ -1,0 +1,45 @@
+// ==UserScript==
+// @name       Spira enhancements
+// @namespace  http://spira/
+// @version    2.0
+// @description  enter something useful
+// @match      http://thefactory.crossknowledge.com/14/*
+// @match  	http://thefactory.crossknowledge.com/10/*
+// @match      https://thefactory.crossknowledge.com/14/*
+// @match		https://thefactory.crossknowledge.com/10/*
+// @match 	   http://thefactory.crossknowledge.com/Popups/FileArtifactUploadDialog.aspx*
+// @exclude    http://thefactory.crossknowledge.com/10/Incident/List.aspx*
+// @exclude 	http://thefactory.crossknowledge.com/14/Incident/List.aspx*
+// @copyright  2012+, You
+// @require http://code.jquery.com/jquery-latest.js
+// ==/UserScript==
+
+
+$(".rteDiv").css("resize", "both");
+$(".rteDiv").parent().parent().css("height", "auto");
+
+if ($('#cplMainContent_radUrl'))
+{
+  unsafeWindow.myClickEvent = document.createEvent('MouseEvents');
+  unsafeWindow.myClickEvent.initEvent('click', true, true);
+  
+  // populate the lists
+  jQuery('#cplMainContent_ddlDocType_list').click().click();
+  jQuery('#cplMainContent_ddlDocFolder').click().click();
+  
+  jQuery('#cplMainContent_ddlDocType_list div:contains(Ticket)').attr('id', 'titicket');
+  jQuery('#cplMainContent_ddlDocFolder div[title=Internal]').attr('id', 'tintinternal');
+  
+  var onclick = "if ($find('tblAttachment')) $find('tblAttachment').show_attachment_type_url(); document.getElementById('cplMainContent_txtURL').value='https://crossknowledge.force.com/Community/';";
+  onclick += "document.getElementById('titicket').dispatchEvent(myClickEvent);";
+  onclick += "document.getElementById('tintinternal').dispatchEvent(myClickEvent)";
+  
+  $('#cplMainContent_radUrl').parent().append($('<input type="radio" name="AttachmentType" value="ctl00$cplMainContent$radUrl" onclick="' + onclick + '" />'));
+  $('#cplMainContent_radUrl').parent().append('Keyze');
+  
+  $('#cplMainContent_radUrl').parents('table').css('width', '700px');
+  $('#cplMainContent_txtURL, #cplMainContent_filAttachment, #cplMainContent_txtAttachmentDescription').css('width', '500px');
+  
+  $('#cplMainContent_tstAttachmentPanel_dlgUploadAttachment').css('width', '700px');
+  $('#cplMainContent_tstAttachmentPanel_dlgUploadAttachment .DialogClose').css('left', '650px');
+}

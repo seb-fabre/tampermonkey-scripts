@@ -1,0 +1,113 @@
+// ==UserScript==
+// @name       SalesForce enhancements
+// @namespace  https://eu5.salesforce.com/
+// @version    0.2
+// @description  enter something useful
+// @match      https://eu5.salesforce.com/*
+// @require    http://code.jquery.com/jquery-latest.min.js
+// @copyright  2012+, You
+// ==/UserScript==
+
+// increase case description field size
+var caseDescription = window.jQuery('.labelCol:contains(Description)');
+if (caseDescription && caseDescription.length == 1)
+{
+    caseDescription = jQuery(caseDescription[0]);
+    caseDescription.next().next().next().remove();
+    caseDescription.next().next().remove();
+    
+   caseDescription.next().attr('colspan', 3);
+}
+var caseDescription = window.jQuery('.labelCol:contains(Reproduction step)');
+if (caseDescription && caseDescription.length == 1)
+{
+    caseDescription = jQuery(caseDescription[0]);
+    caseDescription.next().next().next().remove();
+    caseDescription.next().next().remove();
+    
+   caseDescription.next().attr('colspan', 3);
+}
+
+// auto-select support@ck.com in new reply form
+if (jQuery('#p26').length == 1)
+{
+    jQuery('#p26').val('support@crossknowledge.com:support@crossknowledge.com');
+}
+
+// transform "spira" field to HTML link
+if (jQuery('#00N24000005Z7V6_ileinner').length == 1 && jQuery('#00N24000005Z7V6_ileinner').html() != '&nbsp;')
+{
+    var spiras = jQuery('#00N24000005Z7V6_ileinner').html().split(',');
+    
+    var html = '';
+    var glu = '';
+
+    for (j=0; j<spiras.length; j++)
+    {
+        html += glu + '<a href="http://thefactory.crossknowledge.com/14/Incident/' + spiras[j].trim() + '.aspx" target="_blank">' + spiras[j].trim() + '</a>';
+        glu = ', ';
+    }
+
+    jQuery('#00N24000005Z7V6_ileinner').html(html);
+}
+
+// check the "public comment" by default
+if (jQuery('#IsPublished').length == 1)
+{
+    jQuery('#IsPublished').prop('checked', true);
+    
+    jQuery('#IsPublished').after("&nbsp;&nbsp;<button type=\"button\" onclick=\"document.getElementById('CommentBody').innerText = 'Pas d\\'exemple, pas de chocolat.';\">Pas d'exemple...</button>");
+    jQuery('#IsPublished').after("&nbsp;&nbsp;<button type=\"button\" onclick=\"document.getElementById('CommentBody').innerText = 'Pas d\\'URL, pas de chocolat.';\">Pas d'URL...</button>");
+}
+
+// Automatically click on "Show more"
+if (jQuery('.pShowMore').length > 0)
+{
+  var mores = jQuery('.pShowMore');
+  for (i=0; i<mores.length; mores++)
+  {
+    eval(decodeURIComponent(jQuery(mores[i]).children('a:contains(Show more)').first().attr('href')).replace(/^javascript:/, ''));
+  }
+}
+
+// Recreate "Highlights panel" if it's not there in the current page layout
+if (jQuery('.efhpHighlightPanel').length == 0 && jQuery('.ptBody').length == 1)
+{
+  jQuery("head").append('<link href="https://eu5.salesforce.com/sCSS/35.0/sprites/1444933246000/Theme3/default/gc/EntityFeedPage.css" rel="stylesheet" type="text/css">');
+
+  var ptBody = jQuery('.ptBody');
+  var highlights = '<div class="efhpHighlightPanel efhpPageStyle efhpResizable"><div class="efhpContainer"><table class="efhpBody" cellspacing="0" cellpadding="0"><tbody>'
+    + '<tr><td class="efhpLeftContent " style="width: 200px;"><div class="efhpRow"><div class="efhpLabel" title="Customer">Customer</div></div><div class=" efhpRow">'
+	+ '<span class="efhpValue efhpHighlight"><div class="efhpFieldValue">%%CONTACT%%</div></span></div><div class=" efhpRow"><span class="efhpValue"><div class="efhpFieldValue">%%ACCOUNT%%</div>'
+    + '</span></div></td><td class="efhpContainerSeparator" data-uidsfdc="55"><div class="efhpDragHandle" title="Double-click a divider to return the column to its original size.">'
+  	+ '<div class="efhpDragHandleDisplay"></div></div></td><td class="efhpCenterContent " style="width: auto;"><div class="efhpCenterContentBody"><div class="efhpCenterTopRow">'
+	+ '<span class="efhpIcon" style="background: transparent url(/img/icon/cases16.png) 0 0 no-repeat;"><img title="" alt="" src="/s.gif"></span><span class="efhpCenterLabel">Case Number</span>'
+  	+ '<span class="efhpCenterValue">%%NUMBER%%</span><span class="efhpSeparator"> </span><span class="efhpCenterLabel">Created Date</span><span class="efhpCenterValue  ">%%DATE%%</span>'
+	+ '</div><div class="efhpTitle">%%SUBJECT%%</div><div class="efhpRow "><div class="efhpValue efhpDescription">%%DESCRIPTION%%</div></div></div></td>'
+  	+ '<td class="efhpContainerSeparator" data-uidsfdc="60"><div class="efhpDragHandle" title="Double-click a divider to return the column to its original size."><div class="efhpDragHandleDisplay">'
+  	+ '</div></div></td><td class="efhpRightContent " style="width: 300px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class=" efhpLargeRow"><div title="Status" class="efhpFieldLabel">Status</div>'
+  	+ '</td><td class="efhpValue efhpLargeRow"><div class="efhpLabeledFieldValue">%%STATUS%%</div></td></tr><tr><td class=" efhpLargeRow">'
+  	+ '<div title="Case Owner" class="efhpFieldLabel">Case Owner</div></td><td class="efhpValue efhpLargeRow"><div class="efhpLabeledFieldValue" style="width: 880px;">%%OWNER%%</div></td></tr>'
+  	+ '</tbody></table></td></tr><tbody></table></div></div>';
+  
+  var contactName = jQuery('#cas3_ileinner').html();
+  var accountName = jQuery('#cas4_ileinner').html();
+  var caseNumber = jQuery('#cas2_ileinner').contents()[0].data;
+  var subject = jQuery('#cas14_ileinner').html();
+  var description = jQuery('#cas15_ileinner').html();
+  var status = jQuery('#cas7_ileinner').html();
+  var creationDate = jQuery('#CreatedDate_ileinner').html();
+  var owner = jQuery('#cas1_ileinner > span').html();
+  console.log(jQuery('#cas2_ileinner').contents());
+  
+  highlights = highlights.replace('%%CONTACT%%', contactName)
+  	.replace('%%ACCOUNT%%', accountName)
+  	.replace('%%NUMBER%%', caseNumber)
+  	.replace('%%SUBJECT%%', subject)
+  	.replace('%%DESCRIPTION%%', description)
+  	.replace('%%STATUS%%', status)
+  	.replace('%%DATE%%', creationDate)
+  	.replace('%%OWNER%%', owner);
+  
+  ptBody.html(highlights);
+}
