@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       SalesForce enhancements
 // @namespace  https://eu5.salesforce.com/
-// @version    0.2
+// @version    0.7
 // @description  enter something useful
 // @match      https://eu5.salesforce.com/*
 // @require    http://code.jquery.com/jquery-latest.min.js
@@ -37,15 +37,18 @@ if (jQuery('#p26').length == 1)
 // transform "spira" field to HTML link
 if (jQuery('#00N24000005Z7V6_ileinner').length == 1 && jQuery('#00N24000005Z7V6_ileinner').html() != '&nbsp;')
 {
-    var spiras = jQuery('#00N24000005Z7V6_ileinner').html().split(',');
+    var spiras = jQuery('#00N24000005Z7V6_ileinner').html().split(new RegExp("[ ,]+", "g"));
     
     var html = '';
     var glu = '';
 
     for (j=0; j<spiras.length; j++)
     {
-        html += glu + '<a href="http://thefactory.crossknowledge.com/14/Incident/' + spiras[j].trim() + '.aspx" target="_blank">' + spiras[j].trim() + '</a>';
-        glu = ', ';
+	  if (spiras[j].trim().indexOf('http://thefactory') == -1)
+      	html += glu + '<a href="http://thefactory.crossknowledge.com/14/Incident/' + spiras[j].trim() + '.aspx" target="_blank">' + spiras[j].trim() + '</a>';
+	  else
+		html += glu + '<a href="' + spiras[j].trim() + '" target="_blank">' + spiras[j].trim() + '</a>';
+      glu = ', ';
     }
 
     jQuery('#00N24000005Z7V6_ileinner').html(html);
@@ -66,7 +69,7 @@ if (jQuery('.pShowMore').length > 0)
   var mores = jQuery('.pShowMore');
   for (i=0; i<mores.length; mores++)
   {
-    eval(decodeURIComponent(jQuery(mores[i]).children('a:contains(Show more)').first().attr('href')).replace(/^javascript:/, ''));
+	eval(decodeURIComponent(jQuery(mores[i]).children('a:contains(Show more)').first().attr('href')).replace(/^javascript:/, ''));
   }
 }
 
@@ -83,7 +86,7 @@ if (jQuery('.efhpHighlightPanel').length == 0 && jQuery('.ptBody').length == 1)
   	+ '<div class="efhpDragHandleDisplay"></div></div></td><td class="efhpCenterContent " style="width: auto;"><div class="efhpCenterContentBody"><div class="efhpCenterTopRow">'
 	+ '<span class="efhpIcon" style="background: transparent url(/img/icon/cases16.png) 0 0 no-repeat;"><img title="" alt="" src="/s.gif"></span><span class="efhpCenterLabel">Case Number</span>'
   	+ '<span class="efhpCenterValue">%%NUMBER%%</span><span class="efhpSeparator"> </span><span class="efhpCenterLabel">Created Date</span><span class="efhpCenterValue  ">%%DATE%%</span>'
-	+ '</div><div class="efhpTitle">%%SUBJECT%%</div><div class="efhpRow "><div class="efhpValue efhpDescription">%%DESCRIPTION%%</div></div></div></td>'
+	+ '</div><div class="efhpTitle">%%SUBJECT%%</div><div class="efhpRow "><div class="efhpValue efhpDescription" style="height:100px;">%%DESCRIPTION%%</div></div></div></td>'
   	+ '<td class="efhpContainerSeparator" data-uidsfdc="60"><div class="efhpDragHandle" title="Double-click a divider to return the column to its original size."><div class="efhpDragHandleDisplay">'
   	+ '</div></div></td><td class="efhpRightContent " style="width: 300px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class=" efhpLargeRow"><div title="Status" class="efhpFieldLabel">Status</div>'
   	+ '</td><td class="efhpValue efhpLargeRow"><div class="efhpLabeledFieldValue">%%STATUS%%</div></td></tr><tr><td class=" efhpLargeRow">'
@@ -98,7 +101,6 @@ if (jQuery('.efhpHighlightPanel').length == 0 && jQuery('.ptBody').length == 1)
   var status = jQuery('#cas7_ileinner').html();
   var creationDate = jQuery('#CreatedDate_ileinner').html();
   var owner = jQuery('#cas1_ileinner > span').html();
-  console.log(jQuery('#cas2_ileinner').contents());
   
   highlights = highlights.replace('%%CONTACT%%', contactName)
   	.replace('%%ACCOUNT%%', accountName)
