@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       SalesForce enhancements
 // @namespace  https://eu5.salesforce.com/
-// @version    0.9
+// @version    1.10
 // @description  enter something useful
 // @match      https://eu5.salesforce.com/*
 // @require    http://code.jquery.com/jquery-latest.min.js
@@ -126,14 +126,24 @@ if (jQuery('label:contains(Send Notification Email)').length == 1 && jQuery('#se
   jQuery('#sendMail').prop("checked", true);
 }
 
-console.log(jQuery('#topButtonRow input.btn[name=send_survey_simple]'));
-
 // Add button to "quickly" close a case
 if (jQuery('#topButtonRow input.btn[name=send_survey_simple]').length == 1)
 {
-  
   var closeOnclick = "document.getElementById('cas7_ilecell').dispatchEvent(myDblClickEvent); setTimeout(function(){document.getElementById('cas7').value = 'Closed'; sfdcPage.save();}, 500);";
   var closeHtml = ' <input value="Close case" class="btn" name="close_case" title="Close case" type="button" onclick="' + closeOnclick + '">';
   
   jQuery('input.btn[name=send_survey_simple]').after(closeHtml);
 }
+
+// Enhance attachment action
+setTimeout(function () {
+  var actionLinks = jQuery('.actionColumn .actionLink');
+  if (actionLinks.length > 0)
+  {
+	for (var i=0; i<actionLinks.length; i++)
+	{
+	  console.log(jQuery(actionLinks[i]));
+	  jQuery(actionLinks[i]).after('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;').before('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
+	}
+  }
+}, 2000);
