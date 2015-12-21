@@ -1,12 +1,18 @@
 // ==UserScript==
 // @name       SalesForce enhancements
 // @namespace  https://eu5.salesforce.com/
-// @version    0.8
+// @version    0.9
 // @description  enter something useful
 // @match      https://eu5.salesforce.com/*
 // @require    http://code.jquery.com/jquery-latest.min.js
 // @copyright  2012+, You
 // ==/UserScript==
+
+unsafeWindow.myDblClickEvent = document.createEvent('MouseEvents');
+unsafeWindow.myDblClickEvent.initEvent('dblclick', true, true);
+
+unsafeWindow.myClickEvent = document.createEvent('MouseEvents');
+unsafeWindow.myClickEvent.initEvent('click', true, true);
 
 // increase case description field size
 var caseDescription = jQuery('.labelCol:contains(Description)');
@@ -118,4 +124,16 @@ if (jQuery('.efhpHighlightPanel').length == 0 && jQuery('.ptBody').length == 1 &
 if (jQuery('label:contains(Send Notification Email)').length == 1 && jQuery('#sendMail').length == 1)
 {
   jQuery('#sendMail').prop("checked", true);
+}
+
+console.log(jQuery('#topButtonRow input.btn[name=send_survey_simple]'));
+
+// Add button to "quickly" close a case
+if (jQuery('#topButtonRow input.btn[name=send_survey_simple]').length == 1)
+{
+  
+  var closeOnclick = "document.getElementById('cas7_ilecell').dispatchEvent(myDblClickEvent); setTimeout(function(){document.getElementById('cas7').value = 'Closed'; sfdcPage.save();}, 500);";
+  var closeHtml = ' <input value="Close case" class="btn" name="close_case" title="Close case" type="button" onclick="' + closeOnclick + '">';
+  
+  jQuery('input.btn[name=send_survey_simple]').after(closeHtml);
 }
