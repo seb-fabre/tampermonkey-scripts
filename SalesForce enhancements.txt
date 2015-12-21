@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       SalesForce enhancements
 // @namespace  https://eu5.salesforce.com/
-// @version    0.7
+// @version    0.8
 // @description  enter something useful
 // @match      https://eu5.salesforce.com/*
 // @require    http://code.jquery.com/jquery-latest.min.js
@@ -9,7 +9,7 @@
 // ==/UserScript==
 
 // increase case description field size
-var caseDescription = window.jQuery('.labelCol:contains(Description)');
+var caseDescription = jQuery('.labelCol:contains(Description)');
 if (caseDescription && caseDescription.length == 1)
 {
     caseDescription = jQuery(caseDescription[0]);
@@ -18,7 +18,8 @@ if (caseDescription && caseDescription.length == 1)
     
    caseDescription.next().attr('colspan', 3);
 }
-var caseDescription = window.jQuery('.labelCol:contains(Reproduction step)');
+
+caseDescription = jQuery('.labelCol:contains(Reproduction step)');
 if (caseDescription && caseDescription.length == 1)
 {
     caseDescription = jQuery(caseDescription[0]);
@@ -74,7 +75,7 @@ if (jQuery('.pShowMore').length > 0)
 }
 
 // Recreate "Highlights panel" if it's not there in the current page layout
-if (jQuery('.efhpHighlightPanel').length == 0 && jQuery('.ptBody').length == 1)
+if (jQuery('.efhpHighlightPanel').length == 0 && jQuery('.ptBody').length == 1 && jQuery('#cas14_ileinner').length == 1)
 {
   jQuery("head").append('<link href="https://eu5.salesforce.com/sCSS/35.0/sprites/1444933246000/Theme3/default/gc/EntityFeedPage.css" rel="stylesheet" type="text/css">');
 
@@ -83,10 +84,10 @@ if (jQuery('.efhpHighlightPanel').length == 0 && jQuery('.ptBody').length == 1)
     + '<tr><td class="efhpLeftContent " style="width: 200px;"><div class="efhpRow"><div class="efhpLabel" title="Customer">Customer</div></div><div class=" efhpRow">'
 	+ '<span class="efhpValue efhpHighlight"><div class="efhpFieldValue">%%CONTACT%%</div></span></div><div class=" efhpRow"><span class="efhpValue"><div class="efhpFieldValue">%%ACCOUNT%%</div>'
     + '</span></div></td><td class="efhpContainerSeparator" data-uidsfdc="55"><div class="efhpDragHandle" title="Double-click a divider to return the column to its original size.">'
-  	+ '<div class="efhpDragHandleDisplay"></div></div></td><td class="efhpCenterContent " style="width: auto;"><div class="efhpCenterContentBody"><div class="efhpCenterTopRow">'
+  	+ '<div class="efhpDragHandleDisplay"></div></div></td><td class="efhpCenterContent " style="width: auto;"><div class="efhpCenterContentBody" style="min-height: auto;"><div class="efhpCenterTopRow">'
 	+ '<span class="efhpIcon" style="background: transparent url(/img/icon/cases16.png) 0 0 no-repeat;"><img title="" alt="" src="/s.gif"></span><span class="efhpCenterLabel">Case Number</span>'
   	+ '<span class="efhpCenterValue">%%NUMBER%%</span><span class="efhpSeparator"> </span><span class="efhpCenterLabel">Created Date</span><span class="efhpCenterValue  ">%%DATE%%</span>'
-	+ '</div><div class="efhpTitle">%%SUBJECT%%</div><div class="efhpRow "><div class="efhpValue efhpDescription" style="height:100px;">%%DESCRIPTION%%</div></div></div></td>'
+	+ '</div><div class="efhpTitle">%%SUBJECT%%</div></div></td>'
   	+ '<td class="efhpContainerSeparator" data-uidsfdc="60"><div class="efhpDragHandle" title="Double-click a divider to return the column to its original size."><div class="efhpDragHandleDisplay">'
   	+ '</div></div></td><td class="efhpRightContent " style="width: 300px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class=" efhpLargeRow"><div title="Status" class="efhpFieldLabel">Status</div>'
   	+ '</td><td class="efhpValue efhpLargeRow"><div class="efhpLabeledFieldValue">%%STATUS%%</div></td></tr><tr><td class=" efhpLargeRow">'
@@ -106,10 +107,15 @@ if (jQuery('.efhpHighlightPanel').length == 0 && jQuery('.ptBody').length == 1)
   	.replace('%%ACCOUNT%%', accountName)
   	.replace('%%NUMBER%%', caseNumber)
   	.replace('%%SUBJECT%%', subject)
-  	.replace('%%DESCRIPTION%%', description)
   	.replace('%%STATUS%%', status)
   	.replace('%%DATE%%', creationDate)
   	.replace('%%OWNER%%', owner);
   
   ptBody.html(highlights);
+}
+
+// Auto-check the "send email" box when reassigning a case
+if (jQuery('label:contains(Send Notification Email)').length == 1 && jQuery('#sendMail').length == 1)
+{
+  jQuery('#sendMail').prop("checked", true);
 }
