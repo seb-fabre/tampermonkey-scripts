@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       Spira enhancements
 // @namespace  http://spira/
-// @version    2.5
+// @version    2.6
 // @description  enter something useful
 // @match      http://thefactory.crossknowledge.com/14/*
 // @match		http://thefactory.crossknowledge.com/10/*
@@ -17,7 +17,7 @@
 $(".rteDiv").css("resize", "both");
 $(".rteDiv").parent().parent().css("height", "auto");
 
-if ($('#cplMainContent_radUrl'))
+if ($('#cplMainContent_radUrl') && document.getElementById('cplMainContent_ddlDocType') && document.getElementById('cplMainContent_ddlDocFolder'))
 {
   unsafeWindow.myClickEvent = document.createEvent('MouseEvents');
   unsafeWindow.myClickEvent.initEvent('click', true, true);
