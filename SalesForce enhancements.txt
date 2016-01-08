@@ -51,8 +51,8 @@ if (jQuery('#00N24000005Z7V6_ileinner').length == 1 && jQuery('#00N24000005Z7V6_
 
     for (j=0; j<spiras.length; j++)
     {
-	  if (spiras[j].trim().indexOf('http://thefactory') == -1)
-      	html += glu + '<a href="http://thefactory.crossknowledge.com/14/Incident/' + spiras[j].trim() + '.aspx" target="_blank">' + spiras[j].trim() + '</a>';
+	  if (spiras[j].trim().indexOf('http://thefactory') == -1 && spiras[j].trim().indexOf('https://thefactory') == -1)
+      	html += glu + '<a href="https://thefactory.crossknowledge.com/14/Incident/' + spiras[j].trim() + '.aspx" target="_blank">' + spiras[j].trim() + '</a>';
 	  else
 		html += glu + '<a href="' + spiras[j].trim() + '" target="_blank">' + spiras[j].trim() + '</a>';
       glu = ', ';
@@ -61,11 +61,9 @@ if (jQuery('#00N24000005Z7V6_ileinner').length == 1 && jQuery('#00N24000005Z7V6_
     jQuery('#00N24000005Z7V6_ileinner').html(html);
 }
 
-// check the "public comment" by default
+// add buttons above the "comment" field
 if (jQuery('#IsPublished').length == 1)
 {
-    jQuery('#IsPublished').prop('checked', true);
-    
     jQuery('#IsPublished').after("&nbsp;&nbsp;<button type=\"button\" onclick=\"document.getElementById('CommentBody').innerText = 'Pas d\\'exemple, pas de chocolat.';\">Pas d'exemple...</button>");
     jQuery('#IsPublished').after("&nbsp;&nbsp;<button type=\"button\" onclick=\"document.getElementById('CommentBody').innerText = 'Pas d\\'URL, pas de chocolat.';\">Pas d'URL...</button>");
 }
