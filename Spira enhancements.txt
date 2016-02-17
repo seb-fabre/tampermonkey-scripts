@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       Spira enhancements
 // @namespace  http://spira/
-// @version    2.6
+// @version    2.7
 // @description  enter something useful
 // @match      http://thefactory.crossknowledge.com/14/*
 // @match		http://thefactory.crossknowledge.com/10/*
@@ -17,26 +17,29 @@
 $(".rteDiv").css("resize", "both");
 $(".rteDiv").parent().parent().css("height", "auto");
 
-if ($('#cplMainContent_radUrl') && document.getElementById('cplMainContent_ddlDocType') && document.getElementById('cplMainContent_ddlDocFolder'))
+if ($('#cplMainContent_radUrl'))
 {
   unsafeWindow.myClickEvent = document.createEvent('MouseEvents');
   unsafeWindow.myClickEvent.initEvent('click', true, true);
 
-  // populate the lists
-  function populate()
+  if (document.getElementById('cplMainContent_ddlDocType') && document.getElementById('cplMainContent_ddlDocFolder'))
   {
-	document.getElementById('cplMainContent_ddlDocType').dispatchEvent(myClickEvent);
- 	document.getElementById('cplMainContent_ddlDocFolder').dispatchEvent(myClickEvent);
-  
-	jQuery('#cplMainContent_ddlDocType_list div:contains(Ticket)').attr('id', 'titicket');
-	jQuery('#cplMainContent_ddlDocFolder div[title=Internal]').attr('id', 'tintinternal');
-	jQuery('#cplMainContent_ddlDocType_list div:contains(URL)').attr('id', 'uhurl');
-	
-	document.getElementById('tintinternal').dispatchEvent(myClickEvent);
+	// populate the lists
+	function populate()
+	{
+	  document.getElementById('cplMainContent_ddlDocType').dispatchEvent(myClickEvent);
+	  document.getElementById('cplMainContent_ddlDocFolder').dispatchEvent(myClickEvent);
+
+	  jQuery('#cplMainContent_ddlDocType_list div:contains(Ticket)').attr('id', 'titicket');
+	  jQuery('#cplMainContent_ddlDocFolder div[title=Internal]').attr('id', 'tintinternal');
+	  jQuery('#cplMainContent_ddlDocType_list div:contains(URL)').attr('id', 'uhurl');
+
+	  document.getElementById('tintinternal').dispatchEvent(myClickEvent);
+	}
+
+	setTimeout(populate, 500);
   }
-  
-  setTimeout(populate, 500);
-  
+
   // Add onclick event on radio button for Keyze
   var onclick = "if ($find('tblAttachment')) $find('tblAttachment').show_attachment_type_url(); document.getElementById('cplMainContent_txtURL').value='https://crossknowledge.force.com/Community/';";
   onclick += "document.getElementById('titicket').dispatchEvent(myClickEvent);";
