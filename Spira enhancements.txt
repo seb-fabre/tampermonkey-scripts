@@ -1,16 +1,14 @@
 // ==UserScript==
 // @name       Spira enhancements
 // @namespace  http://spira/
-// @version    2.7
+// @version    2.8
 // @description  enter something useful
-// @match      http://thefactory.crossknowledge.com/14/*
-// @match		http://thefactory.crossknowledge.com/10/*
-// @match      https://thefactory.crossknowledge.com/14/*
-// @match		https://thefactory.crossknowledge.com/10/*
-// @match 	   http://thefactory.crossknowledge.com/Popups/FileArtifactUploadDialog.aspx*
+// @match      http*://thefactory.crossknowledge.com/14/*
+// @match		http*://thefactory.crossknowledge.com/10/*
+// @match 	   http*://thefactory.crossknowledge.com/Popups/FileArtifactUploadDialog.aspx*
 // @exclude    http://thefactory.crossknowledge.com/10/Incident/List.aspx*
 // @exclude 	http://thefactory.crossknowledge.com/14/Incident/List.aspx*
-// @copyright  2012+, You
+// @copyright  2015+, You
 // @require http://code.jquery.com/jquery-latest.js
 // ==/UserScript==
 
