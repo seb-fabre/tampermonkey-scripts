@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       SalesForce enhancements
 // @namespace  https://eu5.salesforce.com/
-// @version    1.15
+// @version    1.2
 // @description  enter something useful
 // @match      https://eu5.salesforce.com/*
 // @require    http://code.jquery.com/jquery-latest.min.js
@@ -144,3 +144,13 @@ setTimeout(function () {
 	}
   }
 }, 2000);
+
+// Always display the HTML version of the email directly
+if (jQuery('#htmlCode').length == 1)
+{
+  var htmlBody = unescapeHTML(jQuery('#htmlCode').html());
+  
+  jQuery('#htmlCode').parent().html(htmlBody);
+  
+  jQuery('.labelCol:contains(Text Body)').parent().hide();
+}
