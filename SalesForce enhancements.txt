@@ -1,11 +1,13 @@
 // ==UserScript==
 // @name       SalesForce enhancements
 // @namespace  https://eu5.salesforce.com/
-// @version    1.2
+// @version    1.4
 // @description  enter something useful
 // @match      https://eu5.salesforce.com/*
 // @require    http://code.jquery.com/jquery-latest.min.js
 // @copyright  2012+, You
+// @updateURL https://raw.githubusercontent.com/sebastien-fabre/tampermonkey-scripts/master/SalesForce%20enhancements.txt
+// @downloadURL https://raw.githubusercontent.com/sebastien-fabre/tampermonkey-scripts/master/SalesForce%20enhancements.txt
 // ==/UserScript==
 
 unsafeWindow.myDblClickEvent = document.createEvent('MouseEvents');
@@ -52,7 +54,14 @@ if (jQuery('#00N24000005Z7V6_ileinner').length == 1 && jQuery('#00N24000005Z7V6_
     for (j=0; j<spiras.length; j++)
     {
 	  if (spiras[j].trim().indexOf('http://thefactory') == -1 && spiras[j].trim().indexOf('https://thefactory') == -1)
-      	html += glu + '<a href="https://thefactory.crossknowledge.com/14/Incident/' + spiras[j].trim() + '.aspx" target="_blank">' + spiras[j].trim() + '</a>';
+      {
+		if (matches = spiras[j].trim().match(/\[RQ:(\d+)\]/))
+			html += glu + '<a href="https://thefactory.crossknowledge.com/14/Requirement/' + matches[1] + '.aspx" target="_blank">' + spiras[j].trim() + '</a>';
+		else if (matches = spiras[j].trim().match(/\[IN:(\d+)\]/))
+			html += glu + '<a href="https://thefactory.crossknowledge.com/14/Incident/' + matches[1] + '.aspx" target="_blank">' + spiras[j].trim() + '</a>';
+		else
+			html += glu + '<a href="https://thefactory.crossknowledge.com/14/Incident/' + spiras[j].trim() + '.aspx" target="_blank">' + spiras[j].trim() + '</a>';
+	  }
 	  else
 		html += glu + '<a href="' + spiras[j].trim() + '" target="_blank">' + spiras[j].trim() + '</a>';
       glu = ', ';
@@ -66,16 +75,6 @@ if (jQuery('#IsPublished').length == 1)
 {
     jQuery('#IsPublished').after("&nbsp;&nbsp;<button type=\"button\" onclick=\"document.getElementById('CommentBody').innerText = 'Pas d\\'exemple, pas de chocolat.';\">Pas d'exemple...</button>");
     jQuery('#IsPublished').after("&nbsp;&nbsp;<button type=\"button\" onclick=\"document.getElementById('CommentBody').innerText = 'Pas d\\'URL, pas de chocolat.';\">Pas d'URL...</button>");
-}
-
-// Automatically click on "Show more"
-if (jQuery('.pShowMore').length > 0)
-{
-  var mores = jQuery('.pShowMore');
-  for (i=0; i<mores.length; mores++)
-  {
-	eval(decodeURIComponent(jQuery(mores[i]).children('a:contains(Show more)').first().attr('href')).replace(/^javascript:/, ''));
-  }
 }
 
 // Recreate "Highlights panel" if it's not there in the current page layout
@@ -153,4 +152,12 @@ if (jQuery('#htmlCode').length == 1)
   jQuery('#htmlCode').parent().html(htmlBody);
   
   jQuery('.labelCol:contains(Text Body)').parent().hide();
+}
+
+// Increase "body" textarea in reply form
+var htmlBody = jQuery('.labelCol:contains(Body)');
+if (htmlBody && htmlBody.length == 1 && jQuery('#p7').length == 1)
+{
+    jQuery('#p7').attr('rows', 30);
+    jQuery('#p7').attr('cols', 150);
 }
