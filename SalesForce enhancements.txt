@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       SalesForce enhancements
 // @namespace  https://eu5.salesforce.com/
-// @version    1.4
+// @version    1.5
 // @description  enter something useful
 // @match      https://eu5.salesforce.com/*
 // @require    http://code.jquery.com/jquery-latest.min.js
@@ -20,61 +20,61 @@ unsafeWindow.myClickEvent.initEvent('click', true, true);
 var caseDescription = jQuery('.labelCol:contains(Description)');
 if (caseDescription && caseDescription.length == 1)
 {
-    caseDescription = jQuery(caseDescription[0]);
-    caseDescription.next().next().next().remove();
-    caseDescription.next().next().remove();
-    
-   caseDescription.next().attr('colspan', 3);
+  caseDescription = jQuery(caseDescription[0]);
+  caseDescription.next().next().next().remove();
+  caseDescription.next().next().remove();
+
+  caseDescription.next().attr('colspan', 3);
 }
 
 caseDescription = jQuery('.labelCol:contains(Reproduction step)');
 if (caseDescription && caseDescription.length == 1)
 {
-    caseDescription = jQuery(caseDescription[0]);
-    caseDescription.next().next().next().remove();
-    caseDescription.next().next().remove();
-    
-   caseDescription.next().attr('colspan', 3);
+  caseDescription = jQuery(caseDescription[0]);
+  caseDescription.next().next().next().remove();
+  caseDescription.next().next().remove();
+
+  caseDescription.next().attr('colspan', 3);
 }
 
 // auto-select support@ck.com in new reply form
 if (jQuery('#p26').length == 1)
 {
-    jQuery('#p26').val('support@crossknowledge.com:support@crossknowledge.com');
+  jQuery('#p26').val('support@crossknowledge.com:support@crossknowledge.com');
 }
 
 // transform "spira" field to HTML link
 if (jQuery('#00N24000005Z7V6_ileinner').length == 1 && jQuery('#00N24000005Z7V6_ileinner').html() != '&nbsp;')
 {
-    var spiras = jQuery('#00N24000005Z7V6_ileinner').html().split(new RegExp("[ ,]+", "g"));
-    
-    var html = '';
-    var glu = '';
+  var spiras = jQuery('#00N24000005Z7V6_ileinner').html().split(new RegExp("[ ,]+", "g"));
 
-    for (j=0; j<spiras.length; j++)
-    {
-	  if (spiras[j].trim().indexOf('http://thefactory') == -1 && spiras[j].trim().indexOf('https://thefactory') == -1)
-      {
-		if (matches = spiras[j].trim().match(/\[RQ:(\d+)\]/))
-			html += glu + '<a href="https://thefactory.crossknowledge.com/14/Requirement/' + matches[1] + '.aspx" target="_blank">' + spiras[j].trim() + '</a>';
-		else if (matches = spiras[j].trim().match(/\[IN:(\d+)\]/))
-			html += glu + '<a href="https://thefactory.crossknowledge.com/14/Incident/' + matches[1] + '.aspx" target="_blank">' + spiras[j].trim() + '</a>';
-		else
-			html += glu + '<a href="https://thefactory.crossknowledge.com/14/Incident/' + spiras[j].trim() + '.aspx" target="_blank">' + spiras[j].trim() + '</a>';
-	  }
+  var html = '';
+  var glu = '';
+
+  for (j=0; j<spiras.length; j++)
+  {
+	if (spiras[j].trim().indexOf('http://thefactory') == -1 && spiras[j].trim().indexOf('https://thefactory') == -1)
+	{
+	  if (matches = spiras[j].trim().match(/\[RQ:(\d+)\]/))
+		html += glu + '<a href="https://thefactory.crossknowledge.com/14/Requirement/' + matches[1] + '.aspx" target="_blank">' + spiras[j].trim() + '</a>';
+	  else if (matches = spiras[j].trim().match(/\[IN:(\d+)\]/))
+		html += glu + '<a href="https://thefactory.crossknowledge.com/14/Incident/' + matches[1] + '.aspx" target="_blank">' + spiras[j].trim() + '</a>';
 	  else
-		html += glu + '<a href="' + spiras[j].trim() + '" target="_blank">' + spiras[j].trim() + '</a>';
-      glu = ', ';
-    }
+		html += glu + '<a href="https://thefactory.crossknowledge.com/14/Incident/' + spiras[j].trim() + '.aspx" target="_blank">' + spiras[j].trim() + '</a>';
+	}
+	else
+	  html += glu + '<a href="' + spiras[j].trim() + '" target="_blank">' + spiras[j].trim() + '</a>';
+	glu = ', ';
+  }
 
-    jQuery('#00N24000005Z7V6_ileinner').html(html);
+  jQuery('#00N24000005Z7V6_ileinner').html(html);
 }
 
 // add buttons above the "comment" field
 if (jQuery('#IsPublished').length == 1)
 {
-    jQuery('#IsPublished').after("&nbsp;&nbsp;<button type=\"button\" onclick=\"document.getElementById('CommentBody').innerText = 'Pas d\\'exemple, pas de chocolat.';\">Pas d'exemple...</button>");
-    jQuery('#IsPublished').after("&nbsp;&nbsp;<button type=\"button\" onclick=\"document.getElementById('CommentBody').innerText = 'Pas d\\'URL, pas de chocolat.';\">Pas d'URL...</button>");
+  jQuery('#IsPublished').after("&nbsp;&nbsp;<button type=\"button\" onclick=\"document.getElementById('CommentBody').innerText = 'Pas d\\'exemple, pas de chocolat.';\">Pas d'exemple...</button>");
+  jQuery('#IsPublished').after("&nbsp;&nbsp;<button type=\"button\" onclick=\"document.getElementById('CommentBody').innerText = 'Pas d\\'URL, pas de chocolat.';\">Pas d'URL...</button>");
 }
 
 // Recreate "Highlights panel" if it's not there in the current page layout
@@ -84,19 +84,19 @@ if (jQuery('.efhpHighlightPanel').length == 0 && jQuery('.ptBody').length == 1 &
 
   var ptBody = jQuery('.ptBody');
   var highlights = '<div class="efhpHighlightPanel efhpPageStyle efhpResizable"><div class="efhpContainer"><table class="efhpBody" cellspacing="0" cellpadding="0"><tbody>'
-    + '<tr><td class="efhpLeftContent " style="width: 200px;"><div class="efhpRow"><div class="efhpLabel" title="Customer">Customer</div></div><div class=" efhpRow">'
-	+ '<span class="efhpValue efhpHighlight"><div class="efhpFieldValue">%%CONTACT%%</div></span></div><div class=" efhpRow"><span class="efhpValue"><div class="efhpFieldValue">%%ACCOUNT%%</div>'
-    + '</span></div></td><td class="efhpContainerSeparator" data-uidsfdc="55"><div class="efhpDragHandle" title="Double-click a divider to return the column to its original size.">'
-  	+ '<div class="efhpDragHandleDisplay"></div></div></td><td class="efhpCenterContent " style="width: auto;"><div class="efhpCenterContentBody" style="min-height: auto;"><div class="efhpCenterTopRow">'
-	+ '<span class="efhpIcon" style="background: transparent url(/img/icon/cases16.png) 0 0 no-repeat;"><img title="" alt="" src="/s.gif"></span><span class="efhpCenterLabel">Case Number</span>'
-  	+ '<span class="efhpCenterValue">%%NUMBER%%</span><span class="efhpSeparator"> </span><span class="efhpCenterLabel">Created Date</span><span class="efhpCenterValue  ">%%DATE%%</span>'
-	+ '</div><div class="efhpTitle">%%SUBJECT%%</div></div></td>'
-  	+ '<td class="efhpContainerSeparator" data-uidsfdc="60"><div class="efhpDragHandle" title="Double-click a divider to return the column to its original size."><div class="efhpDragHandleDisplay">'
-  	+ '</div></div></td><td class="efhpRightContent " style="width: 300px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class=" efhpLargeRow"><div title="Status" class="efhpFieldLabel">Status</div>'
-  	+ '</td><td class="efhpValue efhpLargeRow"><div class="efhpLabeledFieldValue">%%STATUS%%</div></td></tr><tr><td class=" efhpLargeRow">'
-  	+ '<div title="Case Owner" class="efhpFieldLabel">Case Owner</div></td><td class="efhpValue efhpLargeRow"><div class="efhpLabeledFieldValue" style="width: 880px;">%%OWNER%%</div></td></tr>'
-  	+ '</tbody></table></td></tr><tbody></table></div></div>';
-  
+  + '<tr><td class="efhpLeftContent " style="width: 200px;"><div class="efhpRow"><div class="efhpLabel" title="Customer">Customer</div></div><div class=" efhpRow">'
+  + '<span class="efhpValue efhpHighlight"><div class="efhpFieldValue">%%CONTACT%%</div></span></div><div class=" efhpRow"><span class="efhpValue"><div class="efhpFieldValue">%%ACCOUNT%%</div>'
+  + '</span></div></td><td class="efhpContainerSeparator" data-uidsfdc="55"><div class="efhpDragHandle" title="Double-click a divider to return the column to its original size.">'
+  + '<div class="efhpDragHandleDisplay"></div></div></td><td class="efhpCenterContent " style="width: auto;"><div class="efhpCenterContentBody" style="min-height: auto;"><div class="efhpCenterTopRow">'
+  + '<span class="efhpIcon" style="background: transparent url(/img/icon/cases16.png) 0 0 no-repeat;"><img title="" alt="" src="/s.gif"></span><span class="efhpCenterLabel">Case Number</span>'
+  + '<span class="efhpCenterValue">%%NUMBER%%</span><span class="efhpSeparator"> </span><span class="efhpCenterLabel">Created Date</span><span class="efhpCenterValue  ">%%DATE%%</span>'
+  + '</div><div class="efhpTitle">%%SUBJECT%%</div></div></td>'
+  + '<td class="efhpContainerSeparator" data-uidsfdc="60"><div class="efhpDragHandle" title="Double-click a divider to return the column to its original size."><div class="efhpDragHandleDisplay">'
+  + '</div></div></td><td class="efhpRightContent " style="width: 300px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class=" efhpLargeRow"><div title="Status" class="efhpFieldLabel">Status</div>'
+  + '</td><td class="efhpValue efhpLargeRow"><div class="efhpLabeledFieldValue">%%STATUS%%</div></td></tr><tr><td class=" efhpLargeRow">'
+  + '<div title="Case Owner" class="efhpFieldLabel">Case Owner</div></td><td class="efhpValue efhpLargeRow"><div class="efhpLabeledFieldValue" style="width: 880px;">%%OWNER%%</div></td></tr>'
+  + '</tbody></table></td></tr><tbody></table></div></div>';
+
   var contactName = jQuery('#cas3_ileinner').html();
   var accountName = jQuery('#cas4_ileinner').html();
   var caseNumber = jQuery('#cas2_ileinner').contents()[0].data;
@@ -105,15 +105,15 @@ if (jQuery('.efhpHighlightPanel').length == 0 && jQuery('.ptBody').length == 1 &
   var status = jQuery('#cas7_ileinner').html();
   var creationDate = jQuery('#CreatedDate_ileinner').html();
   var owner = jQuery('#cas1_ileinner > span').html();
-  
+
   highlights = highlights.replace('%%CONTACT%%', contactName)
-  	.replace('%%ACCOUNT%%', accountName)
-  	.replace('%%NUMBER%%', caseNumber)
-  	.replace('%%SUBJECT%%', subject)
-  	.replace('%%STATUS%%', status)
-  	.replace('%%DATE%%', creationDate)
-  	.replace('%%OWNER%%', owner);
-  
+	.replace('%%ACCOUNT%%', accountName)
+	.replace('%%NUMBER%%', caseNumber)
+	.replace('%%SUBJECT%%', subject)
+	.replace('%%STATUS%%', status)
+	.replace('%%DATE%%', creationDate)
+	.replace('%%OWNER%%', owner);
+
   ptBody.html(highlights);
 }
 
@@ -128,7 +128,7 @@ if (jQuery('#topButtonRow input.btn[name=send_survey_simple]').length == 1)
 {
   var closeOnclick = "document.getElementById('cas7_ilecell').dispatchEvent(myDblClickEvent); setTimeout(function(){document.getElementById('cas7').value = 'Closed'; sfdcPage.save();}, 500);";
   var closeHtml = ' <input value="Close case" class="btn" name="close_case" title="Close case" type="button" onclick="' + closeOnclick + '">';
-  
+
   jQuery('input.btn[name=send_survey_simple]').after(closeHtml);
 }
 
@@ -148,9 +148,9 @@ setTimeout(function () {
 if (jQuery('#htmlCode').length == 1)
 {
   var htmlBody = unescapeHTML(jQuery('#htmlCode').html());
-  
+
   jQuery('#htmlCode').parent().html(htmlBody);
-  
+
   jQuery('.labelCol:contains(Text Body)').parent().hide();
 }
 
@@ -158,6 +158,61 @@ if (jQuery('#htmlCode').length == 1)
 var htmlBody = jQuery('.labelCol:contains(Body)');
 if (htmlBody && htmlBody.length == 1 && jQuery('#p7').length == 1)
 {
-    jQuery('#p7').attr('rows', 30);
-    jQuery('#p7').attr('cols', 150);
+  jQuery('#p7').attr('rows', 30);
+  jQuery('#p7').attr('cols', 150);
 }
+else if (jQuery('.htmlInput .htmlEditor').length == 1)
+{
+  jQuery('.htmlInput .htmlEditor').css({height: 320});
+  jQuery('#container_p23').attr('height', 320);
+}
+
+// Improve the "timesheet" fields page to make it more automatic
+if (jQuery('#00N2400000C9KO3').length == 1 && jQuery('#00N2400000C9KON').length == 1 && jQuery('#00N2400000C4bpm').length == 1)
+{
+  var beginField = jQuery('#00N2400000C9KO3');
+  var endField = jQuery('#00N2400000C9KON');
+  var minutesField = jQuery('#00N2400000C4bpm');
+
+  minutesField.keyup(function(){
+
+	if (isNaN(minutesField.val()) || minutesField.val().length == 0)
+	{
+	  beginField.val('');
+	  endField.val('');
+	  return;
+	}
+
+	var beginDate = beginField.next().children().html();
+	var timePart = beginDate.match(/(\d?\d):(\d\d)/);
+	
+	if (!timePart)
+	{
+	  beginField.val('');
+	  endField.val('');
+	  return;
+	}
+
+	var hours = parseInt(timePart[1]);
+	var minutes = parseInt(timePart[2]);
+	var currentTime = hours * 60 + minutes;
+
+	currentTime -= parseInt(minutesField.val());
+
+	if (currentTime < 0)
+	{
+	  beginField.val('');
+	  endField.val('');
+	  return;
+	}
+
+	hours = Math.floor(currentTime / 60);
+	minutes = currentTime - 60 * hours;
+
+	beginDate = beginDate.replace(timePart[0], hours + ':' + minutes);
+
+	beginField.val(beginDate);
+	endField.val(endField.next().children().html());
+  });
+}
+
