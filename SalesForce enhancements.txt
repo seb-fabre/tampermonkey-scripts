@@ -1,11 +1,11 @@
 // ==UserScript==
 // @name       SalesForce enhancements
 // @namespace  https://eu5.salesforce.com/
-// @version    1.5
-// @description  enter something useful
+// @version    1.5.5
 // @match      https://eu5.salesforce.com/*
+// @exclude      https://eu5.salesforce.com/*.html
 // @require    http://code.jquery.com/jquery-latest.min.js
-// @copyright  2012+, You
+// @copyright  2015+, You
 // @updateURL https://raw.githubusercontent.com/sebastien-fabre/tampermonkey-scripts/master/SalesForce%20enhancements.txt
 // @downloadURL https://raw.githubusercontent.com/sebastien-fabre/tampermonkey-scripts/master/SalesForce%20enhancements.txt
 // ==/UserScript==
@@ -68,13 +68,6 @@ if (jQuery('#00N24000005Z7V6_ileinner').length == 1 && jQuery('#00N24000005Z7V6_
   }
 
   jQuery('#00N24000005Z7V6_ileinner').html(html);
-}
-
-// add buttons above the "comment" field
-if (jQuery('#IsPublished').length == 1)
-{
-  jQuery('#IsPublished').after("&nbsp;&nbsp;<button type=\"button\" onclick=\"document.getElementById('CommentBody').innerText = 'Pas d\\'exemple, pas de chocolat.';\">Pas d'exemple...</button>");
-  jQuery('#IsPublished').after("&nbsp;&nbsp;<button type=\"button\" onclick=\"document.getElementById('CommentBody').innerText = 'Pas d\\'URL, pas de chocolat.';\">Pas d'URL...</button>");
 }
 
 // Recreate "Highlights panel" if it's not there in the current page layout
@@ -216,3 +209,18 @@ if (jQuery('#00N2400000C9KO3').length == 1 && jQuery('#00N2400000C9KON').length 
   });
 }
 
+// Highlight the time field when there is activity but not time reported
+if (jQuery('#00N2400000C4buD_ileinner').length == 1 && jQuery('#00N2400000C4buD_ileinner').html() == '0')
+{
+  if (jQuery('#cas7_ileinner').length == 1)
+  {
+	if (jQuery('#cas7_ileinner').html() != 'Open' && jQuery('#cas7_ileinner').html() != 'Assigned')
+	  jQuery('#00N2400000C4buD_ileinner').parents('td').first().css('background-color', '#f77');
+  }
+  
+  if (jQuery('#5002400000JSPaa_RelatedEmailMessageList_link span.count').length == 1)
+  {
+	if (jQuery('#5002400000JSPaa_RelatedEmailMessageList_link span.count').html() != '[0]')
+	  jQuery('#00N2400000C4buD_ileinner').parent('td').first().css('background-color', '#f77');
+  }
+}
