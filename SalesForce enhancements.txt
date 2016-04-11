@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       SalesForce enhancements
 // @namespace  https://eu5.salesforce.com/
-// @version    1.5.5
+// @version    1.5.6
 // @match      https://eu5.salesforce.com/*
 // @exclude      https://eu5.salesforce.com/*.html
 // @require    http://code.jquery.com/jquery-latest.min.js
@@ -178,7 +178,7 @@ if (jQuery('#00N2400000C9KO3').length == 1 && jQuery('#00N2400000C9KON').length 
 
 	var beginDate = beginField.next().children().html();
 	var timePart = beginDate.match(/(\d?\d):(\d\d)/);
-	
+
 	if (!timePart)
 	{
 	  beginField.val('');
@@ -217,10 +217,14 @@ if (jQuery('#00N2400000C4buD_ileinner').length == 1 && jQuery('#00N2400000C4buD_
 	if (jQuery('#cas7_ileinner').html() != 'Open' && jQuery('#cas7_ileinner').html() != 'Assigned')
 	  jQuery('#00N2400000C4buD_ileinner').parents('td').first().css('background-color', '#f77');
   }
-  
-  if (jQuery('#5002400000JSPaa_RelatedEmailMessageList_link span.count').length == 1)
-  {
-	if (jQuery('#5002400000JSPaa_RelatedEmailMessageList_link span.count').html() != '[0]')
-	  jQuery('#00N2400000C4buD_ileinner').parent('td').first().css('background-color', '#f77');
-  }
+
+  setTimeout(function() {
+	ticketId = unsafeWindow.sfdcPage.entityId;
+
+	if (jQuery('#' + ticketId + '_RelatedEmailMessageList_link span.count').length == 1)
+	{
+	  if (jQuery('#' + ticketId + '_RelatedEmailMessageList_link span.count').html() != '[0]')
+		jQuery('#00N2400000C4buD_ileinner').parent('td').first().css('background-color', '#f77');
+	}
+  }, 2000);
 }
