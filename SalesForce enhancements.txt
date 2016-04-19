@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       SalesForce enhancements
 // @namespace  https://eu5.salesforce.com/
-// @version    1.5.6
+// @version    1.6
 // @match      https://eu5.salesforce.com/*
 // @exclude      https://eu5.salesforce.com/*.html
 // @require    http://code.jquery.com/jquery-latest.min.js
@@ -71,7 +71,7 @@ if (jQuery('#00N24000005Z7V6_ileinner').length == 1 && jQuery('#00N24000005Z7V6_
 }
 
 // Recreate "Highlights panel" if it's not there in the current page layout
-if (jQuery('.efhpHighlightPanel').length == 0 && jQuery('.ptBody').length == 1 && jQuery('#cas14_ileinner').length == 1)
+if (jQuery('.efhpHighlightPanel').length === 0 && jQuery('.ptBody').length == 1 && jQuery('#cas14_ileinner').length == 1)
 {
   jQuery("head").append('<link href="https://eu5.salesforce.com/sCSS/36.0/sprites/1454359520000/Theme3/default/gc/EntityFeedPage.css" rel="stylesheet" type="text/css">');
 
@@ -169,7 +169,7 @@ if (jQuery('#00N2400000C9KO3').length == 1 && jQuery('#00N2400000C9KON').length 
 
   minutesField.keyup(function(){
 
-	if (isNaN(minutesField.val()) || minutesField.val().length == 0)
+	if (isNaN(minutesField.val()) || minutesField.val().length === 0)
 	{
 	  beginField.val('');
 	  endField.val('');
@@ -226,5 +226,21 @@ if (jQuery('#00N2400000C4buD_ileinner').length == 1 && jQuery('#00N2400000C4buD_
 	  if (jQuery('#' + ticketId + '_RelatedEmailMessageList_link span.count').html() != '[0]')
 		jQuery('#00N2400000C4buD_ileinner').parent('td').first().css('background-color', '#f77');
 	}
+  }, 2000);
+}
+
+if (jQuery('#00N2400000BdetI_ileinner').length == 1)
+{
+  setTimeout(function() {
+
+	if (jQuery('input.btn[name=spent_time]').length != 1)
+	  return;
+
+	if (!jQuery('input.btn[name=spent_time]').attr('id'))
+	  jQuery('input.btn[name=spent_time]').attr('id', 'btnqsdfhdigidshifhxci');
+
+	btnId = jQuery('input.btn[name=spent_time]').attr('id');
+
+	jQuery('#00N2400000BdetI_ileinner').prepend('<a href="javascript: document.getElementById(\'' + btnId + '\').dispatchEvent(window.myClickEvent)" style="height: 50px; width: 50px; overflow: hidden; display: inline-block;"><img src="https://eu5.salesforce.com/img/icon/alarmClock64.png" style="position: relative; top: -7px; left: -7px;" /></a>');
   }, 2000);
 }
