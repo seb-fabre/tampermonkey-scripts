@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       SalesForce enhancements
 // @namespace  https://eu5.salesforce.com/
-// @version    1.6
+// @version    1.6.1
 // @match      https://eu5.salesforce.com/*
 // @exclude      https://eu5.salesforce.com/*.html
 // @require    http://code.jquery.com/jquery-latest.min.js
@@ -15,6 +15,34 @@ unsafeWindow.myDblClickEvent.initEvent('dblclick', true, true);
 
 unsafeWindow.myClickEvent = document.createEvent('MouseEvents');
 unsafeWindow.myClickEvent.initEvent('click', true, true);
+
+var found = 'waitUntilExists.found';
+
+jQuery.fn.waitUntilExists = function(handler, loop) {
+
+  var selector = this.selector;
+  var $this = $(selector);
+  var $elements = $this.not(function() { return $(this).data(found); });
+
+  if (loop === undefined)
+	loop = 50;
+
+  if (handler !== 'remove' && loop > 0)
+  {
+	// Run the handler on all found elements and mark as found
+	$elements.each(handler).data(found, true);
+
+	if (!$this.length)
+	{
+	  // If this is a recurring search or if the target has not yet been found, create an interval to continue searching for the target
+	  window.setTimeout(function () {
+		$this.waitUntilExists(handler, loop-1);
+	  }, 200);
+	}
+  }
+
+  return $this;
+};
 
 // increase case description field size
 var caseDescription = jQuery('.labelCol:contains(Description)');
@@ -218,20 +246,17 @@ if (jQuery('#00N2400000C4buD_ileinner').length == 1 && jQuery('#00N2400000C4buD_
 	  jQuery('#00N2400000C4buD_ileinner').parents('td').first().css('background-color', '#f77');
   }
 
-  setTimeout(function() {
-	ticketId = unsafeWindow.sfdcPage.entityId;
+  ticketId = unsafeWindow.sfdcPage.entityId;
+  jQuery('#' + ticketId + '_RelatedEmailMessageList_link span.count').waitUntilExists(function() {
 
-	if (jQuery('#' + ticketId + '_RelatedEmailMessageList_link span.count').length == 1)
-	{
-	  if (jQuery('#' + ticketId + '_RelatedEmailMessageList_link span.count').html() != '[0]')
-		jQuery('#00N2400000C4buD_ileinner').parent('td').first().css('background-color', '#f77');
-	}
-  }, 2000);
+	if (jQuery('#' + ticketId + '_RelatedEmailMessageList_link span.count').html() != '[0]')
+	  jQuery('#00N2400000C4buD_ileinner').parent('td').first().css('background-color', '#f77');
+  });
 }
 
 if (jQuery('#00N2400000BdetI_ileinner').length == 1)
 {
-  setTimeout(function() {
+  $('input.btn[name=spent_time]').waitUntilExists(function() {
 
 	if (jQuery('input.btn[name=spent_time]').length != 1)
 	  return;
@@ -242,5 +267,5 @@ if (jQuery('#00N2400000BdetI_ileinner').length == 1)
 	btnId = jQuery('input.btn[name=spent_time]').attr('id');
 
 	jQuery('#00N2400000BdetI_ileinner').prepend('<a href="javascript: document.getElementById(\'' + btnId + '\').dispatchEvent(window.myClickEvent)" style="height: 50px; width: 50px; overflow: hidden; display: inline-block;"><img src="https://eu5.salesforce.com/img/icon/alarmClock64.png" style="position: relative; top: -7px; left: -7px;" /></a>');
-  }, 2000);
+  });
 }
