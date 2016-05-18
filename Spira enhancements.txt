@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       Spira enhancements
 // @namespace  http://spira/
-// @version    3.0
+// @version    3.2
 // @description  enter something useful
 // @match      http*://thefactory.crossknowledge.com/*
 // @match 	   http*://thefactory.crossknowledge.com/Popups/FileArtifactUploadDialog.aspx*
@@ -140,8 +140,11 @@ function createButton(dropDownId)
 {
   var referenceNode = document.querySelector("#" + dropDownId);
 
+  if (!referenceNode || referenceNode.length === 0)
+	return;
+
   // Create QA Team and a PHP Team button
-  if (dropDownId == 'cplMainContent_ddlOwner') 
+  if (dropDownId == 'cplMainContent_ddlOwner')
   {
 	var qaButton = document.createElement("button");
 	qaButton.innerHTML = "QA Team";
@@ -149,7 +152,7 @@ function createButton(dropDownId)
 
 	qaButton.onclick = function() {
 	  return buttonOnCLick(dropDownId, "QA Team");
-	}
+	};
 
 	var teamButton = document.createElement("button");
 	var teamButtonLabel = "";
@@ -165,10 +168,10 @@ function createButton(dropDownId)
 
 	teamButton.onclick = function() {
 	  return buttonOnCLick(dropDownId, teamButtonLabel);
-	}
+	};
   }
 
-  // Create Me button    
+  // Create Me button
   var meButton = document.createElement("button");
   meButton.innerHTML = "ME";
   referenceNode.parentNode.insertBefore(meButton, referenceNode.nextSibling);
@@ -184,4 +187,13 @@ createButton('cplMainContent_ddlOpener');
 createButton('cplMainContent_tblFields_Custom_05');
 createButton('cplMainContent_tblFields_Custom_01');
 createButton('cplMainContent_tblFields_Custom_02');
+
+// improve the dimensions of some popups
+jQuery('head').append('<style type="text/css">#cplMainContent_tstArtifactLinkPanel_ajxIncidentsSelector .Body, #cplMainContent_tstArtifactLinkPanel_ajxRequirementsSelector .Body { height: 500px !important; width: 420px !important; }' +
+					  '#cplMainContent_tstArtifactLinkPanel_ajxIncidentsSelector .Header, #cplMainContent_tstArtifactLinkPanel_ajxRequirementsSelector .Header { height: 30px !important; width: 420px !important; }' +
+					  '#cplMainContent_tstArtifactLinkPanel_ajxIncidentsSelector, #cplMainContent_tstArtifactLinkPanel_ajxRequirementsSelector { /* height: 150px;*/ height: 530px !important; width: 400px !important; }' +
+					  '#cplMainContent_tstArtifactLinkPanel_pnlAddAssociation { height: 800px !important; left: 150px !important; top: 10px !important; width: 800px !important; }' +
+					  '#cplMainContent_tstArtifactLinkPanel_pnlAddAssociation .DialogClose { left: 750px !important; }' +
+					  '#cplMainContent_tstArtifactLinkPanel_txtComment { /*display: none !important;*/ }' +
+					  '</style>');
 
