@@ -1,4 +1,4 @@
-// ==UserScript==
+ï»¿// ==UserScript==
 // @name       Spira enhancements
 // @namespace  http://spira/
 // @version    3.2
@@ -109,7 +109,7 @@ if (jQuery('#cplMainContent_pnlOverview_Comments'))
   tdButton.appendChild(button);
   button.setAttribute(
 	"onclick",
-	"var templateCommentaire = '<ul><li> <b>Corrigé</b> </li><li> <b>Problème * :</b> obligatoire</li><li> <b>Solution * :</b> obligatoire</li><li> <b>Tests * :</b> obligatoire</li><li> <b>Impacts potentiels :</b> Ø</li><li> <b>@QA (Non Reg.) :</b> Ø</li><li> <b>@Support :</b> Ø</li><li> <b>Origine :</b> Ø</li></ul>';    document.querySelector('#cplMainContent_pnlOverview_Comments .rteDiv').innerHTML = templateCommentaire;return false;");
+	"var templateCommentaire = '<ul><li> <b>Fixed</b> </li><li> <b>Problem * :</b> mandatory</li><li> <b>Solution * :</b> mandatory</li><li> <b>Tests * :</b> mandatory</li><li> <b>Possible impacts:</b> </li><li> <b>@QA (Non Reg.) :</b> </li><li> <b>@Support :</b> </li><li> <b>Origine :</b> </li></ul>';    document.querySelector('#cplMainContent_pnlOverview_Comments .rteDiv').innerHTML = templateCommentaire;return false;");
   jQuery("#cplMainContent_pnlOverview_Comments .rteBack tr").append(tdButton);
 
   var maxHeight = Math.max.apply(null, jQuery("#cplMainContent_pnlOverview_Comments .prefill").map(function() {
