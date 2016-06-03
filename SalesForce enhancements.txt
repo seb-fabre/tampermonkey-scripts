@@ -269,3 +269,18 @@ if (jQuery('#00N2400000BdetI_ileinner').length == 1)
 	jQuery('#00N2400000BdetI_ileinner').prepend('<a href="javascript: document.getElementById(\'' + btnId + '\').dispatchEvent(window.myClickEvent)" style="height: 50px; width: 50px; overflow: hidden; display: inline-block;"><img src="https://eu5.salesforce.com/img/icon/alarmClock64.png" style="position: relative; top: -7px; left: -7px;" /></a>');
   });
 }
+
+// Allow to move to the previous/next email with the arrow keys
+if (jQuery('h2:contains(Email Message Detail)').length == 1)
+{
+  jQuery(document).keyup(function (e) {
+	if (e.keyCode == 37 && jQuery('td.pbLinks a:contains(Previous)').length == 1)
+	{
+	  location.href = jQuery('td.pbLinks a:contains(Previous)').attr('href');
+	}
+	else if (e.keyCode == 39 && jQuery('td.pbLinks a:contains(Next)').length == 1)
+	{
+	  location.href = jQuery('td.pbLinks a:contains(Next)').attr('href');
+	}
+  });
+}
