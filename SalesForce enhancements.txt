@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       SalesForce enhancements
 // @namespace  https://eu5.salesforce.com/
-// @version    1.6.1
+// @version    1.7
 // @match      https://eu5.salesforce.com/*
 // @exclude      https://eu5.salesforce.com/*.html
 // @require    http://code.jquery.com/jquery-latest.min.js
