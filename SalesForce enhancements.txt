@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       SalesForce enhancements
 // @namespace  https://eu5.salesforce.com/
-// @version    1.7
+// @version    1.7.1
 // @match      https://eu5.salesforce.com/*
 // @exclude      https://eu5.salesforce.com/*.html
 // @require    http://code.jquery.com/jquery-latest.min.js
@@ -101,7 +101,9 @@ if (jQuery('#00N24000005Z7V6_ileinner').length == 1 && jQuery('#00N24000005Z7V6_
 // Recreate "Highlights panel" if it's not there in the current page layout
 if (jQuery('.efhpHighlightPanel').length === 0 && jQuery('.ptBody').length == 1 && jQuery('#cas14_ileinner').length == 1)
 {
-  jQuery("head").append('<link href="https://eu5.salesforce.com/sCSS/36.0/sprites/1454359520000/Theme3/default/gc/EntityFeedPage.css" rel="stylesheet" type="text/css">');
+  var csslink = jQuery('link[href*="extended.css"]').attr('href');
+  
+  jQuery("head").append('<link href="' + csslink.replace('extended.css', 'EntityFeedPage.css') + '" rel="stylesheet" type="text/css">');
 
   var ptBody = jQuery('.ptBody');
   var highlights = '<div class="efhpHighlightPanel efhpPageStyle efhpResizable"><div class="efhpContainer"><table class="efhpBody" cellspacing="0" cellpadding="0"><tbody>'
