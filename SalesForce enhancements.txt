@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       SalesForce enhancements
 // @namespace  https://eu5.salesforce.com/
-// @version    1.7.1
+// @version    1.8
 // @match      https://eu5.salesforce.com/*
 // @exclude      https://eu5.salesforce.com/*.html
 // @require    http://code.jquery.com/jquery-latest.min.js
@@ -285,4 +285,22 @@ if (jQuery('h2:contains(Email Message Detail)').length == 1)
 	  location.href = jQuery('td.pbLinks a:contains(Next)').attr('href');
 	}
   });
+}
+
+// URL and EAC
+if (jQuery('#00N2400000C9cPv_ileinner a').length == 1)
+{
+  var url = jQuery('#00N2400000C9cPv_ileinner a').attr('href');
+
+  var realUrl = url.match(/https?\:\/\/([^\/]+).*/);
+  if (realUrl && realUrl[1].indexOf('mohive') === -1)
+  {
+	jQuery('#00N2400000C9cPv_ileinner a').after('<a href="https://eac.lms.crossknowledge.com/data/modules/eac/admin/eac_instance_list.php?url=' + realUrl[1] + '" style="float:right" target="_blank" title="Search this URL in the EAC"><img src="https://c.eu5.content.force.com/sfc/servlet.shepherd/version/renditionDownload?rendition=THUMB720BY480&versionId=06824000000vEFa&operationContext=CHATTER&contentId=05T24000003Dmil" width=14 height=14 /></a>');
+  }
+}
+
+// Account and EAC
+if (jQuery('#cas4_ileinner a').length == 1 && jQuery('#cas4_ileinner a').html() !== '' && jQuery('#cas4_ileinner a').html() != 'CrossKnowledge')
+{
+  jQuery('#cas4_ileinner a').after('<a href="https://eac.lms.crossknowledge.com/data/modules/eac/admin/eac_instance_list.php?name=' + jQuery('#cas4_ileinner a').html() + '" style="float:right" target="_blank" title="Search this account in the EAC"><img src="https://c.eu5.content.force.com/sfc/servlet.shepherd/version/renditionDownload?rendition=THUMB720BY480&versionId=06824000000vEFa&operationContext=CHATTER&contentId=05T24000003Dmil" width=14 height=14 /></a>');
 }
