@@ -1,10 +1,11 @@
 // ==UserScript==
 // @name       SalesForce enhancements
 // @namespace  https://eu5.salesforce.com/
-// @version    1.8.1
+// @version    1.8.5
 // @match      https://eu5.salesforce.com/*
 // @exclude      https://eu5.salesforce.com/*.html
 // @require    http://code.jquery.com/jquery-latest.min.js
+// @require    https://raw.githubusercontent.com/js-cookie/js-cookie/v2.1.2/src/js.cookie.js
 // @copyright  2015+, You
 // @updateURL https://raw.githubusercontent.com/sebastien-fabre/tampermonkey-scripts/master/SalesForce%20enhancements.txt
 // @downloadURL https://raw.githubusercontent.com/sebastien-fabre/tampermonkey-scripts/master/SalesForce%20enhancements.txt
@@ -63,12 +64,6 @@ if (caseDescription && caseDescription.length == 1)
   caseDescription.next().next().remove();
 
   caseDescription.next().attr('colspan', 3);
-}
-
-// auto-select support@ck.com in new reply form
-if (jQuery('#p26').length == 1)
-{
-  jQuery('#p26').val('support@crossknowledge.com:support@crossknowledge.com');
 }
 
 // transform "spira" field to HTML link
@@ -303,4 +298,46 @@ if (jQuery('#00N2400000C9cPv_ileinner a').length == 1)
 if (jQuery('#cas4_ileinner a').length == 1 && jQuery('#cas4_ileinner a').html() !== '' && jQuery('#cas4_ileinner a').html() != 'CrossKnowledge')
 {
   jQuery('#cas4_ileinner a').after('<a href="https://eac.lms.crossknowledge.com/data/modules/eac/admin/eac_instance_list.php?name=' + jQuery('#cas4_ileinner a').html() + '" style="float:right" target="_blank" title="Search this account in the EAC"><img src="https://c.eu5.content.force.com/sfc/servlet.shepherd/version/renditionDownload?rendition=THUMB720BY480&versionId=06824000000vMqA&operationContext=CHATTER&contentId=05T24000003E4Na" width=24 height=24 /></a>');
+}
+
+if (jQuery('#cas2_ileinner').length == 1)
+{
+  var cn = jQuery('#cas2_ileinner').contents()[0].data.trim();
+  var caseType = jQuery('#cas5_ileinner').contents()[0].data.trim();
+  var cat = jQuery('#00N2400000CNjHF_ileinner').contents()[0].data.trim();
+  var c = Cookies.getJSON('cases');
+
+  if (caseType == 'Technical Support' && cat == 'Mohive')
+	caseType = 'Mohive';
+
+  if (caseType == 'Technical Support' && cat == 'Moodle')
+	caseType = 'Moodle';
+
+  if (!c || typeof c != 'object' || Object.keys(c).length > 20)
+	c = {};
+
+  c[cn] = caseType;
+
+  Cookies.set('cases', c);
+}
+
+// auto-select support@ck.com in new reply form
+if (jQuery('#p26').length == 1)
+{
+  var c = Cookies.getJSON('cases');
+  var cn = jQuery('#p3').val();
+  if (!c[cn] || c[cn] == 'Technical Support')
+	jQuery('#p26').val('support@crossknowledge.com:support@crossknowledge.com');
+  else if (c[cn] == 'IT Exploitation')
+	jQuery('#p26').val('itexploitation@crossknowledge.com:itexploitation@crossknowledge.com');
+  else if (c[cn] == 'Webdesign')
+	jQuery('#p26').val('webdesignrequest@crossknowledge.com:webdesignrequest@crossknowledge.com');
+  else if (c[cn] == 'Hotline')
+	jQuery('#p26').val('hotline@crossknowledge.com:hotline@crossknowledge.com');
+  else if (c[cn] == 'Mohive')
+	jQuery('#p26').val('support@mohive.com:support@mohive.com');
+  else if (c[cn] == 'Moodle')
+	jQuery('#p26').val('suporte@crossknowledge.com:suporte@crossknowledge.com');
+  else
+	jQuery('#p26').val('support@crossknowledge.com:support@crossknowledge.com');
 }
