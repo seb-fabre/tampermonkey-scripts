@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       SalesForce enhancements
 // @namespace  https://eu5.salesforce.com/
-// @version    1.8.5
+// @version    1.8.6
 // @match      https://eu5.salesforce.com/*
 // @exclude      https://eu5.salesforce.com/*.html
 // @require    http://code.jquery.com/jquery-latest.min.js
@@ -325,7 +325,12 @@ if (jQuery('#cas2_ileinner').length == 1)
 if (jQuery('#p26').length == 1)
 {
   var c = Cookies.getJSON('cases');
-  var cn = jQuery('#p3').val();
+
+  if (jQuery('#p3').length == 1)
+	var cn = jQuery('#p3').val();
+  else
+	var cn = jQuery('.labelCol:contains(Case)').next().html();
+
   if (!c[cn] || c[cn] == 'Technical Support')
 	jQuery('#p26').val('support@crossknowledge.com:support@crossknowledge.com');
   else if (c[cn] == 'IT Exploitation')
