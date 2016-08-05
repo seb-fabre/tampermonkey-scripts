@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       SalesForce enhancements
 // @namespace  https://eu5.salesforce.com/
-// @version    1.8.6
+// @version    1.8.7
 // @match      https://eu5.salesforce.com/*
 // @exclude      https://eu5.salesforce.com/*.html
 // @require    http://code.jquery.com/jquery-latest.min.js
@@ -139,15 +139,6 @@ if (jQuery('.efhpHighlightPanel').length === 0 && jQuery('.ptBody').length == 1 
 if (jQuery('label:contains(Send Notification Email)').length == 1 && jQuery('#sendMail').length == 1)
 {
   jQuery('#sendMail').prop("checked", true);
-}
-
-// Add button to "quickly" close a case
-if (jQuery('#topButtonRow input.btn[name=send_survey_simple]').length == 1)
-{
-  var closeOnclick = "document.getElementById('cas7_ilecell').dispatchEvent(myDblClickEvent); setTimeout(function(){document.getElementById('cas7').value = 'Closed'; sfdcPage.save();}, 500);";
-  var closeHtml = ' <input value="Close case" class="btn" name="close_case" title="Close case" type="button" onclick="' + closeOnclick + '">';
-
-  jQuery('input.btn[name=send_survey_simple]').after(closeHtml);
 }
 
 // Enhance attachment action
