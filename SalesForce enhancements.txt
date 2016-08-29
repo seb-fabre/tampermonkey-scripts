@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       SalesForce enhancements
 // @namespace  https://eu5.salesforce.com/
-// @version    1.8.7
+// @version    1.8.8
 // @match      https://eu5.salesforce.com/*
 // @exclude      https://eu5.salesforce.com/*.html
 // @require    http://code.jquery.com/jquery-latest.min.js
@@ -242,20 +242,14 @@ if (jQuery('#00N2400000C4buD_ileinner').length == 1 && jQuery('#00N2400000C4buD_
   });
 }
 
+// Add shortcut button to add time spent
 if (jQuery('#00N2400000BdetI_ileinner').length == 1)
 {
-  $('input.btn[name=spent_time]').waitUntilExists(function() {
+  caseId = jQuery('#cas2_ileinner').contents()[0].data.trim();
 
-	if (jQuery('input.btn[name=spent_time]').length != 1)
-	  return;
+  url = '/a00/e?CF00N2400000C4bq1=' + caseId + '&CF00N2400000C4bq1_lkid=' + unsafeWindow.sfdcPage.entityId + '&retURL=%2F' + unsafeWindow.sfdcPage.entityId + '&saveURL=%2F' + unsafeWindow.sfdcPage.entityId;
 
-	if (!jQuery('input.btn[name=spent_time]').attr('id'))
-	  jQuery('input.btn[name=spent_time]').attr('id', 'btnqsdfhdigidshifhxci');
-
-	btnId = jQuery('input.btn[name=spent_time]').attr('id');
-
-	jQuery('#00N2400000BdetI_ileinner').prepend('<a href="javascript: document.getElementById(\'' + btnId + '\').dispatchEvent(window.myClickEvent)" style="height: 50px; width: 50px; overflow: hidden; display: inline-block;"><img src="https://eu5.salesforce.com/img/icon/alarmClock64.png" style="position: relative; top: -7px; left: -7px;" /></a>');
-  });
+  jQuery('#00N2400000BdetI_ileinner').prepend('<a href="' + url + '" style="height: 50px; width: 50px; overflow: hidden; display: inline-block;"><img src="https://eu5.salesforce.com/img/icon/alarmClock64.png" style="position: relative; top: -7px; left: -7px;" /></a>');
 }
 
 // Allow to move to the previous/next email with the arrow keys
