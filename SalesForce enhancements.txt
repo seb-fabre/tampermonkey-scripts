@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       SalesForce enhancements
 // @namespace  https://eu5.salesforce.com/
-// @version    1.8.8
+// @version    1.9
 // @match      https://eu5.salesforce.com/*
 // @exclude      https://eu5.salesforce.com/*.html
 // @require    http://code.jquery.com/jquery-latest.min.js
@@ -16,6 +16,8 @@ unsafeWindow.myDblClickEvent.initEvent('dblclick', true, true);
 
 unsafeWindow.myClickEvent = document.createEvent('MouseEvents');
 unsafeWindow.myClickEvent.initEvent('click', true, true);
+
+unsafeWindow.jQuery = jQuery;
 
 var found = 'waitUntilExists.found';
 
@@ -330,4 +332,51 @@ if (jQuery('#p26').length == 1)
 	jQuery('#p26').val('suporte@crossknowledge.com:suporte@crossknowledge.com');
   else
 	jQuery('#p26').val('support@crossknowledge.com:support@crossknowledge.com');
+}
+
+// add button "delete all" for spam replies in cases
+if (location.href.indexOf('https://eu5.salesforce.com/ui/email/EmailMessageListPage?id=') === 0)
+{
+  function deleteFakeReplies()
+  {
+	highlightFakeReplies();
+	if (confirm('Are you sure you want to delete all the highlighted replies?'))
+	{
+	  deleteNextReply();
+	}
+  }
+  
+  function deleteNextReply()
+  {
+	var items = jQuery('a:contains(New case email notification. Case number )');
+	
+	if (items.length === 0)
+	{
+	  location.reload();
+	  return;
+	}
+
+	jQuery.ajax(jQuery(items[0]).parent().parent().find('.actionColumn a:contains(Del)').attr('href'), {
+	  complete: function() { 
+		jQuery(items[0]).parent().parent().remove();
+		deleteNextReply();
+	  }
+	});
+  }
+
+  function highlightFakeReplies()
+  {
+	jQuery('a:contains(New case email notification. Case number )').parent().css({backgroundColor:'lime'});
+  }
+
+  unsafeWindow.highlightFakeReplies = highlightFakeReplies;
+  unsafeWindow.deleteFakeReplies = deleteFakeReplies;
+  unsafeWindow.deleteNextReply = deleteNextReply;
+
+  if (jQuery('a:contains(New case email notification. Case number )').length > 0)
+  {
+	jQuery('.bPageTitle').after('<div id="buttons" style="text-align: right;"></div>');
+	jQuery('#buttons').append('<button onclick="highlightFakeReplies()" style="font-size: 1.5em">Highlight spam replies</button>');
+	jQuery('#buttons').append('<button onclick="deleteFakeReplies()" style="font-size: 1.5em;">Delete spam replies</button>');
+  }
 }
