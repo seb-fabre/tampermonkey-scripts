@@ -1,0 +1,50 @@
+// ==UserScript==
+// @name         Skip image uploaders
+// @namespace    http://img.yt/
+// @version      0.6
+// @author       You
+// @match        http://img.yt/*
+// @match        http://imgclick.net/*
+// @match        http://imgtornado.com/*
+// @match        http://imgspice.com/*
+// @match        http://imgcandy.net/*
+// @match        http://imgfiles.org/*
+// @grant        none
+// @require    http://code.jquery.com/jquery-latest.min.js
+// ==/UserScript==
+
+// img.yt
+// imgtornado.com
+if (jQuery('input[name=imgContinue]').length == 1)
+{
+  jQuery('input[name=imgContinue]').trigger('click');
+}
+
+// imgclick.net
+if (jQuery('#ddshow input[name=next]').length == 1)
+{
+  jQuery('#ddshow input[name=next]').trigger('click');
+}
+else if (jQuery('#bbb').length == 1)
+{
+  show_hide_im();
+}
+
+// imgspice.com
+if (jQuery('#widehead').length == 1)
+{
+  viewholder.closeit();
+}
+
+// imgcandy
+if (jQuery('#continuetoimage input[type=submit]').length == 1)
+{
+  jQuery('#continuetoimage input[type=submit]').trigger('click');
+}
+
+// imgfiles.org
+if (jQuery('#downloadbtn').length == 1)
+{
+  document.F1.submit();
+}
+
