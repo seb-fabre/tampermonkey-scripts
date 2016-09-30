@@ -1,17 +1,121 @@
 ﻿// ==UserScript==
 // @name       Spira enhancements
 // @namespace  http://spira/
-// @version    3.2
+// @version    4.0
 // @description  enter something useful
 // @match      http*://thefactory.crossknowledge.com/*
 // @match 	   http*://thefactory.crossknowledge.com/Popups/FileArtifactUploadDialog.aspx*
 // @exclude    http://thefactory.crossknowledge.com/*/Incident/List.aspx*
 // @copyright  2015+, You
 // @require http://code.jquery.com/jquery-latest.js
+// @require https://code.jquery.com/ui/1.12.1/jquery-ui.js
+// @require    https://raw.githubusercontent.com/js-cookie/js-cookie/v2.1.2/src/js.cookie.js
 // ==/UserScript==
 
+// Allow user to change the order of the fields in Spira's form
+function redoClearBlocks(updateCookie)
+{
+  $('#cplMainContent_pnlOverview_Details .clearfix.visible-lg-block').remove();
+
+  var divs = $("#cplMainContent_pnlOverview_Details .form-group");
+
+  for (i=2; i<divs.length; i+=3)
+	$(divs[i]).after($('<div class="clearfix visible-lg-block"></div>'));
+
+  var hash = '';
+  $("#cplMainContent_pnlOverview_Details .form-group .DataLabel label, #cplMainContent_pnlOverview_Details .form-group .DataLabel span").each(function (i) {
+	hash += $(this).attr('id') + ',';
+  });
+
+  if (updateCookie)
+  {
+    var c = Cookies.getJSON('form-hash');
+    if (!c)
+      c = {};
+
+    c[SpiraContext.ProjectId] = hash;
+    Cookies.set('form-hash', c);
+  }
+}
+
+function resetCookie(e)
+{
+  e.stopPropagation();
+  var c = Cookies.getJSON('form-hash');
+  if (!c)
+    return;
+
+  c[SpiraContext.ProjectId] = undefined;
+  Cookies.set('form-hash', c);
+  location.reload();
+}
+unsafeWindow.resetCookie = resetCookie;
+
+if ($("#cplMainContent_pnlOverview_Details").length == 1)
+{
+  $('.visible-sm-block').remove();
+
+  var c = Cookies.getJSON('form-hash');
+  if (c && c[SpiraContext.ProjectId])
+  {
+	ids = c[SpiraContext.ProjectId].split(',');
+	for (i = ids.length; i>=0; i--)
+	{
+	  if ($('#' + ids[i]).length === 0)
+		continue;
+
+	  $("#cplMainContent_pnlOverview_Details").prepend($('#' + ids[i]).closest('.form-group'));
+	}
+
+	redoClearBlocks(false);
+  }
+
+  $("#cplMainContent_pnlOverview_Details").sortable({
+	items: '.form-group',
+	handle: '.DataLabel',
+	update: function(event, ui) {
+	  redoClearBlocks(true);
+	}
+  });
+
+  $("#cplMainContent_pnlOverview_Details").disableSelection();
+  
+  $('#cplMainContent_pnlOverview_Details_Header').append('<img src="/App_Themes/InflectraTheme/Images/Filetypes/Application.png" title="Reset form" id="imgSaveResetStuffCookie" style="cursor: pointer;" />');
+  $('#imgSaveResetStuffCookie').click(resetCookie);
+}
+
+
+// Visual enhancements
 $(".rteDiv").css("resize", "both");
 $(".rteDiv").parent().parent().css("height", "auto");
+
+var found = 'waitUntilExists.found';
+
+jQuery.fn.waitUntilExists = function(handler, loop) {
+
+  var selector = this.selector;
+  var $this = $(selector);
+  var $elements = $this.not(function() { return $(this).data(found); });
+
+  if (loop === undefined)
+	loop = 50;
+
+  if (handler !== 'remove' && loop > 0)
+  {
+	// Run the handler on all found elements and mark as found
+	$elements.each(handler).data(found, true);
+
+	if (!$this.length)
+	{
+	  // If this is a recurring search or if the target has not yet been found, create an interval to continue searching for the target
+	  window.setTimeout(function () {
+		$this.waitUntilExists(handler, loop-1);
+	  }, 200);
+	}
+  }
+
+  return $this;
+};
 
 if ($('#cplMainContent_radUrl'))
 {
@@ -56,18 +160,19 @@ if ($('#cplMainContent_radUrl'))
 }
 
 // Add "pre-fill" button on incident's description field
-if (jQuery('#cplMainContent_pnlOverview_Description'))
-{
-  var tdButton = document.createElement("td");
+jQuery('#cplMainContent_pnlOverview_Description .cke_toolbox').waitUntilExists(function () {
+  console.log("found the container");
+  var tdButton = document.createElement("span");
   var button = document.createElement("button");
-  button.innerHTML = 'Pre-fill for opening';
+  button.innerHTML = 'Pre-fill<br/>for opening';
   button.className = 'prefill';
+  button.style.textAlign = 'center';
   tdButton.appendChild(button);
   button.setAttribute(
 	"onclick",
 	"var templateCommentaire = '<ul><li> <b>Incident :</b> <i> Mandatory details...</i> </li><li> <b>Context :</b> <i> Mandatory details (Phase, release etc...)</i> </li><li> <b>Revision/build :</b> <i> Mandatory</i> </li><li> <b>URL :</b> <i> Mandatory</i> </li><li> <b>Scenario (Screen Capture) :</b> <i> Attachement link mandatory </i></li><li> <b>Scenario (Video Capture) :</b> <i> Attachement link optional</i></li><li> <b>Comments :</b> <i>Details mandatory...</i></li></ul>'; document.querySelector('#cplMainContent_pnlOverview_Description .rteDiv').innerHTML = templateCommentaire;return false;");
-  jQuery("#cplMainContent_pnlOverview_Description .rteBack tr").append(tdButton);
-}
+  jQuery("#cplMainContent_pnlOverview_Description .cke_toolbox").append(tdButton);
+});
 
 // Add "pre-fill" button on incident's comment field
 if (jQuery('#cplMainContent_pnlOverview_Comments'))
@@ -109,7 +214,7 @@ if (jQuery('#cplMainContent_pnlOverview_Comments'))
   tdButton.appendChild(button);
   button.setAttribute(
 	"onclick",
-	"var templateCommentaire = '<ul><li> <b>Fixed</b> </li><li> <b>Problem * :</b> mandatory</li><li> <b>Solution * :</b> mandatory</li><li> <b>Tests * :</b> mandatory</li><li> <b>Possible impacts:</b> </li><li> <b>@QA (Non Reg.) :</b> </li><li> <b>@Support :</b> </li><li> <b>Origine :</b> </li></ul>';    document.querySelector('#cplMainContent_pnlOverview_Comments .rteDiv').innerHTML = templateCommentaire;return false;");
+	"var templateCommentaire = '<ul><li> <b>Corrig�</b> </li><li> <b>Probl�me * :</b> obligatoire</li><li> <b>Solution * :</b> obligatoire</li><li> <b>Tests * :</b> obligatoire</li><li> <b>Impacts potentiels :</b> �</li><li> <b>@QA (Non Reg.) :</b> �</li><li> <b>@Support :</b> �</li><li> <b>Origine :</b> �</li></ul>';    document.querySelector('#cplMainContent_pnlOverview_Comments .rteDiv').innerHTML = templateCommentaire;return false;");
   jQuery("#cplMainContent_pnlOverview_Comments .rteBack tr").append(tdButton);
 
   var maxHeight = Math.max.apply(null, jQuery("#cplMainContent_pnlOverview_Comments .prefill").map(function() {
@@ -177,7 +282,7 @@ function createButton(dropDownId)
   referenceNode.parentNode.insertBefore(meButton, referenceNode.nextSibling);
 
   meButton.onclick = function() {
-	var myName = document.querySelector("#tstGlobalNavigation_mnuUserOptions span").innerHTML;
+	var myName = document.querySelector("#tstGlobalNavigation_lblUserFullName").innerHTML;
 	return buttonOnCLick(dropDownId, myName);
   };
 }
