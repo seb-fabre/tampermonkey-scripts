@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       SalesForce enhancements
 // @namespace  https://eu5.salesforce.com/
-// @version    1.9
+// @version    1.10
 // @match      https://eu5.salesforce.com/*
 // @exclude      https://eu5.salesforce.com/*.html
 // @require    http://code.jquery.com/jquery-latest.min.js
@@ -156,11 +156,21 @@ setTimeout(function () {
 }, 2000);
 
 // Always display the HTML version of the email directly
-if (jQuery('#htmlCode').length == 1)
+if (jQuery('#HtmlBody_ileinner').length == 1)
 {
-  var htmlBody = unescapeHTML(jQuery('#htmlCode').html());
+  ss = jQuery('#HtmlBody_ileinner script').html();
+  htmlBody = ss.match(/var docContents = '(.*)';d=w.document.*./)[1];
+  htmlBody = unescape(htmlBody);
 
-  jQuery('#htmlCode').parent().html(htmlBody);
+  var r = /\\u([\d\w]{4})/gi;
+  x = htmlBody.replace(r, function (match, grp) {
+	return String.fromCharCode(parseInt(grp, 16)); } );
+  x = unescape(x);
+  x = x.replace(/\\"/g, '"');
+  x = x.replace(/\\n/g, '<br/>');
+  x = x.replace(/\\/g, '');
+
+  jQuery('#HtmlBody_ileinner').parent().html(x);
 
   jQuery('.labelCol:contains(Text Body)').parent().hide();
 }
