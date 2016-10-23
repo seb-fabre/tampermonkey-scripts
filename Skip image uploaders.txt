@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Skip image uploaders
 // @namespace    http://img.yt/
-// @version      0.6
+// @version      0.8
 // @author       You
 // @match        http://img.yt/*
 // @match        http://imgclick.net/*
@@ -9,6 +9,8 @@
 // @match        http://imgspice.com/*
 // @match        http://imgcandy.net/*
 // @match        http://imgfiles.org/*
+// @match        http://linkshrink.net/*
+// @match        http://adf.ly/*
 // @grant        none
 // @require    http://code.jquery.com/jquery-latest.min.js
 // ==/UserScript==
@@ -48,3 +50,17 @@ if (jQuery('#downloadbtn').length == 1)
   document.F1.submit();
 }
 
+// linkshrink.net
+if (jQuery('#skip a').length == 1)
+{
+  location.href = jQuery('#skip a').attr('href');
+}
+
+// adf.ly
+if (jQuery('#skip_ad_button').length == 1)
+{
+  setTimeout(function () {
+	$( window ).unload(function() { });
+    location.href = jQuery('#skip_ad_button').parent().attr('href');
+  }, 10000);
+}
