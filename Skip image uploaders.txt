@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Skip image uploaders
 // @namespace    http://img.yt/
-// @version      0.8
+// @version      0.9
 // @author       You
 // @match        http://img.yt/*
 // @match        http://imgclick.net/*
@@ -11,6 +11,8 @@
 // @match        http://imgfiles.org/*
 // @match        http://linkshrink.net/*
 // @match        http://adf.ly/*
+// @match        http://ouo.io/*
+// @match        http://ouo.press/*
 // @grant        none
 // @require    http://code.jquery.com/jquery-latest.min.js
 // ==/UserScript==
@@ -63,4 +65,10 @@ if (jQuery('#skip_ad_button').length == 1)
 	$( window ).unload(function() { });
     location.href = jQuery('#skip_ad_button').parent().attr('href');
   }, 10000);
+}
+
+// ouo.io, ouo.press
+if (jQuery('#btn-main').length == 1 && jQuery('#btn-main').attr('href'))
+{
+  location.href = jQuery('#btn-main').attr('href');
 }
