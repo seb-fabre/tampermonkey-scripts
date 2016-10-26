@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       SalesForce enhancements
 // @namespace  https://eu5.salesforce.com/
-// @version    1.11
+// @version    1.12
 // @match      https://eu5.salesforce.com/*
 // @exclude      https://eu5.salesforce.com/*.html
 // @require    http://code.jquery.com/jquery-latest.min.js
@@ -101,16 +101,7 @@ if (jQuery('.efhpHighlightPanel').length === 0 && jQuery('.ptBody').length == 1 
   var csslink = jQuery('link[href*="extended.css"]').attr('href');
   
   jQuery("head").append('<link href="' + csslink.replace('extended.css', 'EntityFeedPage.css') + '" rel="stylesheet" type="text/css">');
-  
-  var followHtml = '<div class="zen" style="display: inline-block;"><div class="zen-pts" data-chatter-widget="subscribeBtn" data-sfdc-entity-id="5002400000lsG9O" data-sfdc-network-id="000000000000000" onclick="SfdcApp.Chatter.SubscribeButton.onClick(event);">' +
-      '<span class="zen-media zen-mediaExt" data-chatter-subscribe="1"><a href="javascript:void(0);" class="zen-img zen-mrs">' +
-      '<img src="/s.gif" alt="Follow this case to receive updates in your feed." width="1" height="1" class="chatter-followIcon chatter-icon" title="Follow this case to receive updates in your feed."></a>' +
-      '<span class="zen-mediaBody"><a href="javascript:void(0);" title="Follow this case to receive updates in your feed.">Follow</a></span></span>' +
-      '<span class="zen-media zen-mediaExt" onblur="SfdcApp.Chatter.SubscribeButton.onHover(event, false)" onfocus="SfdcApp.Chatter.SubscribeButton.onHover(event, true)" onmouseout="SfdcApp.Chatter.SubscribeButton.onHover(event, false)" onmouseover="SfdcApp.Chatter.SubscribeButton.onHover(event, true)" style="display:none">' +
-      '<img src="/s.gif" alt="Stop following this case to stop receiving updates in your feed." width="1" height="1" class="zen-mrs zen-img chatter-checkedIcon chatter-icon" title="Stop following this case to stop receiving updates in your feed.">' +
-      '<span class="zen-mediaBody">Following<a href="javascript:void(0);" class="zen-imgExt zen-mls" data-chatter-subscribe="0" title="Stop following this case to stop receiving updates in your feed.">' +
-      '<img src="/s.gif" alt="Stop following this case to stop receiving updates in your feed." width="1" height="1" class="chatter-icon chatter-unfollowIcon" title="Stop following this case to stop receiving updates in your feed."></a></span></span></div></div>';
-
+ 
   var ptBody = jQuery('.ptBody');
   var highlights = '<div class="efhpHighlightPanel efhpPageStyle efhpResizable"><div class="efhpContainer"><table class="efhpBody" cellspacing="0" cellpadding="0"><tbody>' +
   '<tr><td class="efhpLeftContent " style="width: 200px;"><div class="efhpRow"><div class="efhpLabel" title="Customer">Customer</div></div><div class=" efhpRow">' +
@@ -119,7 +110,6 @@ if (jQuery('.efhpHighlightPanel').length === 0 && jQuery('.ptBody').length == 1 
   '<div class="efhpDragHandleDisplay"></div></div></td><td class="efhpCenterContent " style="width: auto;"><div class="efhpCenterContentBody" style="min-height: auto;"><div class="efhpCenterTopRow">' +
   '<span class="efhpIcon" style="background: transparent url(/img/icon/cases16.png) 0 0 no-repeat;"><img title="" alt="" src="/s.gif"></span><span class="efhpCenterLabel">Case Number</span>' +
   '<span class="efhpCenterValue">%%NUMBER%%</span><span class="efhpSeparator"> </span><span class="efhpCenterLabel">Created Date</span><span class="efhpCenterValue  ">%%DATE%%</span><span class="efhpSeparator"> </span>' +
-  followHtml +
   '</div><div class="efhpTitle">%%SUBJECT%%</div></div></td>' +
   '<td class="efhpContainerSeparator" data-uidsfdc="60"><div class="efhpDragHandle" title="Double-click a divider to return the column to its original size."><div class="efhpDragHandleDisplay">' +
   '</div></div></td><td class="efhpRightContent " style="width: 300px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class=" efhpLargeRow"><div title="Status" class="efhpFieldLabel">Status</div>' +
