@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Skip image uploaders
 // @namespace    http://img.yt/
-// @version      0.9
+// @version      0.10
 // @author       You
 // @match        http://img.yt/*
 // @match        http://imgclick.net/*
@@ -13,6 +13,7 @@
 // @match        http://adf.ly/*
 // @match        http://ouo.io/*
 // @match        http://ouo.press/*
+// @match        http://www.imagetwice.site/*
 // @grant        none
 // @require    http://code.jquery.com/jquery-latest.min.js
 // ==/UserScript==
@@ -71,4 +72,11 @@ if (jQuery('#skip_ad_button').length == 1)
 if (jQuery('#btn-main').length == 1 && jQuery('#btn-main').attr('href'))
 {
   location.href = jQuery('#btn-main').attr('href');
+}
+
+// imagetwice.site
+if (jQuery('#divIdBtnClick').length == 1)
+{
+  autometicCall();
+  autometicCall(); // yes, twice
 }
