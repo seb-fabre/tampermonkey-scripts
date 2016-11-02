@@ -1,7 +1,7 @@
 ﻿// ==UserScript==
 // @name       Spira enhancements
 // @namespace  http://spira/
-// @version    4.0
+// @version    4.1
 // @description  enter something useful
 // @match      http*://thefactory.crossknowledge.com/*
 // @match 	   http*://thefactory.crossknowledge.com/Popups/FileArtifactUploadDialog.aspx*
@@ -130,7 +130,7 @@ if ($('#cplMainContent_radUrl'))
 	  document.getElementById('cplMainContent_ddlDocType').dispatchEvent(myClickEvent);
 	  document.getElementById('cplMainContent_ddlDocFolder').dispatchEvent(myClickEvent);
 
-	  jQuery('#cplMainContent_ddlDocType_list div:contains(Ticket)').attr('id', 'titicket');
+	  jQuery('#cplMainContent_ddlDocType_list div[title=Ticket]').attr('id', 'titicket');
 	  jQuery('#cplMainContent_ddlDocFolder div[title=Internal]').attr('id', 'tintinternal');
 	  jQuery('#cplMainContent_ddlDocType_list div:contains(URL)').attr('id', 'uhurl');
 
