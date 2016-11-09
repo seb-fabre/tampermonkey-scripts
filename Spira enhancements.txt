@@ -1,11 +1,13 @@
 ﻿// ==UserScript==
 // @name       Spira enhancements
 // @namespace  http://spira/
-// @version    4.1
+// @version    4.1.1
 // @description  enter something useful
 // @match      http*://thefactory.crossknowledge.com/*
 // @match 	   http*://thefactory.crossknowledge.com/Popups/FileArtifactUploadDialog.aspx*
 // @exclude    http://thefactory.crossknowledge.com/*/Incident/List.aspx*
+// @updateURL https://raw.githubusercontent.com/sebastien-fabre/tampermonkey-scripts/master/Spira%20enhancements.txt
+// @downloadURL https://raw.githubusercontent.com/sebastien-fabre/tampermonkey-scripts/master/Spira%20enhancements.txt
 // @copyright  2015+, You
 // @require http://code.jquery.com/jquery-latest.js
 // @require https://code.jquery.com/ui/1.12.1/jquery-ui.js
