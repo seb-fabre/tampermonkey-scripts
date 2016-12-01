@@ -1,7 +1,7 @@
 ﻿// ==UserScript==
 // @name       Spira enhancements
 // @namespace  http://spira/
-// @version    4.1.1
+// @version    4.2
 // @description  enter something useful
 // @match      http*://thefactory.crossknowledge.com/*
 // @match 	   http*://thefactory.crossknowledge.com/Popups/FileArtifactUploadDialog.aspx*
@@ -268,7 +268,7 @@ function createButton(dropDownId)
 	  teamButtonLabel = "NET Team";
 	}
 	else{
-	  teamButtonLabel = "PHP Team";
+	  teamButtonLabel = "M Squad";
 	}
 	teamButton.innerHTML = teamButtonLabel;
 	referenceNode.parentNode.insertBefore(teamButton, referenceNode.nextSibling);
