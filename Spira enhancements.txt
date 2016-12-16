@@ -1,7 +1,7 @@
 ﻿// ==UserScript==
 // @name       Spira enhancements
 // @namespace  http://spira/
-// @version    4.2
+// @version    5.0
 // @description  enter something useful
 // @match      http*://thefactory.crossknowledge.com/*
 // @match 	   http*://thefactory.crossknowledge.com/Popups/FileArtifactUploadDialog.aspx*
@@ -53,6 +53,7 @@ function resetCookie(e)
 }
 unsafeWindow.resetCookie = resetCookie;
 
+// Allow to move the main form fields
 if ($("#cplMainContent_pnlOverview_Details").length == 1)
 {
   $('.visible-sm-block').remove();
@@ -81,7 +82,7 @@ if ($("#cplMainContent_pnlOverview_Details").length == 1)
   });
 
   $("#cplMainContent_pnlOverview_Details").disableSelection();
-  
+
   $('#cplMainContent_pnlOverview_Details_Header').append('<img src="/App_Themes/InflectraTheme/Images/Filetypes/Application.png" title="Reset form" id="imgSaveResetStuffCookie" style="cursor: pointer;" />');
   $('#imgSaveResetStuffCookie').click(resetCookie);
 }
@@ -161,72 +162,6 @@ if ($('#cplMainContent_radUrl'))
   jQuery('#cplMainContent_radUrl').attr('onclick', onclick);
 }
 
-// Add "pre-fill" button on incident's description field
-jQuery('#cplMainContent_pnlOverview_Description .cke_toolbox').waitUntilExists(function () {
-  console.log("found the container");
-  var tdButton = document.createElement("span");
-  var button = document.createElement("button");
-  button.innerHTML = 'Pre-fill<br/>for opening';
-  button.className = 'prefill';
-  button.style.textAlign = 'center';
-  tdButton.appendChild(button);
-  button.setAttribute(
-	"onclick",
-	"var templateCommentaire = '<ul><li> <b>Incident :</b> <i> Mandatory details...</i> </li><li> <b>Context :</b> <i> Mandatory details (Phase, release etc...)</i> </li><li> <b>Revision/build :</b> <i> Mandatory</i> </li><li> <b>URL :</b> <i> Mandatory</i> </li><li> <b>Scenario (Screen Capture) :</b> <i> Attachement link mandatory </i></li><li> <b>Scenario (Video Capture) :</b> <i> Attachement link optional</i></li><li> <b>Comments :</b> <i>Details mandatory...</i></li></ul>'; document.querySelector('#cplMainContent_pnlOverview_Description .rteDiv').innerHTML = templateCommentaire;return false;");
-  jQuery("#cplMainContent_pnlOverview_Description .cke_toolbox").append(tdButton);
-});
-
-// Add "pre-fill" button on incident's comment field
-if (jQuery('#cplMainContent_pnlOverview_Comments'))
-{
-  var tdButton = document.createElement("td");
-  var button = document.createElement("button");
-  button.innerHTML = 'Pre-fill for closure OK';
-  button.className = 'prefill';
-  tdButton.appendChild(button);
-  button.setAttribute(
-	"onclick",
-	"var templateCommentaire = '<ul><li><span style=\"background-color: rgb(102, 255, 153);\"><b>Status :</b> <i> Mandatory</i> </li><li><span style=\"background-color: rgb(102, 255, 153);\"><b>Revision or Build :</b> <i> Mandatory</i></span></li><li><span style=\"background-color: rgb(102, 255, 153);\"><b>Context :</b> <i> Mandatory (Phase, Environment, Browser...)</i></span></li><li><span style=\"background-color: rgb(102, 255, 153);\"><b>URL :</b> <i> Mandatory</i></span></li><li><span style=\"background-color: rgb(102, 255, 153);\"><b>Scenario (Screen Capture) :</b> <i> Attachement link optional </i></span></li><li><span style=\"background-color: rgb(102, 255, 153);\"><b>Scenario (Video Capture) :</b> <i> Attachement link optional</i></span></li><li><span style=\"background-color: rgb(102, 255, 153);\"><b>Comments :</b> <i>Details mandatory...</i></span></li></ul>'; document.querySelector('#cplMainContent_pnlOverview_Comments .rteDiv').innerHTML = templateCommentaire;return false;");
-  jQuery("#cplMainContent_pnlOverview_Comments .rteBack tr").append(tdButton);
-
-  var tdButton = document.createElement("td");
-  var button = document.createElement("button");
-  button.innerHTML = 'Pre-fill for closure KO';
-  button.className = 'prefill';
-  tdButton.appendChild(button);
-  button.setAttribute(
-	"onclick",
-	"var templateCommentaire = '<ul><li><span style=\"background-color: #FE2E2E;\"><b>Status :</b> <i> Mandatory</i> </li><li><span style=\"background-color: #FE2E2E;\"><b>Revision or Build :</b> <i> Mandatory</i></span></li><li><span style=\"background-color: #FE2E2E;\"><b>Context :</b> <i> Mandatory (Phase, Environment, Browser...)</i></span></li><li><span style=\"background-color: #FE2E2E;\"><b>URL :</b> <i> Mandatory</i></span></li><li><span style=\"background-color:#FE2E2E;\"><b>Scenario (Screen Capture) :</b> <i> Attachement link optional </i></span></li><li><span style=\"background-color: #FE2E2E;\"><b>Scenario (Video Capture) :</b> <i> Attachement link optional</i></span></li><li><span style=\"background-color: #FE2E2E;\"><b>Comments :</b> <i>Details mandatory...</i></span></li></ul>'; document.querySelector('#cplMainContent_pnlOverview_Comments .rteDiv').innerHTML = templateCommentaire;return false;");
-  jQuery("#cplMainContent_pnlOverview_Comments .rteBack tr").append(tdButton);
-
-  var tdButton = document.createElement("td");
-  var button = document.createElement("button");
-  button.innerHTML = 'Pre-fill for opening';
-  button.className = 'prefill';
-  tdButton.appendChild(button);
-  button.setAttribute(
-	"onclick",
-	"var templateCommentaire = '<ul><li> <b>Incident :</b> <i> Mandatory details...</i> </li><li> <b>Context :</b> <i> Mandatory details (Phase, release etc...)</i> </li><li> <b>Revision/build :</b> <i> Mandatory</i> </li><li> <b>URL :</b> <i> Mandatory</i> </li><li> <b>Scenario (Screen Capture) :</b> <i> Attachement link mandatory </i></li><li> <b>Scenario (Video Capture) :</b> <i> Attachement link optional</i></li><li> <b>Comments :</b> <i>Details mandatory...</i></li></ul>'; document.querySelector('#cplMainContent_pnlOverview_Comments .rteDiv').innerHTML = templateCommentaire;return false;");
-  jQuery("#cplMainContent_pnlOverview_Comments .rteBack tr").append(tdButton);
-
-  var tdButton = document.createElement("td");
-  var button = document.createElement("button");
-  button.innerHTML = 'Pre-fill for correction';
-  button.className = 'prefill';
-  tdButton.appendChild(button);
-  button.setAttribute(
-	"onclick",
-	"var templateCommentaire = '<ul><li> <b>Corrig�</b> </li><li> <b>Probl�me * :</b> obligatoire</li><li> <b>Solution * :</b> obligatoire</li><li> <b>Tests * :</b> obligatoire</li><li> <b>Impacts potentiels :</b> �</li><li> <b>@QA (Non Reg.) :</b> �</li><li> <b>@Support :</b> �</li><li> <b>Origine :</b> �</li></ul>';    document.querySelector('#cplMainContent_pnlOverview_Comments .rteDiv').innerHTML = templateCommentaire;return false;");
-  jQuery("#cplMainContent_pnlOverview_Comments .rteBack tr").append(tdButton);
-
-  var maxHeight = Math.max.apply(null, jQuery("#cplMainContent_pnlOverview_Comments .prefill").map(function() {
-	return $(this).height();
-  }).get());
-
-  jQuery("#cplMainContent_pnlOverview_Comments .prefill").height(maxHeight);
-  jQuery("#cplMainContent_pnlOverview_Comments .prefill").width(55);
-}
-
 // Add buttons to prefill the selected user in drop-down lists
 function buttonOnCLick(dropDownId, searchItem)
 {
@@ -304,3 +239,63 @@ jQuery('head').append('<style type="text/css">#cplMainContent_tstArtifactLinkPan
 					  '#cplMainContent_tstArtifactLinkPanel_txtComment { /*display: none !important;*/ }' +
 					  '</style>');
 
+function addButton(label, onClick, destination) {
+    var span = document.createElement("span");
+    span.className = "cke_toolbar";
+
+    var link = document.createElement("a");
+    link.className = "cke_button";
+    link.style.border = "1px solid #adadad";
+    link.style.backgroundColor = "#e6e6e6";
+    link.style.borderRadius = "2px";
+    link.style.marginRight = "5px";
+
+    var spanLabel = document.createElement("span");
+    spanLabel.className = "cke_button_label";
+
+    spanLabel.innerHTML = label;
+    spanLabel.style.display = "inline";
+    link.appendChild(spanLabel);
+
+    link.setAttribute("onclick", onClick);
+    span.setAttribute("width","200px");
+    span.appendChild(link);
+    if (document.querySelector(destination)) {
+        document.querySelector(destination).appendChild(span);
+    }
+}
+
+// Wait for the page to load before anything
+document.onreadystatechange = function ()
+{
+    var span;
+    var link;
+    var label;
+ if (document.readyState == "complete")
+ {
+        addButton('Pre-fill for opening',
+                  "var templateCommentaire = '<ul><li> <b>Context :</b>  </li><li> <b>Revision/build :</b> &nbsp; </li><li> <b>URL :</b>&nbsp; </li><li><b>Current Outcome :</b>  </li><li><b>Intended Outcome :</b>  </li></ul>'; var doc = document.getElementsByClassName('cke_wysiwyg_frame cke_reset'); doc[1].contentWindow.document.body.innerHTML = templateCommentaire ;return false;",
+                  "#cplMainContent_pnlOverview_Description .cke_toolbox");
+ }
+
+    if (document.readyState == "complete")
+    {
+        addButton('Pre-fill for closure OK',
+                  "var templateCommentaire = '<ul><li><span style=\"background-color: rgb(102, 255, 153);\"><b>Status :</b> <i> Mandatory</i> </li><li><span style=\"background-color: rgb(102, 255, 153);\"><b>Revision or Build :</b> <i> Mandatory</i></span></li><li><span style=\"background-color: rgb(102, 255, 153);\"><b>Context :</b> <i> Mandatory (Phase, Environment, Browser...)</i></span></li><li><span style=\"background-color: rgb(102, 255, 153);\"><b>URL :</b> <i> Mandatory</i></span></li><li><span style=\"background-color: rgb(102, 255, 153);\"><b>Scenario (Screen Capture) :</b> <i> Attachement link optional </i></span></li><li><span style=\"background-color: rgb(102, 255, 153);\"><b>Scenario (Video Capture) :</b> <i> Attachement link optional</i></span></li><li><span style=\"background-color: rgb(102, 255, 153);\"><b>Comments :</b> <i>Details mandatory...</i></span></li></ul>'; var doc = document.getElementsByClassName('cke_wysiwyg_frame cke_reset'); doc[2].contentWindow.document.body.innerHTML = templateCommentaire;return false;",
+                  "#cke_cplMainContent_txtResolution .cke_toolbox");
+    }
+
+    if (document.readyState == "complete")
+    {
+        addButton('Pre-fill for closure KO',
+                  "var templateCommentaire = '<ul><li><span style=\"background-color: #FE642E;\"><b>Status :</b> <i> Mandatory</i> </li><li><span style=\"background-color: #FE642E;\"><b>Revision or Build :</b> <i> Mandatory</i></span></li><li><span style=\"background-color: #FE642E;\"><b>Context :</b> <i> Mandatory (Phase, Environment, Browser...)</i></span></li><li><span style=\"background-color: #FE642E;\"><b>URL :</b> <i> Mandatory</i></span></li><li><span style=\"background-color:#FE642E;\"><b>Scenario (Screen Capture) :</b> <i> Attachement link optional </i></span></li><li><span style=\"background-color: #FE642E;\"><b>Scenario (Video Capture) :</b> <i> Attachement link optional</i></span></li><li><span style=\"background-color: #FE642E;\"><b>Current Outcome :</b> <i>Details mandatory...</i></span></li><li><span style=\"background-color: #FE642E;\"><b>Intended Outcome :</b> <i>Details mandatory...</i></span></li></ul>'; var doc = document.getElementsByClassName('cke_wysiwyg_frame cke_reset'); doc[2].contentWindow.document.body.innerHTML = templateCommentaire;return false;",
+                  "#cke_cplMainContent_txtResolution .cke_toolbox");
+    }
+
+    if (document.readyState == "complete")
+    {
+        addButton('Pre-fill for correction',
+                  "var templateCommentaire = '<ul><li> <b>Corrigé</b> </li><li> <b>Problème  :</b> obligatoire</li><li> <b>Solution  :</b> obligatoire</li><li> <b>Tests * :</b> obligatoire</li><li> <b>Impacts potentiels :</b> Ø</li><li> <b>@QA (Non Reg.) :</b> Ø</li><li> <b>@Support :</b> Ø</li><li> <b>Origine :</b> Ø</li></ul>'; var doc = document.getElementsByClassName('cke_wysiwyg_frame cke_reset'); doc[2].contentWindow.document.body.innerHTML = templateCommentaire;return false;",
+                  "#cke_cplMainContent_txtResolution .cke_toolbox");
+    }
+};
