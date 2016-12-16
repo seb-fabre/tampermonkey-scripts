@@ -1,7 +1,7 @@
 ﻿// ==UserScript==
 // @name       Spira enhancements
 // @namespace  http://spira/
-// @version    5.0
+// @version    5.1
 // @description  enter something useful
 // @match      http*://thefactory.crossknowledge.com/*
 // @match 	   http*://thefactory.crossknowledge.com/Popups/FileArtifactUploadDialog.aspx*
@@ -13,6 +13,32 @@
 // @require https://code.jquery.com/ui/1.12.1/jquery-ui.js
 // @require    https://raw.githubusercontent.com/js-cookie/js-cookie/v2.1.2/src/js.cookie.js
 // ==/UserScript==
+
+jQuery.fn.waitUntilExists = function(handler, loop) {
+
+  var selector = this.selector;
+  var $this = $(selector);
+  var $elements = $this.not(function() { return $(this).data(found); });
+
+  if (loop === undefined)
+	loop = 50;
+
+  if (handler !== 'remove' && loop > 0)
+  {
+	// Run the handler on all found elements and mark as found
+	$elements.each(handler).data(found, true);
+
+	if (!$this.length)
+	{
+	  // If this is a recurring search or if the target has not yet been found, create an interval to continue searching for the target
+	  window.setTimeout(function () {
+		$this.waitUntilExists(handler, loop-1);
+	  }, 200);
+	}
+  }
+
+  return $this;
+};
 
 // Allow user to change the order of the fields in Spira's form
 function redoClearBlocks(updateCookie)
@@ -266,36 +292,23 @@ function addButton(label, onClick, destination) {
 }
 
 // Wait for the page to load before anything
-document.onreadystatechange = function ()
-{
-    var span;
-    var link;
-    var label;
- if (document.readyState == "complete")
- {
-        addButton('Pre-fill for opening',
-                  "var templateCommentaire = '<ul><li> <b>Context :</b>  </li><li> <b>Revision/build :</b> &nbsp; </li><li> <b>URL :</b>&nbsp; </li><li><b>Current Outcome :</b>  </li><li><b>Intended Outcome :</b>  </li></ul>'; var doc = document.getElementsByClassName('cke_wysiwyg_frame cke_reset'); doc[1].contentWindow.document.body.innerHTML = templateCommentaire ;return false;",
-                  "#cplMainContent_pnlOverview_Description .cke_toolbox");
- }
+jQuery('#cplMainContent_pnlOverview_Description .cke_toolbox').waitUntilExists(function() {
+  addButton('Pre-fill for opening',
+            "var templateCommentaire = '<ul><li> <b>Context :</b>  </li><li> <b>Revision/build :</b> &nbsp; </li><li> <b>URL :</b>&nbsp; </li><li><b>Current Outcome :</b>  </li><li><b>Intended Outcome :</b>  </li></ul>'; var doc = document.getElementsByClassName('cke_wysiwyg_frame cke_reset'); doc[1].contentWindow.document.body.innerHTML = templateCommentaire ;return false;",
+            "#cplMainContent_pnlOverview_Description .cke_toolbox");
+});
 
-    if (document.readyState == "complete")
-    {
-        addButton('Pre-fill for closure OK',
+jQuery('#cke_cplMainContent_txtResolution .cke_toolbox').waitUntilExists(function() {
+  addButton('Pre-fill for closure OK',
                   "var templateCommentaire = '<ul><li><span style=\"background-color: rgb(102, 255, 153);\"><b>Status :</b> <i> Mandatory</i> </li><li><span style=\"background-color: rgb(102, 255, 153);\"><b>Revision or Build :</b> <i> Mandatory</i></span></li><li><span style=\"background-color: rgb(102, 255, 153);\"><b>Context :</b> <i> Mandatory (Phase, Environment, Browser...)</i></span></li><li><span style=\"background-color: rgb(102, 255, 153);\"><b>URL :</b> <i> Mandatory</i></span></li><li><span style=\"background-color: rgb(102, 255, 153);\"><b>Scenario (Screen Capture) :</b> <i> Attachement link optional </i></span></li><li><span style=\"background-color: rgb(102, 255, 153);\"><b>Scenario (Video Capture) :</b> <i> Attachement link optional</i></span></li><li><span style=\"background-color: rgb(102, 255, 153);\"><b>Comments :</b> <i>Details mandatory...</i></span></li></ul>'; var doc = document.getElementsByClassName('cke_wysiwyg_frame cke_reset'); doc[2].contentWindow.document.body.innerHTML = templateCommentaire;return false;",
                   "#cke_cplMainContent_txtResolution .cke_toolbox");
-    }
 
-    if (document.readyState == "complete")
-    {
-        addButton('Pre-fill for closure KO',
+  addButton('Pre-fill for closure KO',
                   "var templateCommentaire = '<ul><li><span style=\"background-color: #FE642E;\"><b>Status :</b> <i> Mandatory</i> </li><li><span style=\"background-color: #FE642E;\"><b>Revision or Build :</b> <i> Mandatory</i></span></li><li><span style=\"background-color: #FE642E;\"><b>Context :</b> <i> Mandatory (Phase, Environment, Browser...)</i></span></li><li><span style=\"background-color: #FE642E;\"><b>URL :</b> <i> Mandatory</i></span></li><li><span style=\"background-color:#FE642E;\"><b>Scenario (Screen Capture) :</b> <i> Attachement link optional </i></span></li><li><span style=\"background-color: #FE642E;\"><b>Scenario (Video Capture) :</b> <i> Attachement link optional</i></span></li><li><span style=\"background-color: #FE642E;\"><b>Current Outcome :</b> <i>Details mandatory...</i></span></li><li><span style=\"background-color: #FE642E;\"><b>Intended Outcome :</b> <i>Details mandatory...</i></span></li></ul>'; var doc = document.getElementsByClassName('cke_wysiwyg_frame cke_reset'); doc[2].contentWindow.document.body.innerHTML = templateCommentaire;return false;",
                   "#cke_cplMainContent_txtResolution .cke_toolbox");
-    }
 
-    if (document.readyState == "complete")
-    {
-        addButton('Pre-fill for correction',
+  addButton('Pre-fill for correction',
                   "var templateCommentaire = '<ul><li> <b>Corrigé</b> </li><li> <b>Problème  :</b> obligatoire</li><li> <b>Solution  :</b> obligatoire</li><li> <b>Tests * :</b> obligatoire</li><li> <b>Impacts potentiels :</b> Ø</li><li> <b>@QA (Non Reg.) :</b> Ø</li><li> <b>@Support :</b> Ø</li><li> <b>Origine :</b> Ø</li></ul>'; var doc = document.getElementsByClassName('cke_wysiwyg_frame cke_reset'); doc[2].contentWindow.document.body.innerHTML = templateCommentaire;return false;",
                   "#cke_cplMainContent_txtResolution .cke_toolbox");
-    }
-};
+});
+
