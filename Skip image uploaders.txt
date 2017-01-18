@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Skip image uploaders
 // @namespace    http://img.yt/
-// @version      0.10
+// @version      0.13
 // @author       You
 // @match        http://img.yt/*
 // @match        http://imgclick.net/*
@@ -14,9 +14,40 @@
 // @match        http://ouo.io/*
 // @match        http://ouo.press/*
 // @match        http://www.imagetwice.site/*
+// @match        http://www.zytpirwai.net/*
+// @match        http://bc.vc/*
+// @match        http://imgtrex.com/*
 // @grant        none
 // @require    http://code.jquery.com/jquery-latest.min.js
 // ==/UserScript==
+
+var found = 'waitUntilExists.found';
+
+jQuery.fn.waitUntilExists = function(handler, loop) {
+
+  var selector = this.selector;
+  var $this = $(selector);
+  var $elements = $this.not(function() { return $(this).data(found); });
+
+  if (loop === undefined)
+	loop = 100;
+
+  if (handler !== 'remove' && loop > 0)
+  {
+	// Run the handler on all found elements and mark as found
+	$elements.each(handler).data(found, true);
+
+	if (!$this.length)
+	{
+	  // If this is a recurring search or if the target has not yet been found, create an interval to continue searching for the target
+	  window.setTimeout(function () {
+		$this.waitUntilExists(handler, loop-1);
+	  }, 200);
+	}
+  }
+
+  return $this;
+};
 
 // img.yt
 // imgtornado.com
@@ -54,7 +85,7 @@ if (jQuery('#downloadbtn').length == 1)
 }
 
 // linkshrink.net
-if (jQuery('#skip a').length == 1)
+if (jQuery('.buttonContainer #skip a').length == 1)
 {
   location.href = jQuery('#skip a').attr('href');
 }
@@ -79,4 +110,30 @@ if (jQuery('#divIdBtnClick').length == 1)
 {
   autometicCall();
   autometicCall(); // yes, twice
+}
+
+// zytpirwai.net
+if (jQuery('#skiplink').length == 1)
+{
+  setTimeout(function () {
+	$( window ).unload(function() { });
+    jQuery('#skiplink img').trigger('click');
+  }, 10000);
+}
+
+// bc.vc
+if (jQuery('#redirectin').length == 1)
+{
+  jQuery('#skip_btt').waitUntilExists(function () {
+	$( window ).unload(function() { });
+	jQuery('#skip_btt')[0].click();
+  }, 10000);
+}
+
+// imgtrex.com
+if (jQuery('#interRaptor').length == 1)
+{
+  setTimeout(function () {
+	interstitialBox.closeit();
+  }, 1000);
 }
