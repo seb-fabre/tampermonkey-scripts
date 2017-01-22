@@ -1,7 +1,7 @@
 ﻿// ==UserScript==
 // @name       Spira enhancements
 // @namespace  http://spira/
-// @version    5.1
+// @version    5.2
 // @description  enter something useful
 // @match      http*://thefactory.crossknowledge.com/*
 // @match 	   http*://thefactory.crossknowledge.com/Popups/FileArtifactUploadDialog.aspx*
@@ -216,6 +216,7 @@ function createButton(dropDownId)
   {
 	var qaButton = document.createElement("button");
 	qaButton.innerHTML = "QA Team";
+	qaButton.className = "btn btn-default btn-xs";
 	referenceNode.parentNode.insertBefore(qaButton, referenceNode.nextSibling);
 
 	qaButton.onclick = function() {
@@ -223,12 +224,14 @@ function createButton(dropDownId)
 	};
 
 	var teamButton = document.createElement("button");
+	teamButton.className = "btn btn-default btn-xs";
 	var teamButtonLabel = "";
 	if(document.URL.match(/http(s)?:\/\/thefactory.crossknowledge\.com\/10\/*/))
 	{
 	  teamButtonLabel = "NET Team";
 	}
-	else{
+	else
+	{
 	  teamButtonLabel = "M Squad";
 	}
 	teamButton.innerHTML = teamButtonLabel;
@@ -242,6 +245,7 @@ function createButton(dropDownId)
   // Create Me button
   var meButton = document.createElement("button");
   meButton.innerHTML = "ME";
+  meButton.className = "btn btn-default btn-xs";
   referenceNode.parentNode.insertBefore(meButton, referenceNode.nextSibling);
 
   meButton.onclick = function() {
@@ -250,11 +254,17 @@ function createButton(dropDownId)
   };
 }
 
-createButton('cplMainContent_ddlOwner');
-createButton('cplMainContent_ddlOpener');
-createButton('cplMainContent_tblFields_Custom_05');
-createButton('cplMainContent_tblFields_Custom_01');
-createButton('cplMainContent_tblFields_Custom_02');
+// Only add the shortcut buttons if they haven't already been added by a browser plugin
+setTimeout(function () {
+  if (jQuery('#cplMainContent_ddlOpener ~ button').length === 0)
+  {
+	createButton('cplMainContent_ddlOwner');
+	createButton('cplMainContent_ddlOpener');
+	createButton('cplMainContent_tblFields_Custom_05');
+	createButton('cplMainContent_tblFields_Custom_01');
+	createButton('cplMainContent_tblFields_Custom_02');
+  }
+}, 1000);
 
 // improve the dimensions of some popups
 jQuery('head').append('<style type="text/css">#cplMainContent_tstArtifactLinkPanel_ajxIncidentsSelector .Body, #cplMainContent_tstArtifactLinkPanel_ajxRequirementsSelector .Body { height: 500px !important; width: 420px !important; }' +
