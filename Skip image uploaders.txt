@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Skip image uploaders
 // @namespace    http://img.yt/
-// @version      0.13
+// @version      0.15
 // @author       You
 // @match        http://img.yt/*
 // @match        http://imgclick.net/*
@@ -17,6 +17,9 @@
 // @match        http://www.zytpirwai.net/*
 // @match        http://bc.vc/*
 // @match        http://imgtrex.com/*
+// @match        http://tout-debrid.net/*
+// @match        http://debridnet.com/*
+// @match        http://viid.me/*
 // @grant        none
 // @require    http://code.jquery.com/jquery-latest.min.js
 // ==/UserScript==
@@ -136,4 +139,25 @@ if (jQuery('#interRaptor').length == 1)
   setTimeout(function () {
 	interstitialBox.closeit();
   }, 1000);
+}
+
+// tout-debrid.net
+if (jQuery('.download-box .btn btn-download').length == 1)
+{
+  jQuery('.download-box .btn btn-download')[0].click();
+}
+
+// debridnet.com
+if (jQuery('#btdb').length == 1)
+{
+  myFunction();
+  jQuery('#linkadfinput').click();
+}
+
+// viid.me
+if (jQuery('.skip-add-container').length == 1)
+{
+  setTimeout(function () {
+	window.location.replace(app.options.intermediate.destinationUrl);
+  }, 8000);
 }
