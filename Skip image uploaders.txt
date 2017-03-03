@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Skip image uploaders
 // @namespace    http://img.yt/
-// @version      0.15
+// @version      0.16
 // @author       You
 // @match        http://img.yt/*
 // @match        http://imgclick.net/*
@@ -20,6 +20,7 @@
 // @match        http://tout-debrid.net/*
 // @match        http://debridnet.com/*
 // @match        http://viid.me/*
+// @match        http://www.imagespicy.site/*
 // @grant        none
 // @require    http://code.jquery.com/jquery-latest.min.js
 // ==/UserScript==
@@ -97,7 +98,7 @@ if (jQuery('.buttonContainer #skip a').length == 1)
 if (jQuery('#skip_ad_button').length == 1)
 {
   setTimeout(function () {
-	$( window ).unload(function() { });
+	window.onunload = null;
     location.href = jQuery('#skip_ad_button').parent().attr('href');
   }, 10000);
 }
@@ -119,7 +120,7 @@ if (jQuery('#divIdBtnClick').length == 1)
 if (jQuery('#skiplink').length == 1)
 {
   setTimeout(function () {
-	$( window ).unload(function() { });
+	window.onunload = null;
     jQuery('#skiplink img').trigger('click');
   }, 10000);
 }
@@ -128,7 +129,7 @@ if (jQuery('#skiplink').length == 1)
 if (jQuery('#redirectin').length == 1)
 {
   jQuery('#skip_btt').waitUntilExists(function () {
-	$( window ).unload(function() { });
+	window.onunload = null;
 	jQuery('#skip_btt')[0].click();
   }, 10000);
 }
@@ -160,4 +161,12 @@ if (jQuery('.skip-add-container').length == 1)
   setTimeout(function () {
 	window.location.replace(app.options.intermediate.destinationUrl);
   }, 8000);
+}
+
+// imagespicy.site
+if (jQuery('#divIdBtnClick').length == 1)
+{
+  setTimeout(function () {
+	autometicCall();
+  }, 3000);
 }
