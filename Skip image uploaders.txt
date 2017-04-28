@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Skip image uploaders
 // @namespace    http://img.yt/
-// @version      0.16
+// @version      0.17.1
 // @author       You
 // @match        http://img.yt/*
 // @match        http://imgclick.net/*
@@ -21,6 +21,7 @@
 // @match        http://debridnet.com/*
 // @match        http://viid.me/*
 // @match        http://www.imagespicy.site/*
+// @match        http://imagetwist.com/*
 // @grant        none
 // @require    http://code.jquery.com/jquery-latest.min.js
 // ==/UserScript==
@@ -106,7 +107,7 @@ if (jQuery('#skip_ad_button').length == 1)
 // ouo.io, ouo.press
 if (jQuery('#btn-main').length == 1 && jQuery('#btn-main').attr('href'))
 {
-  location.href = jQuery('#btn-main').attr('href');
+  jQuery('#btn-main').click();
 }
 
 // imagetwice.site
@@ -149,10 +150,14 @@ if (jQuery('.download-box .btn btn-download').length == 1)
 }
 
 // debridnet.com
-if (jQuery('#btdb').length == 1)
+if (typeof myFunction !== 'undefined')
 {
   myFunction();
-  jQuery('#linkadfinput').click();
+  location.href = jQuery('form').attr('action');
+}
+else if (jQuery('.info .col_33 a').length == 1)
+{
+  location.href = jQuery('.info .col_33 a').attr('href');
 }
 
 // viid.me
@@ -169,4 +174,10 @@ if (jQuery('#divIdBtnClick').length == 1)
   setTimeout(function () {
 	autometicCall();
   }, 3000);
+}
+
+// imagetwist.com
+if (jQuery('#rang2').length == 1)
+{
+  closeOverlay();
 }
