@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       SalesForce enhancements
 // @namespace  https://eu5.salesforce.com/
-// @version    1.12
+// @version    1.13
 // @match      https://eu5.salesforce.com/*
 // @exclude      https://eu5.salesforce.com/*.html
 // @require    http://code.jquery.com/jquery-latest.min.js
@@ -389,4 +389,12 @@ if (location.href.indexOf('https://eu5.salesforce.com/ui/email/EmailMessageListP
 	jQuery('#buttons').append('<button onclick="highlightFakeReplies()" style="font-size: 1.5em">Highlight spam replies</button>');
 	jQuery('#buttons').append('<button onclick="deleteFakeReplies()" style="font-size: 1.5em;">Delete spam replies</button>');
   }
+}
+
+// Auto-show full formula field and increase its dimensions
+if (jQuery('#CalculatedFormula_toggle').length === 1)
+{
+  toggleInlineDisplay('CalculatedFormula');
+
+  jQuery('#CalculatedFormula').css({width: '773px', height: '225px'});
 }

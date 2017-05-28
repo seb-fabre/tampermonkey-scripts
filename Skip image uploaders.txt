@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Skip image uploaders
 // @namespace    http://img.yt/
-// @version      0.17.1
+// @version      0.17.5.25
 // @author       You
 // @match        http://img.yt/*
 // @match        http://imgclick.net/*
@@ -150,15 +150,26 @@ if (jQuery('.download-box .btn btn-download').length == 1)
 }
 
 // debridnet.com
-if (typeof myFunction !== 'undefined')
+if (location.href.indexOf('debridnet.com') !== -1 && jQuery('form').length === 1)
 {
-  myFunction();
   location.href = jQuery('form').attr('action');
 }
-else if (jQuery('.info .col_33 a').length == 1)
+else if (jQuery('button[ondblclick]').length == 1)
 {
-  location.href = jQuery('.info .col_33 a').attr('href');
+  jQuery('button[ondblclick]').dblclick();
+  if (jQuery('form input').length == 1)
+	jQuery('form input').click();
 }
+else if (jQuery('.container article button[onclick][type!="button"]').length == 1)
+{
+  jQuery('button[onclick]').click();
+  if (jQuery('form input').length == 1)
+	jQuery('form input').click();
+}
+/*else if (jQuery('a.button:contains(Adfly link)').length == 1)
+{
+  jQuery('a.button:contains(Adfly link)').click();
+}*/
 
 // viid.me
 if (jQuery('.skip-add-container').length == 1)
