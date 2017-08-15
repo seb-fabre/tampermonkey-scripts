@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       SalesForce enhancements
 // @namespace  https://eu5.salesforce.com/
-// @version    1.13
+// @version    17.8.15
 // @match      https://eu5.salesforce.com/*
 // @exclude      https://eu5.salesforce.com/*.html
 // @require    http://code.jquery.com/jquery-latest.min.js
@@ -189,6 +189,7 @@ else if (jQuery('.htmlInput .htmlEditor').length == 1)
 }
 
 // Improve the "timesheet" fields page to make it more automatic
+// Pre-fill the field "Owner" withe current user
 if (jQuery('#00N2400000C9KO3').length == 1 && jQuery('#00N2400000C9KON').length == 1 && jQuery('#00N2400000C4bpm').length == 1)
 {
   var beginField = jQuery('#00N2400000C9KO3');
@@ -235,6 +236,30 @@ if (jQuery('#00N2400000C9KO3').length == 1 && jQuery('#00N2400000C9KON').length 
 	beginField.val(beginDate);
 	endField.val(endField.next().children().html());
   });
+
+  // ------------------
+  if (jQuery('#CF00N2400000JWw7G').length === 1 && jQuery('#userNavLabel').length === 1 && jQuery('#CF00N2400000JWw7G').val() === '')
+  {
+	jQuery('#CF00N2400000JWw7G').val(jQuery('#userNavLabel').text());
+  }
+
+  if (jQuery('#CF00N2400000JWw7G').length === 1)
+  {
+	jQuery('#CF00N2400000JWw7G_top').append('<br/>');
+	jQuery('#CF00N2400000JWw7G_top').append('<button type="button" onclick="jQuery(\'#CF00N2400000JWw7G\').val(jQuery(\'#userNavLabel\').text());">Assign ME</button>');
+	jQuery('#CF00N2400000JWw7G_top').append('<button type="button" onclick="jQuery(\'#CF00N2400000JWw7G\').val(\'Sales Force\');">Assign L3</button>');
+  }
+
+  // Increase size of comment field
+  if (jQuery('#00N2400000C4bpr').length === 1)
+  {
+	comm = jQuery('#00N2400000C4bpr').parent();
+	comm.next().next().remove();
+	comm.next().remove();
+
+	comm.attr('colspan', 3);
+	jQuery('#00N2400000C4bpr').css('width', '100%');
+  }
 }
 
 // Highlight the time field when there is activity but not time reported
