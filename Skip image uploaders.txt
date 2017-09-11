@@ -1,27 +1,27 @@
 // ==UserScript==
 // @name         Skip image uploaders
 // @namespace    http://img.yt/
-// @version      0.17.5.25
+// @version      17.9.9
 // @author       You
-// @match        http://img.yt/*
-// @match        http://imgclick.net/*
-// @match        http://imgtornado.com/*
-// @match        http://imgspice.com/*
-// @match        http://imgcandy.net/*
-// @match        http://imgfiles.org/*
-// @match        http://linkshrink.net/*
-// @match        http://adf.ly/*
-// @match        http://ouo.io/*
-// @match        http://ouo.press/*
-// @match        http://www.imagetwice.site/*
-// @match        http://www.zytpirwai.net/*
-// @match        http://bc.vc/*
-// @match        http://imgtrex.com/*
-// @match        http://tout-debrid.net/*
-// @match        http://debridnet.com/*
-// @match        http://viid.me/*
-// @match        http://www.imagespicy.site/*
-// @match        http://imagetwist.com/*
+// @match        http*://img.yt/*
+// @match        http*://imgclick.net/*
+// @match        http*://imgtornado.com/*
+// @match        http*://imgspice.com/*
+// @match        http*://imgcandy.net/*
+// @match        http*://imgfiles.org/*
+// @match        http*://linkshrink.net/*
+// @match        http*://adf.ly/*
+// @match        http*://ouo.io/*
+// @match        http*://ouo.press/*
+// @match        http*://www.imagetwice.site/*
+// @match        http*://www.zytpirwai.net/*
+// @match        http*://bc.vc/*
+// @match        http*://imgtrex.com/*
+// @match        http*://tout-debrid.net/*
+// @match        http*://debridnet.com/*
+// @match        http*://viid.me/*
+// @match        http*://www.imagespicy.site/*
+// @match        http*://imagetwist.com/*
 // @grant        none
 // @require    http://code.jquery.com/jquery-latest.min.js
 // ==/UserScript==
@@ -150,8 +150,16 @@ if (jQuery('.download-box .btn btn-download').length == 1)
 }
 
 // debridnet.com
-if (location.href.indexOf('debridnet.com') !== -1 && jQuery('form').length === 1)
+if (jQuery('a.button:contains(Adfly link)').length == 1 && jQuery('a.button:contains(Adfly link)').text() == 'Adfly link')
 {
+  setTimeout(function () {
+	location.href = jQuery('a.button:contains(Adfly link)').attr('href');
+  }, 3000);
+}
+else if (location.href.indexOf('debridnet.com') !== -1 && jQuery('form').length === 1)
+{
+  if (jQuery('button[onclick]').length === 1)
+	jQuery('button[onclick]').click();
   location.href = jQuery('form').attr('action');
 }
 else if (jQuery('button[ondblclick]').length == 1)
@@ -166,10 +174,6 @@ else if (jQuery('.container article button[onclick][type!="button"]').length == 
   if (jQuery('form input').length == 1)
 	jQuery('form input').click();
 }
-/*else if (jQuery('a.button:contains(Adfly link)').length == 1)
-{
-  jQuery('a.button:contains(Adfly link)').click();
-}*/
 
 // viid.me
 if (jQuery('.skip-add-container').length == 1)
