@@ -1,0 +1,50 @@
+// ==UserScript==
+// @name         RARBG
+// @namespace    https://rarbg.to/
+// @version      0.1
+// @author       arteau
+// @match        https://rarbg.to/torrents.php?search=*
+// @grant        none
+// ==/UserScript==
+
+if ($('.lista2t').length === 1)
+{
+  if ($('.lista2t tr:nth(0) td:nth(1)').length === 1)
+  {
+	$('.lista2t tr:nth(0) td:nth(1)').after('<td width="48" align="center" class="header6 header40" style="width:48px;">Note</td>');
+  }
+
+  if ($('.lista2t tr').length > 1)
+  {
+	var trs = $('.lista2t tr');
+	for (var i=1; i<trs.length; i++)
+	{
+	  if ($('td:nth(1)', trs[i]).html().match(/IMDB\: .*\/10/))
+	  {
+		var reg = /IMDB\: (.*)\/10/.exec($('td:nth(1)', trs[i]).html());
+		var style = '';
+
+		if (parseFloat(reg[1]) > 7)
+		  style = 'background-color: #74d336;';
+		else if (parseFloat(reg[1]) > 6)
+		  style = 'background-color: #ecd269;';
+		else if (parseFloat(reg[1]) > 0)
+		  style = 'background-color: #f17e0d;';
+
+		if (parseFloat(reg[1]) > 7)
+		  style += 'font-size: 20px;';
+		else if (parseFloat(reg[1]) > 6)
+		  style += 'font-size: 12px;';
+		else
+		  style += 'font-size: 5px;';
+
+		$('td:nth(1)', trs[i]).after('<td align="left" class="lista" width="48" style="width:48px; text-align: center; ' + style + '">' + reg[1] + '</td>');
+	  }
+	  else
+	  {
+		$('td:nth(1)', trs[i]).after('<td align="left" class="lista" width="48" style="width:48px;"> </td>');
+	  }
+	}
+  }
+}
+
