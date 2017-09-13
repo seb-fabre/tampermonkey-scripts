@@ -1,7 +1,7 @@
 ﻿// ==UserScript==
 // @name       Spira enhancements
 // @namespace  http://spira/
-// @version    5.2
+// @version    17.9.13
 // @description  enter something useful
 // @match      http*://thefactory.crossknowledge.com/*
 // @match 	   http*://thefactory.crossknowledge.com/Popups/FileArtifactUploadDialog.aspx*
@@ -220,7 +220,7 @@ function createButton(dropDownId)
 	referenceNode.parentNode.insertBefore(qaButton, referenceNode.nextSibling);
 
 	qaButton.onclick = function() {
-	  return buttonOnCLick(dropDownId, "QA Team");
+	  return buttonOnCLick(dropDownId, "SQA-HUB Team");
 	};
 
 	var teamButton = document.createElement("button");
