@@ -47,9 +47,9 @@ else if (document.location.pathname === '/admin/login.php')
 	location.href = 'https://eac.lms.crossknowledge.com/data/modules/eac/admin/eac_instance_list.php?auto=1&url=' + document.domain;
   });
 
-  jQuery('body').append('<div id="ckconnect_klik" title="Login with CK Connect">C</div>');
+  jQuery('body').append('<div id="ckconnect_klik" title="Login with CK Connect">&nbsp;</div>');
   jQuery('#ckconnect_klik').css({
-	border: '1px solid #000',
+	border: '1px solid #f0f0f0',
     width: '50px',
     height: '50px',
     position: 'fixed',
@@ -58,11 +58,11 @@ else if (document.location.pathname === '/admin/login.php')
 	lineHeight: '50px',
     fontSize: '25px',
     textAlign: 'center',
-    background: 'url(https://ckconnect.crossknowledge.com/images/header-logo.png)',
+    background: 'url(https://ckconnect.crossknowledge.com/images/header-logo.png)  -240px center no-repeat #000',
 	color: '#000',
 	cursor: 'pointer'
   })
   .click(function() {
-	location.href = 'https://eac.lms.crossknowledge.com/data/modules/eac/admin/eac_instance_list.php?auto=1&url=' + document.domain;
+	location.href = location.protocol + '//' + document.domain + '/ckconnect';
   });
 }
