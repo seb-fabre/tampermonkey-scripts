@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name       SalesForce enhancements
 // @namespace  https://eu5.salesforce.com/
-// @version    17.9.11
+// @version    17.11.20
 // @match      https://eu5.salesforce.com/*
-// @exclude      https://eu5.salesforce.com/*.html
+// @exclude    https://eu5.salesforce.com/*.html
 // @require    http://code.jquery.com/jquery-latest.min.js
 // @require    https://raw.githubusercontent.com/js-cookie/js-cookie/v2.1.2/src/js.cookie.js
 // @copyright  2015+, You
@@ -99,9 +99,9 @@ if (jQuery('#00N24000005Z7V6_ileinner').length == 1 && jQuery('#00N24000005Z7V6_
 if (jQuery('.efhpHighlightPanel').length === 0 && jQuery('.ptBody').length == 1 && jQuery('#cas14_ileinner').length == 1)
 {
   var csslink = jQuery('link[href*="extended.css"]').attr('href');
-  
+
   jQuery("head").append('<link href="' + csslink.replace('extended.css', 'EntityFeedPage.css') + '" rel="stylesheet" type="text/css">');
- 
+
   var ptBody = jQuery('.ptBody');
   var highlights = '<div class="efhpHighlightPanel efhpPageStyle efhpResizable"><div class="efhpContainer"><table class="efhpBody" cellspacing="0" cellpadding="0"><tbody>' +
   '<tr><td class="efhpLeftContent " style="width: 200px;"><div class="efhpRow"><div class="efhpLabel" title="Customer">Customer</div></div><div class=" efhpRow">' +
@@ -279,9 +279,22 @@ if (jQuery('#00N2400000C4buD_ileinner').length == 1 && jQuery('#00N2400000C4buD_
   });
 }
 
-// Add shortcut button to add time spent
 if (jQuery('#00N2400000BdetI_ileinner').length == 1)
 {
+  // Update "reply" button to include the description in the first reply
+  jQuery('#00N2400000BdetI_ileinner a').click(function() {
+    var c = Cookies.getJSON('description');
+    var cn = jQuery('#cas2_ileinner').contents()[0].data.trim();
+
+    if (!c || typeof c != 'object' || Object.keys(c).length > 20)
+	  c = {};
+
+    c[cn] = jQuery('#cas15_ileinner').html();
+
+    Cookies.set('description', c);
+  });
+
+  // Add shortcut button to add time spent
   caseId = jQuery('#cas2_ileinner').contents()[0].data.trim();
 
   url = '/a00/e?CF00N2400000C4bq1=' + caseId + '&CF00N2400000C4bq1_lkid=' + unsafeWindow.sfdcPage.entityId + '&retURL=%2F' + unsafeWindow.sfdcPage.entityId + '&saveURL=%2F' + unsafeWindow.sfdcPage.entityId;
@@ -373,6 +386,21 @@ if (jQuery('#p26').length == 1)
 	jQuery('#p26').val('suporte@crossknowledge.com:suporte@crossknowledge.com');
   else
 	jQuery('#p26').val('support@crossknowledge.com:support@crossknowledge.com');
+
+  jQuery('#iframe_p23').contents().find('body').ready(function() {
+    // prefill the email body with the case description (only for first reply)
+    if (jQuery('#iframe_p23').length == 1 && jQuery('#iframe_p23').contents().find('body').text() === '')
+    {
+      var c = Cookies.getJSON('description');
+       if (c[cn])
+         jQuery('#iframe_p23').contents().find('body').html(
+           '<br /><br /><br /><br />--------------- Original Message ---------------' +
+           '<br /><b>From:</b> ' + jQuery('#p2').val() +
+           '<br /><b>To:</b> support@crossknowledge.com' +
+           '<br /><b>Subject:</b> ' + jQuery('#p6').val() +
+           '<br /><br />' + c[cn]);
+    }
+  });
 }
 
 // add button "delete all" for spam replies in cases
@@ -386,11 +414,11 @@ if (location.href.indexOf('https://eu5.salesforce.com/ui/email/EmailMessageListP
 	  deleteNextReply();
 	}
   }
-  
+
   function deleteNextReply()
   {
 	var items = jQuery('a:contains(New case email notification. Case number )');
-	
+
 	if (items.length === 0)
 	{
 	  location.reload();
