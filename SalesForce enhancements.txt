@@ -299,7 +299,7 @@ if (jQuery('#00N2400000BdetI_ileinner').length == 1)
 
   url = '/a00/e?CF00N2400000C4bq1=' + caseId + '&CF00N2400000C4bq1_lkid=' + unsafeWindow.sfdcPage.entityId + '&retURL=%2F' + unsafeWindow.sfdcPage.entityId + '&saveURL=%2F' + unsafeWindow.sfdcPage.entityId;
 
-  jQuery('#00N2400000BdetI_ileinner').prepend('<a href="' + url + '" style="height: 50px; width: 50px; overflow: hidden; display: inline-block;"><img src="https://eu5.salesforce.com/img/icon/alarmClock64.png" style="position: relative; top: -7px; left: -7px;" /></a>');
+  jQuery('#00N2400000BdetI_ileinner').prepend('<a href="' + url + '" style="height: 50px; width: 50px; overflow: hidden; display: inline-block;"><img src="https://eu15.salesforce.com/img/icon/alarmClock64.png" style="position: relative; top: -7px; left: -7px;" /></a>');
 }
 
 // Allow to move to the previous/next email with the arrow keys
@@ -325,20 +325,20 @@ if (jQuery('#00N2400000C9cPv_ileinner a').length == 1)
   var realUrl = url.match(/https?\:\/\/([^\/]+).*/);
   if (realUrl && realUrl[1].indexOf('mohive') === -1)
   {
-	jQuery('#00N2400000C9cPv_ileinner a').after('<a href="https://eac.lms.crossknowledge.com/data/modules/eac/admin/eac_instance_list.php?url=' + realUrl[1] + '" style="float:right" target="_blank" title="Search this URL in the EAC"><img src="https://c.eu5.content.force.com/sfc/servlet.shepherd/version/renditionDownload?rendition=THUMB720BY480&versionId=06824000000vMqA&operationContext=CHATTER&contentId=05T24000003E4Na" width=24 height=24 /></a>');
+	jQuery('#00N2400000C9cPv_ileinner a').after('<a href="https://eac.lms.crossknowledge.com/data/modules/eac/admin/eac_instance_list.php?url=' + realUrl[1] + '" style="float:right" target="_blank" title="Search this URL in the EAC"><img src="https://c.eu15.content.force.com/sfc/servlet.shepherd/version/renditionDownload?rendition=THUMB720BY480&versionId=06824000000vMqA&operationContext=CHATTER&contentId=05T24000003E4Na" width=24 height=24 /></a>');
   }
 }
 
 // Account and EAC
 if (jQuery('#cas4_ileinner a').length == 1 && jQuery('#cas4_ileinner a').html() !== '' && jQuery('#cas4_ileinner a').html().indexOf('CrossKnowledge') === -1)
 {
-  jQuery('#cas4_ileinner a').after('<a href="https://eac.lms.crossknowledge.com/data/modules/eac/admin/eac_instance_list.php?name=' + jQuery('#cas4_ileinner a').html() + '" style="float:right" target="_blank" title="Search this account in the EAC"><img src="https://c.eu5.content.force.com/sfc/servlet.shepherd/version/renditionDownload?rendition=THUMB720BY480&versionId=06824000000vMqA&operationContext=CHATTER&contentId=05T24000003E4Na" width=24 height=24 /></a>');
+  jQuery('#cas4_ileinner a').after('<a href="https://eac.lms.crossknowledge.com/data/modules/eac/admin/eac_instance_list.php?name=' + jQuery('#cas4_ileinner a').html() + '" style="float:right" target="_blank" title="Search this account in the EAC"><img src="https://c.eu15.content.force.com/sfc/servlet.shepherd/version/renditionDownload?rendition=THUMB720BY480&versionId=06824000000vMqA&operationContext=CHATTER&contentId=05T24000003E4Na" width=24 height=24 /></a>');
 }
 
 // Account on behalf and EAC
 if (jQuery('#CF00N2400000JWupL_ileinner a').length == 1 && jQuery('#CF00N2400000JWupL_ileinner a').html() !== '' && jQuery('#CF00N2400000JWupL_ileinner a').html().indexOf('CrossKnowledge') === -1)
 {
-  jQuery('#CF00N2400000JWupL_ileinner a').after('<a href="https://eac.lms.crossknowledge.com/data/modules/eac/admin/eac_instance_list.php?name=' + jQuery('#CF00N2400000JWupL_ileinner a').html() + '" style="float:right" target="_blank" title="Search this account in the EAC"><img src="https://c.eu5.content.force.com/sfc/servlet.shepherd/version/renditionDownload?rendition=THUMB720BY480&versionId=06824000000vMqA&operationContext=CHATTER&contentId=05T24000003E4Na" width=24 height=24 /></a>');
+  jQuery('#CF00N2400000JWupL_ileinner a').after('<a href="https://eac.lms.crossknowledge.com/data/modules/eac/admin/eac_instance_list.php?name=' + jQuery('#CF00N2400000JWupL_ileinner a').html() + '" style="float:right" target="_blank" title="Search this account in the EAC"><img src="https://c.eu15.content.force.com/sfc/servlet.shepherd/version/renditionDownload?rendition=THUMB720BY480&versionId=06824000000vMqA&operationContext=CHATTER&contentId=05T24000003E4Na" width=24 height=24 /></a>');
 }
 
 if (jQuery('#cas2_ileinner').length == 1)
@@ -404,7 +404,7 @@ if (jQuery('#p26').length == 1)
 }
 
 // add button "delete all" for spam replies in cases
-if (location.href.indexOf('https://eu5.salesforce.com/ui/email/EmailMessageListPage?id=') === 0)
+if (location.href.indexOf('https://eu15.salesforce.com/ui/email/EmailMessageListPage?id=') === 0)
 {
   function deleteFakeReplies()
   {
