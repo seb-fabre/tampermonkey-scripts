@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name       SalesForce enhancements
-// @namespace  https://eu5.salesforce.com/
-// @version    17.11.20
-// @match      https://eu5.salesforce.com/*
-// @exclude    https://eu5.salesforce.com/*.html
+// @namespace  https://eu15.salesforce.com/
+// @version    17.12.03
+// @match      https://eu15.salesforce.com/*
+// @exclude    https://eu15.salesforce.com/*.html
 // @require    http://code.jquery.com/jquery-latest.min.js
 // @require    https://raw.githubusercontent.com/js-cookie/js-cookie/v2.1.2/src/js.cookie.js
 // @copyright  2015+, You
