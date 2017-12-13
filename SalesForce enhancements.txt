@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       SalesForce enhancements
 // @namespace  https://eu15.salesforce.com/
-// @version    17.12.03
+// @version    17.12.13
 // @match      https://eu15.salesforce.com/*
 // @exclude    https://eu15.salesforce.com/*.html
 // @require    http://code.jquery.com/jquery-latest.min.js
@@ -250,7 +250,7 @@ if (jQuery('#00N2400000C9KO3').length == 1 && jQuery('#00N2400000C9KON').length 
 	jQuery('#CF00N2400000JWw7G_top').append('<button type="button" onclick="jQuery(\'#CF00N2400000JWw7G\').val(\'Sales Force\');">Assign L3</button>');
   }
 
-  // Increase size of comment field
+  // Increase size of comment field (in the timesheet)
   if (jQuery('#00N2400000C4bpr').length === 1)
   {
 	comm = jQuery('#00N2400000C4bpr').parent();
@@ -456,4 +456,15 @@ if (jQuery('#CalculatedFormula_toggle').length === 1)
   toggleInlineDisplay('CalculatedFormula');
 
   jQuery('#CalculatedFormula').css({width: '773px', height: '225px'});
+}
+
+// Increase size of comment field (in the "comment" page)
+if (jQuery('#CommentBody').length === 1)
+{
+  comm = jQuery('#CommentBody').parent();
+  comm.next().next().remove();
+  comm.next().remove();
+
+  comm.attr('colspan', 3);
+  jQuery('#CommentBody').css('width', '80%').attr('rows', '12');
 }
