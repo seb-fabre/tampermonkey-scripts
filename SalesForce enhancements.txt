@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       SalesForce enhancements
 // @namespace  https://eu15.salesforce.com/
-// @version    17.12.13
+// @version    17.12.18
 // @match      https://eu15.salesforce.com/*
 // @exclude    https://eu15.salesforce.com/*.html
 // @require    http://code.jquery.com/jquery-latest.min.js
@@ -93,6 +93,16 @@ if (jQuery('#00N24000005Z7V6_ileinner').length == 1 && jQuery('#00N24000005Z7V6_
   }
 
   jQuery('#00N24000005Z7V6_ileinner').html(html);
+}
+
+// transform "userecho" field to HTML link
+if (jQuery('#00N2400000IyF0a_ileinner').length == 1 && jQuery('#00N2400000IyF0a_ileinner').html() != '&nbsp;')
+{
+  var topic = jQuery('#00N2400000IyF0a_ileinner').html().trim();
+
+  var html = '<a href="' + topic + '" target="_blank">' + topic + '</a>';
+
+  jQuery('#00N2400000IyF0a_ileinner').html(html);
 }
 
 // Recreate "Highlights panel" if it's not there in the current page layout
@@ -325,20 +335,20 @@ if (jQuery('#00N2400000C9cPv_ileinner a').length == 1)
   var realUrl = url.match(/https?\:\/\/([^\/]+).*/);
   if (realUrl && realUrl[1].indexOf('mohive') === -1)
   {
-	jQuery('#00N2400000C9cPv_ileinner a').after('<a href="https://eac.lms.crossknowledge.com/data/modules/eac/admin/eac_instance_list.php?url=' + realUrl[1] + '" style="float:right" target="_blank" title="Search this URL in the EAC"><img src="https://c.eu15.content.force.com/sfc/servlet.shepherd/version/renditionDownload?rendition=THUMB720BY480&versionId=06824000000vMqA&operationContext=CHATTER&contentId=05T24000003E4Na" width=24 height=24 /></a>');
+	jQuery('#00N2400000C9cPv_ileinner a').after('<a href="https://eac.lms.crossknowledge.com/data/modules/eac/admin/eac_instance_list.php?auto=1&url=' + realUrl[1] + '" style="float:right" target="_blank" title="Search this URL in the EAC"><img src="https://c.eu15.content.force.com/sfc/servlet.shepherd/version/renditionDownload?rendition=THUMB720BY480&versionId=06824000000vMqA&operationContext=CHATTER&contentId=05T24000003E4Na" width=24 height=24 /></a>');
   }
 }
 
 // Account and EAC
 if (jQuery('#cas4_ileinner a').length == 1 && jQuery('#cas4_ileinner a').html() !== '' && jQuery('#cas4_ileinner a').html().indexOf('CrossKnowledge') === -1)
 {
-  jQuery('#cas4_ileinner a').after('<a href="https://eac.lms.crossknowledge.com/data/modules/eac/admin/eac_instance_list.php?name=' + jQuery('#cas4_ileinner a').html() + '" style="float:right" target="_blank" title="Search this account in the EAC"><img src="https://c.eu15.content.force.com/sfc/servlet.shepherd/version/renditionDownload?rendition=THUMB720BY480&versionId=06824000000vMqA&operationContext=CHATTER&contentId=05T24000003E4Na" width=24 height=24 /></a>');
+  jQuery('#cas4_ileinner a').after('<a href="https://eac.lms.crossknowledge.com/data/modules/eac/admin/eac_instance_list.php?auto=1&name=' + jQuery('#cas4_ileinner a').html() + '" style="float:right" target="_blank" title="Search this account in the EAC"><img src="https://c.eu15.content.force.com/sfc/servlet.shepherd/version/renditionDownload?rendition=THUMB720BY480&versionId=06824000000vMqA&operationContext=CHATTER&contentId=05T24000003E4Na" width=24 height=24 /></a>');
 }
 
 // Account on behalf and EAC
 if (jQuery('#CF00N2400000JWupL_ileinner a').length == 1 && jQuery('#CF00N2400000JWupL_ileinner a').html() !== '' && jQuery('#CF00N2400000JWupL_ileinner a').html().indexOf('CrossKnowledge') === -1)
 {
-  jQuery('#CF00N2400000JWupL_ileinner a').after('<a href="https://eac.lms.crossknowledge.com/data/modules/eac/admin/eac_instance_list.php?name=' + jQuery('#CF00N2400000JWupL_ileinner a').html() + '" style="float:right" target="_blank" title="Search this account in the EAC"><img src="https://c.eu15.content.force.com/sfc/servlet.shepherd/version/renditionDownload?rendition=THUMB720BY480&versionId=06824000000vMqA&operationContext=CHATTER&contentId=05T24000003E4Na" width=24 height=24 /></a>');
+  jQuery('#CF00N2400000JWupL_ileinner a').after('<a href="https://eac.lms.crossknowledge.com/data/modules/eac/admin/eac_instance_list.php?auto=1&name=' + jQuery('#CF00N2400000JWupL_ileinner a').html() + '" style="float:right" target="_blank" title="Search this account in the EAC"><img src="https://c.eu15.content.force.com/sfc/servlet.shepherd/version/renditionDownload?rendition=THUMB720BY480&versionId=06824000000vMqA&operationContext=CHATTER&contentId=05T24000003E4Na" width=24 height=24 /></a>');
 }
 
 if (jQuery('#cas2_ileinner').length == 1)
