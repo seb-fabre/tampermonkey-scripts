@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Skip image uploaders
 // @namespace    http://img.yt/
-// @version      17.9.9
+// @version      18.1.7
 // @author       You
 // @match        http*://img.yt/*
 // @match        http*://imgclick.net/*
@@ -22,6 +22,7 @@
 // @match        http*://viid.me/*
 // @match        http*://www.imagespicy.site/*
 // @match        http*://imagetwist.com/*
+// @match        http*://torfile.org/*
 // @grant        none
 // @require    http://code.jquery.com/jquery-latest.min.js
 // ==/UserScript==
@@ -92,7 +93,8 @@ if (jQuery('#downloadbtn').length == 1)
 // linkshrink.net
 if (jQuery('.buttonContainer #skip a').length == 1)
 {
-  location.href = jQuery('#skip a').attr('href');
+  //location.href = jQuery('#skip a')[0].href;
+  location.href = eval(document.getElementById("btd").onclick.toString().replace(/function .*window\.open\((.*), '_blank'\);document.location.href.*/, '$1'));
 }
 
 // adf.ly
@@ -195,4 +197,9 @@ if (jQuery('#divIdBtnClick').length == 1)
 if (jQuery('#rang2').length == 1)
 {
   closeOverlay();
+}
+
+if (location.href.indexOf('http://torfile.org/get/?') === 0)
+{
+  location.href = location.href.replace('http://torfile.org/get/?', '');
 }
