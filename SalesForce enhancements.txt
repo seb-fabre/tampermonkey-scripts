@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       SalesForce enhancements
 // @namespace  https://eu15.salesforce.com/
-// @version    18.1.10
+// @version    18.1.10.a
 // @match      https://eu15.salesforce.com/*
 // @exclude    https://eu15.salesforce.com/*.html
 // @require    http://code.jquery.com/jquery-latest.min.js
@@ -154,7 +154,8 @@ if (jQuery('label:contains(Send Notification Email)').length == 1 && jQuery('#se
 
   var cell = jQuery('.detailList td:contains(Transfer this case)').next();
   cell.append('<button type=button style="margin-left: 100px; padding: 4px;" onclick="reassignTo(\'IT Exploitation\')">Reassign to IT Exploitation</button>' +
-              '<button type=button style="margin-left: 20px; padding: 4px;" onclick="reassignTo(\'Technical Support\')">Reassign to Technical Support</button>');
+              '<button type=button style="margin-left: 20px; padding: 4px;" onclick="reassignTo(\'Technical Support\')">Reassign to Technical Support</button>' +
+              '<button type=button style="margin-left: 20px; padding: 4px;" onclick="reassignTo(\'Hotline\')">Reassign to Hotline</button>');
 
   cell.append('<script type="text/javascript">function reassignTo(queue) { jQuery("#newOwn_mlktp").val("case_queue"); jQuery("#newOwn").val(queue); jQuery("#sendMail").prop("checked", false); } </script>');
 }
