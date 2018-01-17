@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       SalesForce enhancements
 // @namespace  https://eu15.salesforce.com/
-// @version    18.1.10.a
+// @version    18.1.17
 // @match      https://eu15.salesforce.com/*
 // @exclude    https://eu15.salesforce.com/*.html
 // @require    http://code.jquery.com/jquery-latest.min.js
@@ -339,17 +339,65 @@ if (jQuery('#00N2400000C9cPv_ileinner a').length == 1)
 {
   var url = jQuery('#00N2400000C9cPv_ileinner a').attr('href');
 
-  var realUrl = url.match(/https?\:\/\/([^\/]+).*/);
+  var realUrl = url.match(/(https?\:\/\/([^\/]+))\/.*/);
   if (realUrl && realUrl[1].indexOf('mohive') === -1)
   {
-	jQuery('#00N2400000C9cPv_ileinner a').after('<a href="https://eac.lms.crossknowledge.com/data/modules/eac/admin/eac_instance_list.php?auto=1&url=' + realUrl[1] + '" style="float:right" target="_blank" title="Search this URL in the EAC"><img src="https://c.eu15.content.force.com/sfc/servlet.shepherd/version/renditionDownload?rendition=THUMB720BY480&versionId=06824000000vMqA&operationContext=CHATTER&contentId=05T24000003E4Na" width=24 height=24 /></a>');
+	//jQuery('#00N2400000C9cPv_ileinner a').after('<a href="https://eac.lms.crossknowledge.com/data/modules/eac/admin/eac_instance_list.php?auto=1&url=' + realUrl[2] + '" style="float:right" target="_blank" title="Search this URL in the EAC"><img src="https://c.eu15.content.force.com/sfc/servlet.shepherd/version/renditionDownload?rendition=THUMB720BY480&versionId=06824000000vMqA&operationContext=CHATTER&contentId=05T24000003E4Na" width=24 height=24 /></a>');
+
+  jQuery('#00N2400000C9cPv_ileinner a:nth-child(1)').after('<a id="eac_klik" title="Login with the EAC" target="_blank" href="https://eac.lms.crossknowledge.com/data/modules/eac/admin/eac_instance_list.php?auto=1&url=' + realUrl[2] + '">EAC</a>');
+  jQuery('#eac_klik').css({
+	border: '1px solid #ccc',
+    width: '24px',
+    height: '24px',
+	lineHeight: '24px',
+    fontSize: '10px',
+    textAlign: 'center',
+	background: 'url(https://eac.lms.crossknowledge.com/themes/crossknowledge/default_style/images/grain_black.png)',
+	color: 'white',
+	cursor: 'pointer',
+    textDecoration: 'none',
+    display: 'inline-block',
+    float: 'right'
+  });
+
+  jQuery('#00N2400000C9cPv_ileinner a:nth-child(1)').append('<a id="ckconnect_klik" title="Login with CK Connect" target="_blank" href="' + realUrl[1] + '/ckconnect">C</a>');
+  jQuery('#ckconnect_klik').css({
+	border: '1px solid #f0f0f0',
+    width: '24px',
+    height: '24px',
+	lineHeight: '24px',
+    fontSize: '24px',
+    textAlign: 'center',
+    background: '#FFF',
+	color: '#000',
+	cursor: 'pointer',
+    textDecoration: 'none',
+    display: 'inline-block',
+    float: 'right',
+    marginLeft: '5px'
+  });
   }
 }
 
 // Account and EAC
 if (jQuery('#cas4_ileinner a').length == 1 && jQuery('#cas4_ileinner a').html() !== '' && jQuery('#cas4_ileinner a').html().indexOf('CrossKnowledge') === -1)
 {
-  jQuery('#cas4_ileinner a').after('<a href="https://eac.lms.crossknowledge.com/data/modules/eac/admin/eac_instance_list.php?auto=1&name=' + jQuery('#cas4_ileinner a').html() + '" style="float:right" target="_blank" title="Search this account in the EAC"><img src="https://c.eu15.content.force.com/sfc/servlet.shepherd/version/renditionDownload?rendition=THUMB720BY480&versionId=06824000000vMqA&operationContext=CHATTER&contentId=05T24000003E4Na" width=24 height=24 /></a>');
+  //jQuery('#cas4_ileinner a').after('<a href="https://eac.lms.crossknowledge.com/data/modules/eac/admin/eac_instance_list.php?auto=1&name=' + jQuery('#cas4_ileinner a').html() + '" style="float:right" target="_blank" title="Search this account in the EAC"><img src="https://c.eu15.content.force.com/sfc/servlet.shepherd/version/renditionDownload?rendition=THUMB720BY480&versionId=06824000000vMqA&operationContext=CHATTER&contentId=05T24000003E4Na" width=24 height=24 /></a>');
+  jQuery('#cas4_ileinner a:nth-child(1)').after('<a id="eac_klik2" title="Login with the EAC" href="https://eac.lms.crossknowledge.com/data/modules/eac/admin/eac_instance_list.php?auto=1&name=' + jQuery('#cas4_ileinner a').html() + '" target="_blank">EAC</a>');
+  jQuery('#eac_klik2').css({
+	border: '1px solid #ccc',
+    width: '24px',
+    height: '24px',
+	lineHeight: '24px',
+    fontSize: '10px',
+    textAlign: 'center',
+	background: 'url(https://eac.lms.crossknowledge.com/themes/crossknowledge/default_style/images/grain_black.png)',
+	color: 'white',
+	cursor: 'pointer',
+    textDecoration: 'none',
+    display: 'inline-block',
+    float: 'right'
+  });
 }
 
 // Account on behalf and EAC
