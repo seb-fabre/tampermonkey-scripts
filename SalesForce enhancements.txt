@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       SalesForce enhancements
 // @namespace  https://eu15.salesforce.com/
-// @version    18.1.17
+// @version    18.1.17.a
 // @match      https://eu15.salesforce.com/*
 // @exclude    https://eu15.salesforce.com/*.html
 // @require    http://code.jquery.com/jquery-latest.min.js
@@ -339,7 +339,7 @@ if (jQuery('#00N2400000C9cPv_ileinner a').length == 1)
 {
   var url = jQuery('#00N2400000C9cPv_ileinner a').attr('href');
 
-  var realUrl = url.match(/(https?\:\/\/([^\/]+))\/.*/);
+  var realUrl = url.match(/(https?\:\/\/([^\/]+))\/?.*/);
   if (realUrl && realUrl[1].indexOf('mohive') === -1)
   {
 	//jQuery('#00N2400000C9cPv_ileinner a').after('<a href="https://eac.lms.crossknowledge.com/data/modules/eac/admin/eac_instance_list.php?auto=1&url=' + realUrl[2] + '" style="float:right" target="_blank" title="Search this URL in the EAC"><img src="https://c.eu15.content.force.com/sfc/servlet.shepherd/version/renditionDownload?rendition=THUMB720BY480&versionId=06824000000vMqA&operationContext=CHATTER&contentId=05T24000003E4Na" width=24 height=24 /></a>');
