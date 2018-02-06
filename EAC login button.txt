@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         EAC login button for CKLS admins
 // @namespace    https://eac.lms.crossknowledge.com/
-// @version      17.09.25
+// @version      18.02.06
 // @author       Seb
 // @match        http*://*.lms.crossknowledge.com/*
 // @match        http*://*.eu.crossknowledge.com/*
@@ -9,6 +9,7 @@
 // @match        http*://*.sa.crossknowledge.com/*
 // @match        http*://*.asia.crossknowledge.com/*
 // @match        http*://*.jnstaging.crossknowledge.com/*
+// @match        http*://*.skills4success.me/*
 // @require    http://code.jquery.com/jquery-latest.min.js
 // @updateURL https://raw.githubusercontent.com/sebastien-fabre/tampermonkey-scripts/master/EAC%20login%20button.txt
 // @downloadURL https://raw.githubusercontent.com/sebastien-fabre/tampermonkey-scripts/master/EAC%20login%20button.txt
