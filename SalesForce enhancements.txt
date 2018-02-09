@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       SalesForce enhancements
 // @namespace  https://eu15.salesforce.com/
-// @version    18.2.9
+// @version    18.2.10
 // @match      https://eu15.salesforce.com/*
 // @exclude    https://eu15.salesforce.com/*.html
 // @require    http://code.jquery.com/jquery-latest.min.js
@@ -467,9 +467,14 @@ if (jQuery('#p26').length == 1)
            '<br /><br />' + c[cn]);
       }
     }
-  });
 
-  //jQuery('#iframe_p23').contents().find('body').text()
+	var emails = jQuery('#iframe_p23').contents().find('body').html().split(/(-----+ [a-zA-z ]+ -----+)/);
+	if (emails[0] === '')
+	  emails.shift();
+
+	if (emails.length > 6)
+	  jQuery('#iframe_p23').contents().find('body').html(emails[0] + emails[1] + emails[2] + emails[3] + emails[4] + emails[5] + emails[6]);
+  });
 }
 
 // add button "delete all" for spam replies in cases
