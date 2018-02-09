@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       SalesForce enhancements
 // @namespace  https://eu15.salesforce.com/
-// @version    18.1.17.a
+// @version    18.2.9
 // @match      https://eu15.salesforce.com/*
 // @exclude    https://eu15.salesforce.com/*.html
 // @require    http://code.jquery.com/jquery-latest.min.js
@@ -299,8 +299,8 @@ if (jQuery('#00N2400000C4buD_ileinner').length == 1 && jQuery('#00N2400000C4buD_
 if (jQuery('#00N2400000BdetI_ileinner').length == 1)
 {
   // Update "reply" button to include the description in the first reply
-  jQuery('#00N2400000BdetI_ileinner a').click(function() {
-    var c = Cookies.getJSON('description');
+  if (typeof(Storage) !== "undefined") {
+    var c = localStorage.getItem('description');
     var cn = jQuery('#cas2_ileinner').contents()[0].data.trim();
 
     if (!c || typeof c != 'object' || Object.keys(c).length > 20)
@@ -308,8 +308,8 @@ if (jQuery('#00N2400000BdetI_ileinner').length == 1)
 
     c[cn] = jQuery('#cas15_ileinner').html();
 
-    Cookies.set('description', c);
-  });
+    localStorage.setItem('description', JSON.stringify(c));
+  };
 
   // Add shortcut button to add time spent
   caseId = jQuery('#cas2_ileinner').contents()[0].data.trim();
@@ -456,7 +456,8 @@ if (jQuery('#p26').length == 1)
     // prefill the email body with the case description (only for first reply)
     if (jQuery('#iframe_p23').length == 1 && jQuery('#iframe_p23').contents().find('body').text() === '')
     {
-      var c = Cookies.getJSON('description');
+      if (typeof(Storage) !== "undefined") {
+        var c = JSON.parse(localStorage.getItem('description'));
        if (c[cn])
          jQuery('#iframe_p23').contents().find('body').html(
            '<br /><br /><br /><br />--------------- Original Message ---------------' +
@@ -464,8 +465,11 @@ if (jQuery('#p26').length == 1)
            '<br /><b>To:</b> support@crossknowledge.com' +
            '<br /><b>Subject:</b> ' + jQuery('#p6').val() +
            '<br /><br />' + c[cn]);
+      }
     }
   });
+
+  //jQuery('#iframe_p23').contents().find('body').text()
 }
 
 // add button "delete all" for spam replies in cases
