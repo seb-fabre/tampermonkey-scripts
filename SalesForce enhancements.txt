@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       SalesForce enhancements
 // @namespace  https://eu15.salesforce.com/
-// @version    18.2.10
+// @version    18.3.30
 // @match      https://eu15.salesforce.com/*
 // @exclude    https://eu15.salesforce.com/*.html
 // @require    http://code.jquery.com/jquery-latest.min.js
@@ -16,6 +16,16 @@ unsafeWindow.myDblClickEvent.initEvent('dblclick', true, true);
 
 unsafeWindow.myClickEvent = document.createEvent('MouseEvents');
 unsafeWindow.myClickEvent.initEvent('click', true, true);
+
+unsafeWindow.addMinutes = function(x) {
+  if (isNaN(minutesField.val()) || minutesField.val().length === 0)
+    val = 0;
+  else
+    val = parseInt(jQuery('#00N2400000C4bpm').val());
+
+  jQuery('#00N2400000C4bpm').val(val + x);
+  jQuery('#00N2400000C4bpm').keyup();
+};
 
 unsafeWindow.jQuery = jQuery;
 
@@ -254,12 +264,19 @@ if (jQuery('#00N2400000C9KO3').length == 1 && jQuery('#00N2400000C9KON').length 
 	endField.val(endField.next().children().html());
   });
 
+  jQuery('#00N2400000C4bpm')
+    .after('<button onclick="addMinutes(60)" type="button">+1 h</button>')
+    .after('<button onclick="addMinutes(30)" type="button">+30 min</button>')
+    .after('<button onclick="addMinutes(15)" type="button">+15 min</button>')
+    .after('<button onclick="addMinutes(5)" type="button">+5 min</button>');
+
   // ------------------
   if (jQuery('#CF00N2400000JWw7G').length === 1 && jQuery('#userNavLabel').length === 1 && jQuery('#CF00N2400000JWw7G').val() === '')
   {
 	jQuery('#CF00N2400000JWw7G').val(jQuery('#userNavLabel').text());
   }
 
+  // Add buttons to assign to "ME" or to L3
   if (jQuery('#CF00N2400000JWw7G').length === 1)
   {
 	jQuery('#CF00N2400000JWw7G_top').append('<br/>');
