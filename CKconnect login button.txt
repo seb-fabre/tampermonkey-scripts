@@ -1,0 +1,39 @@
+// ==UserScript==
+// @name         CK Connect button for CKLS admins
+// @namespace    https://ckconnect.crossknowledge.com/
+// @version      18.04.17
+// @author       Seb
+// @match        http*://*.lms.epistema.com/*
+// @match        http*://*.lms.crossknowledge.com/*
+// @match        http*://*.eu.crossknowledge.com/*
+// @match        http*://*.na.crossknowledge.com/*
+// @match        http*://*.sa.crossknowledge.com/*
+// @match        http*://*.asia.crossknowledge.com/*
+// @match        http*://*.jnstaging.crossknowledge.com/*
+// @match        http*://*.skills4success.me/*
+// @match        http*://campus.stormwindstudios.com/*
+// @require    http://code.jquery.com/jquery-latest.min.js
+// @updateURL https://raw.githubusercontent.com/sebastien-fabre/tampermonkey-scripts/master/CKconnect%20login%20button.txt
+// @downloadURL https://raw.githubusercontent.com/sebastien-fabre/tampermonkey-scripts/master/CKconnect%20login%20button.txt
+
+// ==/UserScript==
+
+if (document.location.pathname === '/admin/login.php' || document.location.pathname === '/interfaces/login.php')
+{
+  jQuery('body').append('<div id="ckconnect_klik" title="Log in with CK Connect"><img src="https://ckconnect.crossknowledge.com/images/header-logo.png" height="50px" /></div>');
+  jQuery('#ckconnect_klik').css({
+	border: '1px solid #f0f0f0',
+    position: 'fixed',
+    left: '30px',
+    top: '50px',
+	height: '50px',
+    fontSize: '25px',
+    textAlign: 'center',
+	color: '#000',
+	cursor: 'pointer',
+    backgroundColor: '#4f4f4f'
+  })
+  .click(function() {
+	location.href = location.protocol + '//' + document.domain + '/ckconnect';
+  });
+}
