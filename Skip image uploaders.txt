@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Skip image uploaders
 // @namespace    http://img.yt/
-// @version      18.1.7
+// @version      18.4.20
 // @author       You
 // @match        http*://img.yt/*
 // @match        http*://imgclick.net/*
@@ -23,6 +23,9 @@
 // @match        http*://www.imagespicy.site/*
 // @match        http*://imagetwist.com/*
 // @match        http*://torfile.org/*
+// @match        http*://imgtown.pw/*
+// @match        http*://imgmaze.pw/*
+// @match        http*://www.imgfile.net/*
 // @grant        none
 // @require    http://code.jquery.com/jquery-latest.min.js
 // ==/UserScript==
@@ -202,4 +205,17 @@ if (jQuery('#rang2').length == 1)
 if (location.href.indexOf('http://torfile.org/get/?') === 0)
 {
   location.href = location.href.replace('http://torfile.org/get/?', '');
+}
+
+if (jQuery('.btn_blue').length >= 1) {
+  setTimeout(function () {
+	jQuery(jQuery('form').filter(function() {
+	  return !($(this).css('visibility') == 'hidden' || $(this).css('display') == 'none');
+	})[0]).find('.btn_blue').click();
+  }, 5000);
+}
+if (jQuery('img.picview').length === 1) {
+  setTimeout(function () {
+	location.href = jQuery('img.picview').attr('src');
+  }, 5000);
 }
