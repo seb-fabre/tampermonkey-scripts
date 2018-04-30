@@ -1,8 +1,9 @@
 // ==UserScript==
 // @name         EAC login button for CKLS admins
-// @namespace    https://eac.lms.crossknowledge.com/
-// @version      18.02.06
+// @namespace    https://ckconnect.crossknowledge.com/
+// @version      18.04.31
 // @author       Seb
+// @match        http*://*.lms.epistema.com/*
 // @match        http*://*.lms.crossknowledge.com/*
 // @match        http*://*.eu.crossknowledge.com/*
 // @match        http*://*.na.crossknowledge.com/*
@@ -10,60 +11,10 @@
 // @match        http*://*.asia.crossknowledge.com/*
 // @match        http*://*.jnstaging.crossknowledge.com/*
 // @match        http*://*.skills4success.me/*
+// @match        http*://campus.stormwindstudios.com/*
+// @exclude      http*://eac.lms.crossknowledge.com/*
 // @require    http://code.jquery.com/jquery-latest.min.js
-// @updateURL https://raw.githubusercontent.com/sebastien-fabre/tampermonkey-scripts/master/EAC%20login%20button.txt
-// @downloadURL https://raw.githubusercontent.com/sebastien-fabre/tampermonkey-scripts/master/EAC%20login%20button.txt
+// @updateURL https://raw.githubusercontent.com/sebastien-fabre/tampermonkey-scripts/master/CKconnect%20login%20button.txt
+// @downloadURL https://raw.githubusercontent.com/sebastien-fabre/tampermonkey-scripts/master/CKconnect%20login%20button.txt
+
 // ==/UserScript==
-
-if (document.domain === 'eac.lms.crossknowledge.com')
-{
-  if (document.location.pathname === '/data/modules/eac/admin/eac_instance_list.php' && window.location.search.indexOf('auto=1') !== -1)
-  {
-	if (jQuery('.resizable tbody tr').length === 1)
-	{
-	  var row = jQuery(jQuery('.resizable tbody tr')[0]);
-	  var id = jQuery('td:nth(0) a', row).attr('href').replace(/.*_id=/, '');
-	  location.href = 'https://eac.lms.crossknowledge.com/data/modules/eac/admin/admin_autoconnect.php?eac_instance_id=' + id;
-	}
-  }
-}
-else if (document.location.pathname === '/admin/login.php')
-{
-  jQuery('body').append('<div id="eac_klik" title="Login with the EAC">EAC</div>');
-  jQuery('#eac_klik').css({
-	border: '1px solid #000',
-    width: '50px',
-    height: '50px',
-    position: 'fixed',
-    left: '50px',
-    top: '200px',
-	lineHeight: '50px',
-    fontSize: '20px',
-    textAlign: 'center',
-	background: 'url(https://eac.lms.crossknowledge.com/themes/crossknowledge/default_style/images/grain_black.png)',
-	color: 'white',
-	cursor: 'pointer'
-  })
-  .click(function() {
-	location.href = 'https://eac.lms.crossknowledge.com/data/modules/eac/admin/eac_instance_list.php?auto=1&url=' + document.domain;
-  });
-
-  jQuery('body').append('<div id="ckconnect_klik" title="Login with CK Connect">&nbsp;</div>');
-  jQuery('#ckconnect_klik').css({
-	border: '1px solid #f0f0f0',
-    width: '50px',
-    height: '50px',
-    position: 'fixed',
-    left: '120px',
-    top: '200px',
-	lineHeight: '50px',
-    fontSize: '25px',
-    textAlign: 'center',
-    background: 'url(https://ckconnect.crossknowledge.com/images/header-logo.png)  -240px center no-repeat #000',
-	color: '#000',
-	cursor: 'pointer'
-  })
-  .click(function() {
-	location.href = location.protocol + '//' + document.domain + '/ckconnect';
-  });
-}
