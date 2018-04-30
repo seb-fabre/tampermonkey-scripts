@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         CK Connect button for CKLS admins
 // @namespace    https://ckconnect.crossknowledge.com/
-// @version      18.04.31
+// @version      18.04.31.a
 // @author       Seb
 // @match        http*://*.lms.epistema.com/*
 // @match        http*://*.lms.crossknowledge.com/*
@@ -12,6 +12,7 @@
 // @match        http*://*.jnstaging.crossknowledge.com/*
 // @match        http*://*.skills4success.me/*
 // @match        http*://campus.stormwindstudios.com/*
+// @match        http*://*.mohive.net/*
 // @exclude      http*://eac.lms.crossknowledge.com/*
 // @require    http://code.jquery.com/jquery-latest.min.js
 // @updateURL https://raw.githubusercontent.com/sebastien-fabre/tampermonkey-scripts/master/CKconnect%20login%20button.txt
@@ -19,14 +20,14 @@
 
 // ==/UserScript==
 
-if (document.location.pathname === '/admin/login.php' || document.location.pathname === '/interfaces/login.php')
+if (document.location.pathname === '/admin/login.php' || document.location.pathname === '/interfaces/login.php' || location.href.indexOf('mohive.net') !== -1)
 {
   jQuery('body').append('<div id="ckconnect_klik" title="Log in with CK Connect"><img src="https://ckconnect.crossknowledge.com/images/header-logo.png" height="50px" /></div>');
   jQuery('#ckconnect_klik').css({
 	border: '1px solid #f0f0f0',
     position: 'fixed',
     left: '30px',
-    top: '50px',
+    top: '150px',
 	height: '50px',
     fontSize: '25px',
     textAlign: 'center',
