@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         CK Connect button for CKLS admins
 // @namespace    https://ckconnect.crossknowledge.com/
-// @version      18.04.31.a
+// @version      18.5.2
 // @author       Seb
 // @match        http*://*.lms.epistema.com/*
 // @match        http*://*.lms.crossknowledge.com/*
@@ -20,7 +20,7 @@
 
 // ==/UserScript==
 
-if (document.location.pathname === '/admin/login.php' || document.location.pathname === '/interfaces/login.php' || location.href.indexOf('mohive.net') !== -1)
+if (document.location.pathname === '/admin/login.php' || document.location.pathname === '/interfaces/login.php' || (location.href.indexOf('mohive.net') !== -1 && document.location.pathname.replace('//', '/') === '/'))
 {
   jQuery('body').append('<div id="ckconnect_klik" title="Log in with CK Connect"><img src="https://ckconnect.crossknowledge.com/images/header-logo.png" height="50px" /></div>');
   jQuery('#ckconnect_klik').css({
