@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       SalesForce enhancements
 // @namespace  https://eu15.salesforce.com/
-// @version    18.4.2
+// @version    18.5.2
 // @match      https://eu15.salesforce.com/*
 // @exclude    https://eu15.salesforce.com/*.html
 // @require    http://code.jquery.com/jquery-latest.min.js
@@ -483,6 +483,7 @@ if (jQuery('#p26').length == 1)
 	jQuery('#p26').val('support@crossknowledge.com:support@crossknowledge.com');
 
   jQuery('#iframe_p23').contents().find('body').ready(function() {
+    setTimeout(function () {
     // prefill the email body with the case description (only for first reply)
     if (jQuery('#iframe_p23').length == 1 && jQuery('#iframe_p23').contents().find('body').text() === '')
     {
@@ -504,6 +505,7 @@ if (jQuery('#p26').length == 1)
 
 	if (emails.length > 6)
 	  jQuery('#iframe_p23').contents().find('body').html(emails[0] + emails[1] + emails[2] + emails[3] + emails[4] + emails[5] + emails[6]);
+    }, 1000);
   });
 }
 
