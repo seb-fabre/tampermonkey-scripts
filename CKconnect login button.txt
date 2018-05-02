@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         CK Connect button for CKLS admins
 // @namespace    https://ckconnect.crossknowledge.com/
-// @version      18.5.2
+// @version      18.5.2.a
 // @author       Seb
 // @match        http*://*.lms.epistema.com/*
 // @match        http*://*.lms.crossknowledge.com/*
@@ -14,6 +14,7 @@
 // @match        http*://campus.stormwindstudios.com/*
 // @match        http*://*.mohive.net/*
 // @exclude      http*://eac.lms.crossknowledge.com/*
+// @exclude      http*://eac.eu.crossknowledge.com/*
 // @require    http://code.jquery.com/jquery-latest.min.js
 // @updateURL https://raw.githubusercontent.com/sebastien-fabre/tampermonkey-scripts/master/CKconnect%20login%20button.txt
 // @downloadURL https://raw.githubusercontent.com/sebastien-fabre/tampermonkey-scripts/master/CKconnect%20login%20button.txt
