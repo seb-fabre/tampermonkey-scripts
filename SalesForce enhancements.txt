@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       SalesForce enhancements
 // @namespace  https://eu15.salesforce.com/
-// @version    18.5.2.a
+// @version    18.7.20
 // @match      https://eu15.salesforce.com/*
 // @exclude    https://eu15.salesforce.com/*.html
 // @require    http://code.jquery.com/jquery-latest.min.js
@@ -18,9 +18,10 @@ unsafeWindow.myClickEvent = document.createEvent('MouseEvents');
 unsafeWindow.myClickEvent.initEvent('click', true, true);
 
 // define global variables to avoid stupid warnings in TamperMonkey's editor
-if (false) {
+function useless() {
   var jQuery = function () {};
   var Cookies = function () {};
+  var $ = function () {};
 }
 
 unsafeWindow.addMinutes = function(x) {
@@ -42,8 +43,8 @@ var html = '';
 jQuery.fn.waitUntilExists = function(handler, loop) {
 
   var selector = this.selector;
-  var $this = jQuery(selector);
-  var $elements = $this.not(function() { return jQuery(this).data(found); });
+  var $this = $(selector);
+  var $elements = $this.not(function() { return $(this).data(found); });
 
   if (loop === undefined)
 	loop = 50;
