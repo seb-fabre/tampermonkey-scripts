@@ -1,7 +1,7 @@
-﻿// ==UserScript==
+// ==UserScript==
 // @name       Spira enhancements
 // @namespace  http://spira/
-// @version    17.9.13
+// @version    18.7.20
 // @description  enter something useful
 // @match      http*://thefactory.crossknowledge.com/*
 // @match 	   http*://thefactory.crossknowledge.com/Popups/FileArtifactUploadDialog.aspx*
@@ -9,122 +9,31 @@
 // @updateURL https://raw.githubusercontent.com/sebastien-fabre/tampermonkey-scripts/master/Spira%20enhancements.txt
 // @downloadURL https://raw.githubusercontent.com/sebastien-fabre/tampermonkey-scripts/master/Spira%20enhancements.txt
 // @copyright  2015+, You
-// @require http://code.jquery.com/jquery-latest.js
-// @require https://code.jquery.com/ui/1.12.1/jquery-ui.js
-// @require    https://raw.githubusercontent.com/js-cookie/js-cookie/v2.1.2/src/js.cookie.js
 // ==/UserScript==
 
-jQuery.fn.waitUntilExists = function(handler, loop) {
-
-  var selector = this.selector;
-  var $this = $(selector);
-  var $elements = $this.not(function() { return $(this).data(found); });
-
-  if (loop === undefined)
-	loop = 50;
-
-  if (handler !== 'remove' && loop > 0)
-  {
-	// Run the handler on all found elements and mark as found
-	$elements.each(handler).data(found, true);
-
-	if (!$this.length)
-	{
-	  // If this is a recurring search or if the target has not yet been found, create an interval to continue searching for the target
-	  window.setTimeout(function () {
-		$this.waitUntilExists(handler, loop-1);
-	  }, 200);
-	}
-  }
-
-  return $this;
-};
-
-// Allow user to change the order of the fields in Spira's form
-function redoClearBlocks(updateCookie)
-{
-  $('#cplMainContent_pnlOverview_Details .clearfix.visible-lg-block').remove();
-
-  var divs = $("#cplMainContent_pnlOverview_Details .form-group");
-
-  for (i=2; i<divs.length; i+=3)
-	$(divs[i]).after($('<div class="clearfix visible-lg-block"></div>'));
-
-  var hash = '';
-  $("#cplMainContent_pnlOverview_Details .form-group .DataLabel label, #cplMainContent_pnlOverview_Details .form-group .DataLabel span").each(function (i) {
-	hash += $(this).attr('id') + ',';
-  });
-
-  if (updateCookie)
-  {
-    var c = Cookies.getJSON('form-hash');
-    if (!c)
-      c = {};
-
-    c[SpiraContext.ProjectId] = hash;
-    Cookies.set('form-hash', c);
-  }
+// define global variables to avoid stupid warnings in TamperMonkey's editor
+if (false) {
+  var jQuery = function () {};
+  var myClickEvent = function () {};
+  var $ = jQuery;
 }
 
-function resetCookie(e)
-{
-  e.stopPropagation();
-  var c = Cookies.getJSON('form-hash');
-  if (!c)
-    return;
+jQuery = unsafeWindow.jQuery;
 
-  c[SpiraContext.ProjectId] = undefined;
-  Cookies.set('form-hash', c);
-  location.reload();
-}
-unsafeWindow.resetCookie = resetCookie;
-
-// Allow to move the main form fields
-if ($("#cplMainContent_pnlOverview_Details").length == 1)
-{
-  $('.visible-sm-block').remove();
-
-  var c = Cookies.getJSON('form-hash');
-  if (c && c[SpiraContext.ProjectId])
-  {
-	ids = c[SpiraContext.ProjectId].split(',');
-	for (i = ids.length; i>=0; i--)
-	{
-	  if ($('#' + ids[i]).length === 0)
-		continue;
-
-	  $("#cplMainContent_pnlOverview_Details").prepend($('#' + ids[i]).closest('.form-group'));
-	}
-
-	redoClearBlocks(false);
-  }
-
-  $("#cplMainContent_pnlOverview_Details").sortable({
-	items: '.form-group',
-	handle: '.DataLabel',
-	update: function(event, ui) {
-	  redoClearBlocks(true);
-	}
-  });
-
-  $("#cplMainContent_pnlOverview_Details").disableSelection();
-
-  $('#cplMainContent_pnlOverview_Details_Header').append('<img src="/App_Themes/InflectraTheme/Images/Filetypes/Application.png" title="Reset form" id="imgSaveResetStuffCookie" style="cursor: pointer;" />');
-  $('#imgSaveResetStuffCookie').click(resetCookie);
-}
-
+unsafeWindow.myClickEvent = myClickEvent = document.createEvent('MouseEvents');
+unsafeWindow.myClickEvent.initEvent('click', true, true);
 
 // Visual enhancements
-$(".rteDiv").css("resize", "both");
-$(".rteDiv").parent().parent().css("height", "auto");
+jQuery(".rteDiv").css("resize", "both");
+jQuery(".rteDiv").parent().parent().css("height", "auto");
 
 var found = 'waitUntilExists.found';
 
 jQuery.fn.waitUntilExists = function(handler, loop) {
 
   var selector = this.selector;
-  var $this = $(selector);
-  var $elements = $this.not(function() { return $(this).data(found); });
+  var $this = jQuery(selector);
+  var $elements = $this.not(function() { return jQuery(this).data(found); });
 
   if (loop === undefined)
 	loop = 50;
@@ -146,11 +55,8 @@ jQuery.fn.waitUntilExists = function(handler, loop) {
   return $this;
 };
 
-if ($('#cplMainContent_radUrl'))
+if (jQuery('#cplMainContent_radUrl'))
 {
-  unsafeWindow.myClickEvent = document.createEvent('MouseEvents');
-  unsafeWindow.myClickEvent.initEvent('click', true, true);
-
   if (document.getElementById('cplMainContent_ddlDocType') && document.getElementById('cplMainContent_ddlDocFolder'))
   {
 	// populate the lists
@@ -169,21 +75,21 @@ if ($('#cplMainContent_radUrl'))
 	setTimeout(populate, 500);
   }
 
-  // Add onclick event on radio button for Keyze
+  // Add onclick event on radio button for Support Case
   var onclick = "if ($find('tblAttachment')) $find('tblAttachment').show_attachment_type_url(); document.getElementById('cplMainContent_txtURL').value='https://crossknowledge.force.com/Community/';";
   onclick += "document.getElementById('titicket').dispatchEvent(myClickEvent);";
 
-  $('#cplMainContent_radUrl').parent().append($('<input type="radio" name="AttachmentType" value="ctl00$cplMainContent$radUrl" onclick="' + onclick + '" />'));
-  $('#cplMainContent_radUrl').parent().append('Keyze');
+  jQuery('#cplMainContent_radUrl').parent().append(jQuery('<input type="radio" name="AttachmentType" value="ctl00$cplMainContent$radUrl" onclick="' + onclick + '" />'));
+  jQuery('#cplMainContent_radUrl').parent().append(' Support case');
 
-  $('#cplMainContent_radUrl').parents('table').css('width', '700px');
-  $('#cplMainContent_txtURL, #cplMainContent_filAttachment, #cplMainContent_txtAttachmentDescription').css('width', '500px');
+  jQuery('#cplMainContent_radUrl').parents('table').css('width', '700px');
+  jQuery('#cplMainContent_txtURL, #cplMainContent_filAttachment, #cplMainContent_txtAttachmentDescription').css('width', '500px');
 
-  $('#cplMainContent_tstAttachmentPanel_dlgUploadAttachment').css('width', '700px');
-  $('#cplMainContent_tstAttachmentPanel_dlgUploadAttachment .DialogClose').css('left', '650px');
+  jQuery('#cplMainContent_tstAttachmentPanel_dlgUploadAttachment').css('width', '700px');
+  jQuery('#cplMainContent_tstAttachmentPanel_dlgUploadAttachment .DialogClose').css('left', '650px');
 
   // Change onclick event for URL radio button
-  var onclick = "if ($find('tblAttachment')) $find('tblAttachment').show_attachment_type_url(); document.getElementById('cplMainContent_txtURL').value='';";
+  onclick = "if ($find('tblAttachment')) $find('tblAttachment').show_attachment_type_url(); document.getElementById('cplMainContent_txtURL').value='';";
   onclick += "document.getElementById('uhurl').dispatchEvent(myClickEvent);";
   jQuery('#cplMainContent_radUrl').attr('onclick', onclick);
 }
@@ -194,7 +100,7 @@ function buttonOnCLick(dropDownId, searchItem)
   var dropDown = $find(dropDownId);
   var items = dropDown.get_items();
 
-  for (i = 0; i < items.length; i++)
+  for (var i = 0; i < items.length; i++)
   {
 	if(searchItem == items[i].get_text())
 	{
