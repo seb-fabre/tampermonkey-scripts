@@ -17,7 +17,14 @@ unsafeWindow.myDblClickEvent.initEvent('dblclick', true, true);
 unsafeWindow.myClickEvent = document.createEvent('MouseEvents');
 unsafeWindow.myClickEvent.initEvent('click', true, true);
 
+// define global variables to avoid stupid warnings in TamperMonkey's editor
+if (false) {
+  var jQuery = function () {};
+  var Cookies = function () {};
+}
+
 unsafeWindow.addMinutes = function(x) {
+  var val;
   if (isNaN(minutesField.val()) || minutesField.val().length === 0)
     val = 0;
   else
@@ -30,12 +37,13 @@ unsafeWindow.addMinutes = function(x) {
 unsafeWindow.jQuery = jQuery;
 
 var found = 'waitUntilExists.found';
+var html = '';
 
 jQuery.fn.waitUntilExists = function(handler, loop) {
 
   var selector = this.selector;
-  var $this = $(selector);
-  var $elements = $this.not(function() { return $(this).data(found); });
+  var $this = jQuery(selector);
+  var $elements = $this.not(function() { return jQuery(this).data(found); });
 
   if (loop === undefined)
 	loop = 50;
@@ -83,10 +91,11 @@ if (jQuery('#00N24000005Z7V6_ileinner').length == 1 && jQuery('#00N24000005Z7V6_
 {
   var spiras = jQuery('#00N24000005Z7V6_ileinner').html().split(new RegExp("[ ,]+", "g"));
 
-  var html = '';
+  html = '';
   var glu = '';
+  var matches = [];
 
-  for (j=0; j<spiras.length; j++)
+  for (var j=0; j<spiras.length; j++)
   {
 	if (spiras[j].trim().indexOf('http://thefactory') == -1 && spiras[j].trim().indexOf('https://thefactory') == -1)
 	{
@@ -110,7 +119,7 @@ if (jQuery('#00N2400000IyF0a_ileinner').length == 1 && jQuery('#00N2400000IyF0a_
 {
   var topic = jQuery('#00N2400000IyF0a_ileinner').html().trim();
 
-  var html = '<a href="' + topic + '" target="_blank">' + topic + '</a>';
+  html = '<a href="' + topic + '" target="_blank">' + topic + '</a>';
 
   jQuery('#00N2400000IyF0a_ileinner').html(html);
 }
@@ -185,12 +194,12 @@ setTimeout(function () {
 // Always display the HTML version of the email directly
 if (jQuery('#HtmlBody_ileinner').length == 1)
 {
-  ss = jQuery('#HtmlBody_ileinner script').html();
+  var ss = jQuery('#HtmlBody_ileinner script').html();
   htmlBody = ss.match(/var docContents = '(.*)';d=w.document.*./)[1];
   htmlBody = unescape(htmlBody);
 
   var r = /\\u([\d\w]{4})/gi;
-  x = htmlBody.replace(r, function (match, grp) {
+  var x = htmlBody.replace(r, function (match, grp) {
 	return String.fromCharCode(parseInt(grp, 16)); } );
   x = unescape(x);
   x = x.replace(/\\"/g, '"');
@@ -287,7 +296,7 @@ if (jQuery('#00N2400000C9KO3').length == 1 && jQuery('#00N2400000C9KON').length 
   // Increase size of comment field (in the timesheet)
   if (jQuery('#00N2400000C4bpr').length === 1)
   {
-	comm = jQuery('#00N2400000C4bpr').parent();
+	var comm = jQuery('#00N2400000C4bpr').parent();
 	comm.next().next().remove();
 	comm.next().remove();
 
@@ -305,7 +314,7 @@ if (jQuery('#00N2400000C4buD_ileinner').length == 1 && jQuery('#00N2400000C4buD_
 	  jQuery('#00N2400000C4buD_ileinner').parents('td').first().css('background-color', '#f77');
   }
 
-  ticketId = unsafeWindow.sfdcPage.entityId;
+  var ticketId = unsafeWindow.sfdcPage.entityId;
   jQuery('#' + ticketId + '_RelatedEmailMessageList_link span.count').waitUntilExists(function() {
 
 	if (jQuery('#' + ticketId + '_RelatedEmailMessageList_link span.count').html() != '[0]')
@@ -329,7 +338,7 @@ if (jQuery('#00N2400000BdetI_ileinner').length == 1)
   };
 
   // Add shortcut button to add time spent
-  caseId = jQuery('#cas2_ileinner').contents()[0].data.trim();
+  var caseId = jQuery('#cas2_ileinner').contents()[0].data.trim();
 
   url = '/a00/e?CF00N2400000C4bq1=' + caseId + '&CF00N2400000C4bq1_lkid=' + unsafeWindow.sfdcPage.entityId + '&retURL=%2F' + unsafeWindow.sfdcPage.entityId + '&saveURL=%2F' + unsafeWindow.sfdcPage.entityId;
 
@@ -411,10 +420,10 @@ if (jQuery('#CF00N2400000JWupL_ileinner a').length == 1 && jQuery('#CF00N2400000
 
 if (jQuery('#cas2_ileinner').length == 1)
 {
-  var cn = jQuery('#cas2_ileinner').contents()[0].data.trim();
+  cn = jQuery('#cas2_ileinner').contents()[0].data.trim();
   var caseType = jQuery('#cas5_ileinner').contents()[0].data.trim();
   var cat = jQuery('#00N2400000CNjHF_ileinner').contents()[0].data.trim();
-  var c = Cookies.getJSON('cases');
+  c = Cookies.getJSON('cases');
 
   if (caseType == 'Technical Support' && cat == 'Mohive')
 	caseType = 'Mohive';
@@ -433,12 +442,12 @@ if (jQuery('#cas2_ileinner').length == 1)
 // auto-select support@ck.com in new reply form
 if (jQuery('#p26').length == 1)
 {
-  var c = Cookies.getJSON('cases');
+  c = Cookies.getJSON('cases');
 
   if (jQuery('#p3').length == 1)
-	var cn = jQuery('#p3').val();
+	cn = jQuery('#p3').val();
   else
-	var cn = jQuery('.labelCol:contains(Case)').next().html();
+	cn = jQuery('.labelCol:contains(Case)').next().html();
 
   if (!c[cn] || c[cn] == 'Technical Support')
 	jQuery('#p26').val('support@crossknowledge.com:support@crossknowledge.com');
