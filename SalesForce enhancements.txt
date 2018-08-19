@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       SalesForce enhancements
 // @namespace  https://eu15.salesforce.com/
-// @version    18.7.20
+// @version    18.8.19
 // @match      https://eu15.salesforce.com/*
 // @exclude    https://eu15.salesforce.com/*.html
 // @require    http://code.jquery.com/jquery-latest.min.js
@@ -344,6 +344,15 @@ if (jQuery('#00N2400000BdetI_ileinner').length == 1)
   url = '/a00/e?CF00N2400000C4bq1=' + caseId + '&CF00N2400000C4bq1_lkid=' + unsafeWindow.sfdcPage.entityId + '&retURL=%2F' + unsafeWindow.sfdcPage.entityId + '&saveURL=%2F' + unsafeWindow.sfdcPage.entityId;
 
   jQuery('#00N2400000BdetI_ileinner').prepend('<a href="' + url + '" style="height: 50px; width: 50px; overflow: hidden; display: inline-block;"><img src="https://eu15.salesforce.com/img/icon/alarmClock64.png" style="position: relative; top: -7px; left: -7px;" /></a>');
+}
+
+if (jQuery('#00N2400000C4bpr_ileinner').length === 1) {
+  var commm = jQuery('#00N2400000C4bpr_ileinner').parent();
+  commm.next().next().remove();
+  commm.next().remove();
+
+  commm.attr('colspan', 3);
+  jQuery('#00N2400000C4bpr_ileinner').css('width', '100%');
 }
 
 // Allow to move to the previous/next email with the arrow keys
