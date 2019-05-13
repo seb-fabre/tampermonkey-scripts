@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       SalesForce enhancements
 // @namespace  https://eu15.salesforce.com/
-// @version    18.10.11
+// @version    19.05.13
 // @match      https://eu15.salesforce.com/*
 // @exclude    https://eu15.salesforce.com/*.html
 // @require    http://code.jquery.com/jquery-latest.min.js
@@ -104,6 +104,8 @@ if (jQuery('#00N24000005Z7V6_ileinner').length == 1 && jQuery('#00N24000005Z7V6_
 		html += glu + '<a href="https://thefactory.crossknowledge.com/14/Requirement/' + matches[1] + '.aspx" target="_blank">' + spiras[j].trim() + '</a>';
 	  else if (matches = spiras[j].trim().match(/\[IN:(\d+)\]/))
 		html += glu + '<a href="https://thefactory.crossknowledge.com/14/Incident/' + matches[1] + '.aspx" target="_blank">' + spiras[j].trim() + '</a>';
+	  else if (matches = spiras[j].trim().match(/([A-Z]+-\d+)/))
+		html += glu + '<a href="https://jira.wiley.com/browse/' + matches[1] + '" target="_blank">' + spiras[j].trim() + '</a>';
 	  else
 		html += glu + '<a href="https://thefactory.crossknowledge.com/14/Incident/' + spiras[j].trim() + '.aspx" target="_blank">' + spiras[j].trim() + '</a>';
 	}
