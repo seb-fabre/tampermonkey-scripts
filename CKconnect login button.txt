@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         CK Connect button for CKLS admins
 // @namespace    https://ckconnect.crossknowledge.com/
-// @version      18.5.2.a
+// @version      19.6.7
 // @author       Seb
 // @match        http*://*.lms.epistema.com/*
 // @match        http*://*.lms.crossknowledge.com/*
@@ -12,6 +12,7 @@
 // @match        http*://*.jnstaging.crossknowledge.com/*
 // @match        http*://*.skills4success.me/*
 // @match        http*://campus.stormwindstudios.com/*
+// @match        https://mylearning.ckls.crossknowledge-china.com/*
 // @match        http*://*.mohive.net/*
 // @exclude      http*://eac.lms.crossknowledge.com/*
 // @exclude      http*://eac.eu.crossknowledge.com/*
