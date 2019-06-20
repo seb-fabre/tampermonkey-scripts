@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name       Spira enhancements
-// @namespace  http://spira/
-// @version    18.7.20
-// @description  enter something useful
+// @name       Spira & Jira enhancements
+// @namespace  http://spira-jira/
+// @version    19.6.21
+// @match        https://jira.wiley.com/*
 // @match      http*://thefactory.crossknowledge.com/*
 // @match 	   http*://thefactory.crossknowledge.com/Popups/FileArtifactUploadDialog.aspx*
 // @exclude    http://thefactory.crossknowledge.com/*/Incident/List.aspx*
@@ -22,10 +22,6 @@ jQuery = unsafeWindow.jQuery;
 
 unsafeWindow.myClickEvent = myClickEvent = document.createEvent('MouseEvents');
 unsafeWindow.myClickEvent.initEvent('click', true, true);
-
-// Visual enhancements
-jQuery(".rteDiv").css("resize", "both");
-jQuery(".rteDiv").parent().parent().css("height", "auto");
 
 var found = 'waitUntilExists.found';
 
@@ -55,176 +51,235 @@ jQuery.fn.waitUntilExists = function(handler, loop) {
   return $this;
 };
 
-if (jQuery('#cplMainContent_radUrl'))
-{
-  if (document.getElementById('cplMainContent_ddlDocType') && document.getElementById('cplMainContent_ddlDocFolder'))
-  {
-	// populate the lists
-	function populate()
-	{
-	  document.getElementById('cplMainContent_ddlDocType').dispatchEvent(myClickEvent);
-	  document.getElementById('cplMainContent_ddlDocFolder').dispatchEvent(myClickEvent);
+if (location.href.indexOf('thefactory.crossknowledge.com') !== -1) {
 
-	  jQuery('#cplMainContent_ddlDocType_list div[title=Ticket]').attr('id', 'titicket');
-	  jQuery('#cplMainContent_ddlDocFolder div[title=Internal]').attr('id', 'tintinternal');
-	  jQuery('#cplMainContent_ddlDocType_list div:contains(URL)').attr('id', 'uhurl');
+    // Visual enhancements
+    jQuery(".rteDiv").css("resize", "both");
+    jQuery(".rteDiv").parent().parent().css("height", "auto");
 
-	  document.getElementById('tintinternal').dispatchEvent(myClickEvent);
-	}
+    if (jQuery('#cplMainContent_radUrl'))
+    {
+        if (document.getElementById('cplMainContent_ddlDocType') && document.getElementById('cplMainContent_ddlDocFolder'))
+        {
+            // populate the lists
+            function populate()
+            {
+                document.getElementById('cplMainContent_ddlDocType').dispatchEvent(myClickEvent);
+                document.getElementById('cplMainContent_ddlDocFolder').dispatchEvent(myClickEvent);
 
-	setTimeout(populate, 500);
-  }
+                jQuery('#cplMainContent_ddlDocType_list div[title=Ticket]').attr('id', 'titicket');
+                jQuery('#cplMainContent_ddlDocFolder div[title=Internal]').attr('id', 'tintinternal');
+                jQuery('#cplMainContent_ddlDocType_list div:contains(URL)').attr('id', 'uhurl');
 
-  // Add onclick event on radio button for Support Case
-  var onclick = "if ($find('tblAttachment')) $find('tblAttachment').show_attachment_type_url(); document.getElementById('cplMainContent_txtURL').value='https://crossknowledge.force.com/Community/';";
-  onclick += "document.getElementById('titicket').dispatchEvent(myClickEvent);";
+                document.getElementById('tintinternal').dispatchEvent(myClickEvent);
+            }
 
-  jQuery('#cplMainContent_radUrl').parent().append(jQuery('<input type="radio" name="AttachmentType" value="ctl00$cplMainContent$radUrl" onclick="' + onclick + '" />'));
-  jQuery('#cplMainContent_radUrl').parent().append(' Support case');
+            setTimeout(populate, 500);
+        }
 
-  jQuery('#cplMainContent_radUrl').parents('table').css('width', '700px');
-  jQuery('#cplMainContent_txtURL, #cplMainContent_filAttachment, #cplMainContent_txtAttachmentDescription').css('width', '500px');
+        // Add onclick event on radio button for Support Case
+        var onclick = "if ($find('tblAttachment')) $find('tblAttachment').show_attachment_type_url(); document.getElementById('cplMainContent_txtURL').value='https://crossknowledge.force.com/Community/';";
+        onclick += "document.getElementById('titicket').dispatchEvent(myClickEvent);";
 
-  jQuery('#cplMainContent_tstAttachmentPanel_dlgUploadAttachment').css('width', '700px');
-  jQuery('#cplMainContent_tstAttachmentPanel_dlgUploadAttachment .DialogClose').css('left', '650px');
+        jQuery('#cplMainContent_radUrl').parent().append(jQuery('<input type="radio" name="AttachmentType" value="ctl00$cplMainContent$radUrl" onclick="' + onclick + '" />'));
+        jQuery('#cplMainContent_radUrl').parent().append(' Support case');
 
-  // Change onclick event for URL radio button
-  onclick = "if ($find('tblAttachment')) $find('tblAttachment').show_attachment_type_url(); document.getElementById('cplMainContent_txtURL').value='';";
-  onclick += "document.getElementById('uhurl').dispatchEvent(myClickEvent);";
-  jQuery('#cplMainContent_radUrl').attr('onclick', onclick);
-}
+        jQuery('#cplMainContent_radUrl').parents('table').css('width', '700px');
+        jQuery('#cplMainContent_txtURL, #cplMainContent_filAttachment, #cplMainContent_txtAttachmentDescription').css('width', '500px');
 
-// Add buttons to prefill the selected user in drop-down lists
-function buttonOnCLick(dropDownId, searchItem)
-{
-  var dropDown = $find(dropDownId);
-  var items = dropDown.get_items();
+        jQuery('#cplMainContent_tstAttachmentPanel_dlgUploadAttachment').css('width', '700px');
+        jQuery('#cplMainContent_tstAttachmentPanel_dlgUploadAttachment .DialogClose').css('left', '650px');
 
-  for (var i = 0; i < items.length; i++)
-  {
-	if(searchItem == items[i].get_text())
-	{
-	  dropDown.set_selectedItem(items[i]);
-	}
-  }
-  return false;
-}
-
-function createButton(dropDownId)
-{
-  var referenceNode = document.querySelector("#" + dropDownId);
-
-  if (!referenceNode || referenceNode.length === 0)
-	return;
-
-  // Create QA Team and a PHP Team button
-  if (dropDownId == 'cplMainContent_ddlOwner')
-  {
-	var qaButton = document.createElement("button");
-	qaButton.innerHTML = "QA Team";
-	qaButton.className = "btn btn-default btn-xs";
-	referenceNode.parentNode.insertBefore(qaButton, referenceNode.nextSibling);
-
-	qaButton.onclick = function() {
-	  return buttonOnCLick(dropDownId, "SQA-HUB Team");
-	};
-
-	var teamButton = document.createElement("button");
-	teamButton.className = "btn btn-default btn-xs";
-	var teamButtonLabel = "";
-	if(document.URL.match(/http(s)?:\/\/thefactory.crossknowledge\.com\/10\/*/))
-	{
-	  teamButtonLabel = "NET Team";
-	}
-	else
-	{
-	  teamButtonLabel = "M Squad";
-	}
-	teamButton.innerHTML = teamButtonLabel;
-	referenceNode.parentNode.insertBefore(teamButton, referenceNode.nextSibling);
-
-	teamButton.onclick = function() {
-	  return buttonOnCLick(dropDownId, teamButtonLabel);
-	};
-  }
-
-  // Create Me button
-  var meButton = document.createElement("button");
-  meButton.innerHTML = "ME";
-  meButton.className = "btn btn-default btn-xs";
-  referenceNode.parentNode.insertBefore(meButton, referenceNode.nextSibling);
-
-  meButton.onclick = function() {
-	var myName = document.querySelector("#tstGlobalNavigation_lblUserFullName").innerHTML;
-	return buttonOnCLick(dropDownId, myName);
-  };
-}
-
-// Only add the shortcut buttons if they haven't already been added by a browser plugin
-setTimeout(function () {
-  if (jQuery('#cplMainContent_ddlOpener ~ button').length === 0)
-  {
-	createButton('cplMainContent_ddlOwner');
-	createButton('cplMainContent_ddlOpener');
-	createButton('cplMainContent_tblFields_Custom_05');
-	createButton('cplMainContent_tblFields_Custom_01');
-	createButton('cplMainContent_tblFields_Custom_02');
-  }
-}, 1000);
-
-// improve the dimensions of some popups
-jQuery('head').append('<style type="text/css">#cplMainContent_tstArtifactLinkPanel_ajxIncidentsSelector .Body, #cplMainContent_tstArtifactLinkPanel_ajxRequirementsSelector .Body { height: 500px !important; width: 420px !important; }' +
-					  '#cplMainContent_tstArtifactLinkPanel_ajxIncidentsSelector .Header, #cplMainContent_tstArtifactLinkPanel_ajxRequirementsSelector .Header { height: 30px !important; width: 420px !important; }' +
-					  '#cplMainContent_tstArtifactLinkPanel_ajxIncidentsSelector, #cplMainContent_tstArtifactLinkPanel_ajxRequirementsSelector { /* height: 150px;*/ height: 530px !important; width: 400px !important; }' +
-					  '#cplMainContent_tstArtifactLinkPanel_pnlAddAssociation { height: 800px !important; left: 150px !important; top: 10px !important; width: 800px !important; }' +
-					  '#cplMainContent_tstArtifactLinkPanel_pnlAddAssociation .DialogClose { left: 750px !important; }' +
-					  '#cplMainContent_tstArtifactLinkPanel_txtComment { /*display: none !important;*/ }' +
-					  '</style>');
-
-function addButton(label, onClick, destination) {
-    var span = document.createElement("span");
-    span.className = "cke_toolbar";
-
-    var link = document.createElement("a");
-    link.className = "cke_button";
-    link.style.border = "1px solid #adadad";
-    link.style.backgroundColor = "#e6e6e6";
-    link.style.borderRadius = "2px";
-    link.style.marginRight = "5px";
-
-    var spanLabel = document.createElement("span");
-    spanLabel.className = "cke_button_label";
-
-    spanLabel.innerHTML = label;
-    spanLabel.style.display = "inline";
-    link.appendChild(spanLabel);
-
-    link.setAttribute("onclick", onClick);
-    span.setAttribute("width","200px");
-    span.appendChild(link);
-    if (document.querySelector(destination)) {
-        document.querySelector(destination).appendChild(span);
+        // Change onclick event for URL radio button
+        onclick = "if ($find('tblAttachment')) $find('tblAttachment').show_attachment_type_url(); document.getElementById('cplMainContent_txtURL').value='';";
+        onclick += "document.getElementById('uhurl').dispatchEvent(myClickEvent);";
+        jQuery('#cplMainContent_radUrl').attr('onclick', onclick);
     }
-}
 
-// Wait for the page to load before anything
-jQuery('#cplMainContent_pnlOverview_Description .cke_toolbox').waitUntilExists(function() {
-  addButton('Pre-fill for opening',
-            "var templateCommentaire = '<ul><li> <b>Context :</b>  </li><li> <b>Revision/build :</b> &nbsp; </li><li> <b>URL :</b>&nbsp; </li><li><b>Current Outcome :</b>  </li><li><b>Intended Outcome :</b>  </li></ul>'; var doc = document.getElementsByClassName('cke_wysiwyg_frame cke_reset'); doc[1].contentWindow.document.body.innerHTML = templateCommentaire ;return false;",
-            "#cplMainContent_pnlOverview_Description .cke_toolbox");
-});
+    // Add buttons to prefill the selected user in drop-down lists
+    function buttonOnCLick(dropDownId, searchItem)
+    {
+        var dropDown = $find(dropDownId);
+        var items = dropDown.get_items();
 
-jQuery('#cke_cplMainContent_txtResolution .cke_toolbox').waitUntilExists(function() {
-  addButton('Pre-fill for closure OK',
+        for (var i = 0; i < items.length; i++)
+        {
+            if(searchItem == items[i].get_text())
+            {
+                dropDown.set_selectedItem(items[i]);
+            }
+        }
+        return false;
+    }
+
+    function createButton(dropDownId)
+    {
+        var referenceNode = document.querySelector("#" + dropDownId);
+
+        if (!referenceNode || referenceNode.length === 0)
+            return;
+
+        // Create QA Team and a PHP Team button
+        if (dropDownId == 'cplMainContent_ddlOwner')
+        {
+            var qaButton = document.createElement("button");
+            qaButton.innerHTML = "QA Team";
+            qaButton.className = "btn btn-default btn-xs";
+            referenceNode.parentNode.insertBefore(qaButton, referenceNode.nextSibling);
+
+            qaButton.onclick = function() {
+                return buttonOnCLick(dropDownId, "SQA-HUB Team");
+            };
+
+            var teamButton = document.createElement("button");
+            teamButton.className = "btn btn-default btn-xs";
+            var teamButtonLabel = "";
+            if(document.URL.match(/http(s)?:\/\/thefactory.crossknowledge\.com\/10\/*/))
+            {
+                teamButtonLabel = "NET Team";
+            }
+            else
+            {
+                teamButtonLabel = "M Squad";
+            }
+            teamButton.innerHTML = teamButtonLabel;
+            referenceNode.parentNode.insertBefore(teamButton, referenceNode.nextSibling);
+
+            teamButton.onclick = function() {
+                return buttonOnCLick(dropDownId, teamButtonLabel);
+            };
+        }
+
+        // Create Me button
+        var meButton = document.createElement("button");
+        meButton.innerHTML = "ME";
+        meButton.className = "btn btn-default btn-xs";
+        referenceNode.parentNode.insertBefore(meButton, referenceNode.nextSibling);
+
+        meButton.onclick = function() {
+            var myName = document.querySelector("#tstGlobalNavigation_lblUserFullName").innerHTML;
+            return buttonOnCLick(dropDownId, myName);
+        };
+    }
+
+    // Only add the shortcut buttons if they haven't already been added by a browser plugin
+    setTimeout(function () {
+        if (jQuery('#cplMainContent_ddlOpener ~ button').length === 0)
+        {
+            createButton('cplMainContent_ddlOwner');
+            createButton('cplMainContent_ddlOpener');
+            createButton('cplMainContent_tblFields_Custom_05');
+            createButton('cplMainContent_tblFields_Custom_01');
+            createButton('cplMainContent_tblFields_Custom_02');
+        }
+    }, 1000);
+
+    // improve the dimensions of some popups
+    jQuery('head').append('<style type="text/css">#cplMainContent_tstArtifactLinkPanel_ajxIncidentsSelector .Body, #cplMainContent_tstArtifactLinkPanel_ajxRequirementsSelector .Body { height: 500px !important; width: 420px !important; }' +
+                          '#cplMainContent_tstArtifactLinkPanel_ajxIncidentsSelector .Header, #cplMainContent_tstArtifactLinkPanel_ajxRequirementsSelector .Header { height: 30px !important; width: 420px !important; }' +
+                          '#cplMainContent_tstArtifactLinkPanel_ajxIncidentsSelector, #cplMainContent_tstArtifactLinkPanel_ajxRequirementsSelector { /* height: 150px;*/ height: 530px !important; width: 400px !important; }' +
+                          '#cplMainContent_tstArtifactLinkPanel_pnlAddAssociation { height: 800px !important; left: 150px !important; top: 10px !important; width: 800px !important; }' +
+                          '#cplMainContent_tstArtifactLinkPanel_pnlAddAssociation .DialogClose { left: 750px !important; }' +
+                          '#cplMainContent_tstArtifactLinkPanel_txtComment { /*display: none !important;*/ }' +
+                          '</style>');
+
+    function addButton(label, onClick, destination) {
+        var span = document.createElement("span");
+        span.className = "cke_toolbar";
+
+        var link = document.createElement("a");
+        link.className = "cke_button";
+        link.style.border = "1px solid #adadad";
+        link.style.backgroundColor = "#e6e6e6";
+        link.style.borderRadius = "2px";
+        link.style.marginRight = "5px";
+
+        var spanLabel = document.createElement("span");
+        spanLabel.className = "cke_button_label";
+
+        spanLabel.innerHTML = label;
+        spanLabel.style.display = "inline";
+        link.appendChild(spanLabel);
+
+        link.setAttribute("onclick", onClick);
+        span.setAttribute("width","200px");
+        span.appendChild(link);
+        if (document.querySelector(destination)) {
+            document.querySelector(destination).appendChild(span);
+        }
+    }
+
+    // Wait for the page to load before anything
+    jQuery('#cplMainContent_pnlOverview_Description .cke_toolbox').waitUntilExists(function() {
+        addButton('Pre-fill for opening',
+                  "var templateCommentaire = '<ul><li> <b>Context :</b>  </li><li> <b>Revision/build :</b> &nbsp; </li><li> <b>URL :</b>&nbsp; </li><li><b>Current Outcome :</b>  </li><li><b>Intended Outcome :</b>  </li></ul>'; var doc = document.getElementsByClassName('cke_wysiwyg_frame cke_reset'); doc[1].contentWindow.document.body.innerHTML = templateCommentaire ;return false;",
+                  "#cplMainContent_pnlOverview_Description .cke_toolbox");
+    });
+
+    jQuery('#cke_cplMainContent_txtResolution .cke_toolbox').waitUntilExists(function() {
+        addButton('Pre-fill for closure OK',
                   "var templateCommentaire = '<ul><li><span style=\"background-color: rgb(102, 255, 153);\"><b>Status :</b> <i> Mandatory</i> </li><li><span style=\"background-color: rgb(102, 255, 153);\"><b>Revision or Build :</b> <i> Mandatory</i></span></li><li><span style=\"background-color: rgb(102, 255, 153);\"><b>Context :</b> <i> Mandatory (Phase, Environment, Browser...)</i></span></li><li><span style=\"background-color: rgb(102, 255, 153);\"><b>URL :</b> <i> Mandatory</i></span></li><li><span style=\"background-color: rgb(102, 255, 153);\"><b>Scenario (Screen Capture) :</b> <i> Attachement link optional </i></span></li><li><span style=\"background-color: rgb(102, 255, 153);\"><b>Scenario (Video Capture) :</b> <i> Attachement link optional</i></span></li><li><span style=\"background-color: rgb(102, 255, 153);\"><b>Comments :</b> <i>Details mandatory...</i></span></li></ul>'; var doc = document.getElementsByClassName('cke_wysiwyg_frame cke_reset'); doc[2].contentWindow.document.body.innerHTML = templateCommentaire;return false;",
                   "#cke_cplMainContent_txtResolution .cke_toolbox");
 
-  addButton('Pre-fill for closure KO',
+        addButton('Pre-fill for closure KO',
                   "var templateCommentaire = '<ul><li><span style=\"background-color: #FE642E;\"><b>Status :</b> <i> Mandatory</i> </li><li><span style=\"background-color: #FE642E;\"><b>Revision or Build :</b> <i> Mandatory</i></span></li><li><span style=\"background-color: #FE642E;\"><b>Context :</b> <i> Mandatory (Phase, Environment, Browser...)</i></span></li><li><span style=\"background-color: #FE642E;\"><b>URL :</b> <i> Mandatory</i></span></li><li><span style=\"background-color:#FE642E;\"><b>Scenario (Screen Capture) :</b> <i> Attachement link optional </i></span></li><li><span style=\"background-color: #FE642E;\"><b>Scenario (Video Capture) :</b> <i> Attachement link optional</i></span></li><li><span style=\"background-color: #FE642E;\"><b>Current Outcome :</b> <i>Details mandatory...</i></span></li><li><span style=\"background-color: #FE642E;\"><b>Intended Outcome :</b> <i>Details mandatory...</i></span></li></ul>'; var doc = document.getElementsByClassName('cke_wysiwyg_frame cke_reset'); doc[2].contentWindow.document.body.innerHTML = templateCommentaire;return false;",
                   "#cke_cplMainContent_txtResolution .cke_toolbox");
 
-  addButton('Pre-fill for correction',
+        addButton('Pre-fill for correction',
                   "var templateCommentaire = '<ul><li> <b>Corrigé</b> </li><li> <b>Problème  :</b> obligatoire</li><li> <b>Solution  :</b> obligatoire</li><li> <b>Tests * :</b> obligatoire</li><li> <b>Impacts potentiels :</b> Ø</li><li> <b>@QA (Non Reg.) :</b> Ø</li><li> <b>@Support :</b> Ø</li><li> <b>Origine :</b> Ø</li></ul>'; var doc = document.getElementsByClassName('cke_wysiwyg_frame cke_reset'); doc[2].contentWindow.document.body.innerHTML = templateCommentaire;return false;",
                   "#cke_cplMainContent_txtResolution .cke_toolbox");
-});
+    });
+} else if (location.href.indexOf('jira.wiley.com') !== -1) {
+    var rawOpen = XMLHttpRequest.prototype.open;
 
+    XMLHttpRequest.prototype.open = function() {
+        if (!this._hooked) {
+            this._hooked = true;
+            setupHook(this);
+        }
+        rawOpen.apply(this, arguments);
+    }
+
+    function setupHook(xhr) {
+        function getter() {
+            //console.log('get responseText');
+
+            delete xhr.responseText;
+            var ret = xhr.responseText;
+            setup();
+
+            var fields = false;
+
+            if (ret.indexOf('SalesForce URL') !== -1) {
+                fields = jQuery.parseJSON(ret);
+                for (var i in fields.fields) {
+                    if (fields.fields[i].label == 'SalesForce URL') {
+                        // add placeholder
+                        fields.fields[i].editHtml = fields.fields[i].editHtml.replace('<textarea ', '<textarea placeholder="https://crossknowledge.force.com/Community/"');
+                        // replace BO URL by FO URL
+                        fields.fields[i].editHtml = fields.fields[i].editHtml.replace(/https:\/\/eu15.salesforce.com\//gi, 'https://crossknowledge.force.com/Community/');
+                    }
+                }
+                ret = JSON.stringify(fields)
+            }
+            return ret;
+        }
+
+        function setter(str) {
+            //console.log('set responseText: %s', str);
+        }
+
+        function setup() {
+            Object.defineProperty(xhr, 'responseText', {
+                get: getter,
+                set: setter,
+                configurable: true
+            });
+        }
+        setup();
+    }
+
+    XMLHttpRequest.prototype.realSend = XMLHttpRequest.prototype.send;
+    var newSend = function(vData) { console.log(vData.replace(/https%3A%2F%2Feu15.salesforce.com%2F/gi, 'https%3A%2F%2Fcrossknowledge.force.com%2FCommunity%2F')); this.realSend(vData.replace(/https%3A%2F%2Feu15.salesforce.com%2F/gi, 'https%3A%2F%2Fcrossknowledge.force.com%2FCommunity%2F')); };
+    XMLHttpRequest.prototype.send = newSend;
+}
