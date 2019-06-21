@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       Spira & Jira enhancements
-// @namespace  http://spira-jira/
-// @version    19.6.21
+// @namespace  http://spira/
+// @version    19.6.22
 // @match        https://jira.wiley.com/*
 // @match      http*://thefactory.crossknowledge.com/*
 // @match 	   http*://thefactory.crossknowledge.com/Popups/FileArtifactUploadDialog.aspx*
@@ -279,7 +279,7 @@ if (location.href.indexOf('thefactory.crossknowledge.com') !== -1) {
         setup();
     }
 
-    XMLHttpRequest.prototype.realSend = XMLHttpRequest.prototype.send;
-    var newSend = function(vData) { console.log(vData.replace(/https%3A%2F%2Feu15.salesforce.com%2F/gi, 'https%3A%2F%2Fcrossknowledge.force.com%2FCommunity%2F')); this.realSend(vData.replace(/https%3A%2F%2Feu15.salesforce.com%2F/gi, 'https%3A%2F%2Fcrossknowledge.force.com%2FCommunity%2F')); };
-    XMLHttpRequest.prototype.send = newSend;
+   /* XMLHttpRequest.prototype.realSend = XMLHttpRequest.prototype.send;
+    var newSend = function(vData) { this.realSend(vData.replace(/https%3A%2F%2Feu15.salesforce.com%2F/gi, 'https%3A%2F%2Fcrossknowledge.force.com%2FCommunity%2F')); };
+    XMLHttpRequest.prototype.send = newSend;*/
 }
