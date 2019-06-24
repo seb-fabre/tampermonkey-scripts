@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       Spira & Jira enhancements
 // @namespace  http://spira/
-// @version    19.6.22.a
+// @version    19.6.24
 // @match        https://jira.wiley.com/*
 // @match      http*://thefactory.crossknowledge.com/*
 // @match 	   http*://thefactory.crossknowledge.com/Popups/FileArtifactUploadDialog.aspx*
@@ -254,6 +254,8 @@ if (location.href.indexOf('thefactory.crossknowledge.com') !== -1) {
                 fields = jQuery.parseJSON(ret);
                 for (var i in fields.fields) {
                     if (fields.fields[i].label == 'SalesForce URL') {
+                        // add pre-fill button
+                        fields.fields[i].editHtml = fields.fields[i].editHtml.replace('</label>', '<br/><br/><button type="button" class="aui-button aui-button-primary" onclick="iiid=jQuery(this).parent().attr(\'for\');jQuery(\'#\'+iiid).val(jQuery(\'#\'+iiid).val()+\'https://crossknowledge.force.com/Community/\')">Pre-fill URL</button></label>');
                         // add placeholder
                         fields.fields[i].editHtml = fields.fields[i].editHtml.replace('<textarea ', '<textarea placeholder="https://crossknowledge.force.com/Community/"');
                         // replace BO URL by FO URL
