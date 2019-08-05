@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       Spira & Jira enhancements
 // @namespace  http://spira/
-// @version    19.6.24
+// @version    19.8.5
 // @match        https://jira.wiley.com/*
 // @match      http*://thefactory.crossknowledge.com/*
 // @match 	   http*://thefactory.crossknowledge.com/Popups/FileArtifactUploadDialog.aspx*
@@ -79,7 +79,7 @@ if (location.href.indexOf('thefactory.crossknowledge.com') !== -1) {
 
         // Add onclick event on radio button for Support Case
         var onclick = "if ($find('tblAttachment')) $find('tblAttachment').show_attachment_type_url(); document.getElementById('cplMainContent_txtURL').value='https://crossknowledge.force.com/Community/';";
-        onclick += "document.getElementById('titicket').dispatchEvent(myClickEvent);";
+        onclick += "document.getElementById('cplMainContent_txtURL').autocomplete = 'off'; document.getElementById('titicket').dispatchEvent(myClickEvent);";
 
         jQuery('#cplMainContent_radUrl').parent().append(jQuery('<input type="radio" name="AttachmentType" value="ctl00$cplMainContent$radUrl" onclick="' + onclick + '" />'));
         jQuery('#cplMainContent_radUrl').parent().append(' Support case');
